@@ -9,9 +9,11 @@ const { REACT_APP_ENV } = process.env;
 // https://umijs.org/docs/api/config
 export default defineConfig({
   base: '/blog/',
-  publicPath: '/blog/',
+  // 静态资源使用根目录
+  // publicPath: '/',
   // umi4还不支持
   // exportStatic: {},
+  favicons: ['/favicon.ico'],
   hash: true,
   antd: {},
   request: {
@@ -41,6 +43,7 @@ export default defineConfig({
     ie: 11,
   },
   jsMinifier: 'terser',
+  cssMinifier: 'cssnano',
   // umi routes: https://umijs.org/docs/routing
   routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn

@@ -7,10 +7,10 @@ import {history, useIntl} from "@@/exports";
 import {PlusOutlined} from '@ant-design/icons';
 
 export type HeaderRightContentProps = {
-  isSmallScreen?: boolean;
+  smallScreen?: boolean;
 };
 
-const HeaderRightContent: React.FC<HeaderRightContentProps> = ({isSmallScreen}) => {
+const HeaderRightContent: React.FC<HeaderRightContentProps> = ({smallScreen}) => {
   const {initialState} = useModel('@@initialState');
   let intl = useIntl();
   if (!initialState || !initialState.settings) {
@@ -20,13 +20,13 @@ const HeaderRightContent: React.FC<HeaderRightContentProps> = ({isSmallScreen}) 
   const {navTheme, layout} = initialState.settings;
   let className = styles.right;
 
-  if ((navTheme === 'dark' && layout === 'top') || layout === 'mix') {
+  if ((navTheme === 'realDark' && layout === 'top') || layout === 'mix') {
     className = `${styles.right}  ${styles.dark}`;
   }
   return (
     <Space className={className}>
       {
-        isSmallScreen
+        !smallScreen
           ? <Button htmlType="submit" type="primary" icon={<PlusOutlined/>}
                     onClick={() => history.push("/article/editor")}>
             {intl.formatMessage({

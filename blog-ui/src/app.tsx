@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer';
 import HeaderRightContent from '@/components/HeaderRightContent';
 import {ExclamationCircleOutlined, LinkOutlined} from '@ant-design/icons';
-import {BasicLayoutProps, SettingDrawer, Settings as LayoutSettings} from '@ant-design/pro-components';
+import {SettingDrawer, Settings as LayoutSettings} from '@ant-design/pro-components';
 import type {RunTimeLayoutConfig} from '@umijs/max';
 import {history, Link} from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
@@ -61,16 +61,16 @@ export async function getInitialState(): Promise<InitialState> {
 export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
   return {
     breadcrumbRender: false,
-    rightContentRender: (props: BasicLayoutProps, defaultDom) => {
+    rightContentRender: (props, defaultDom) => {
       if (document.body.clientWidth < 1400) {
-        return <HeaderRightContent/>;
+        return <HeaderRightContent smallScreen/>;
       }
       if (props.isMobile) {
-        return <HeaderRightContent/>;
+        return <HeaderRightContent smallScreen/>;
       }
-      return <HeaderRightContent isSmallScreen/>;
+      return <HeaderRightContent />;
     },
-    headerContentRender: (props: BasicLayoutProps, defaultDom) => {
+    headerContentRender: (props, defaultDom) => {
       if (document.body.clientWidth < 1400) {
         return defaultDom;
       }
