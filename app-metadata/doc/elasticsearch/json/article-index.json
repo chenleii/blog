@@ -1,0 +1,166 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties": {
+      "_class": {
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "accountId": {
+        "type": "long"
+      },
+      "comments": {
+        "type": "nested",
+        "properties": {
+          "_class": {
+            "type": "keyword",
+            "index": false,
+            "doc_values": false
+          },
+          "accountId": {
+            "type": "long"
+          },
+          "commentedAt": {
+            "type": "long"
+          },
+          "content": {
+            "type": "text",
+            "fields": {
+              "pinyin": {
+                "type": "text",
+                "analyzer": "pinyin"
+              }
+            },
+            "analyzer": "ik_max_word",
+            "search_analyzer": "ik_smart"
+          },
+          "id": {
+            "type": "long"
+          },
+          "subComments": {
+            "type": "nested",
+            "properties": {
+              "_class": {
+                "type": "keyword",
+                "index": false,
+                "doc_values": false
+              },
+              "accountId": {
+                "type": "long"
+              },
+              "commentedAt": {
+                "type": "long"
+              },
+              "content": {
+                "type": "text",
+                "fields": {
+                  "pinyin": {
+                    "type": "text",
+                    "analyzer": "pinyin"
+                  }
+                },
+                "analyzer": "ik_max_word",
+                "search_analyzer": "ik_smart"
+              },
+              "id": {
+                "type": "long"
+              },
+              "replyId": {
+                "type": "long"
+              }
+            }
+          }
+        }
+      },
+      "content": {
+        "type": "text",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "analyzer": "pinyin"
+          }
+        },
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      },
+      "createdAt": {
+        "type": "long"
+      },
+      "id": {
+        "type": "keyword"
+      },
+      "likes": {
+        "type": "nested",
+        "properties": {
+          "_class": {
+            "type": "keyword",
+            "index": false,
+            "doc_values": false
+          },
+          "accountId": {
+            "type": "long"
+          },
+          "isLiked": {
+            "type": "boolean"
+          },
+          "likedAt": {
+            "type": "long"
+          }
+        }
+      },
+      "reports": {
+        "type": "nested",
+        "properties": {
+          "_class": {
+            "type": "keyword",
+            "index": false,
+            "doc_values": false
+          },
+          "accountId": {
+            "type": "long"
+          },
+          "remark": {
+            "type": "text",
+            "analyzer": "ik_max_word",
+            "search_analyzer": "ik_smart"
+          },
+          "reportedAt": {
+            "type": "long"
+          }
+        }
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "tags": {
+        "type": "text",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "analyzer": "pinyin"
+          }
+        },
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      },
+      "title": {
+        "type": "text",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "analyzer": "pinyin"
+          }
+        },
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      },
+      "updatedAt": {
+        "type": "long"
+      }
+    }
+  }
+}

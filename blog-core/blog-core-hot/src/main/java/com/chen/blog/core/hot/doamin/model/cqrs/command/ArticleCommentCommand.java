@@ -1,0 +1,42 @@
+package com.chen.blog.core.hot.doamin.model.cqrs.command;
+
+import com.chen.blog.core.sharedkernel.cqrs.Command;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
+
+import javax.validation.constraints.NotNull;
+
+/**
+ * @author cl
+ * @version 1.0
+ * @since 2022/8/20 20:09
+ */
+@Getter
+@ToString
+@Builder
+public class ArticleCommentCommand implements Command {
+
+    /**
+     * 文章ID
+     */
+    @NotNull
+    private final Long articleId;
+    /**
+     * 账户ID
+     */
+    @NotNull
+    private final Long accountId;
+    /**
+     * 评论ID
+     */
+    @NotNull
+    private final Long commentId;
+    /**
+     * 子评论ID
+     */
+    private final Long subCommentId;
+
+
+
+}

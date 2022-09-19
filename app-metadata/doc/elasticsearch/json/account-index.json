@@ -1,0 +1,52 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties": {
+      "_class": {
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "avatar": {
+        "type": "keyword"
+      },
+      "createdAt": {
+        "type": "long"
+      },
+      "id": {
+        "type": "keyword"
+      },
+      "mediaCertification": {
+        "type": "nested",
+        "properties": {
+          "_class": {
+            "type": "keyword",
+            "index": false,
+            "doc_values": false
+          },
+          "isMediaCertified": {
+            "type": "boolean"
+          },
+          "mediaCertifiedAt": {
+            "type": "long"
+          }
+        }
+      },
+      "name": {
+        "type": "keyword"
+      },
+      "password": {
+        "type": "keyword"
+      },
+      "phoneNo": {
+        "type": "keyword"
+      },
+      "updatedAt": {
+        "type": "long"
+      }
+    }
+  }
+}

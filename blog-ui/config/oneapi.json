@@ -1,0 +1,1863 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "接口文档",
+    "description": "接口文档",
+    "termsOfService": "https://example.com/terms/",
+    "contact": {
+      "name": "API Support",
+      "url": "https://www.example.com/support",
+      "email": "chenleinxd@gamil.com"
+    },
+    "license": {
+      "name": "Apache 2.0"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7001",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "article-api",
+      "description": "文章接口"
+    },
+    {
+      "name": "account-api",
+      "description": "账户接口"
+    }
+  ],
+  "paths": {
+    "/api/blog/article": {
+      "get": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "分页查询",
+        "operationId": "pageQuery",
+        "parameters": [
+          {
+            "name": "searchKeyword",
+            "in": "query",
+            "description": "搜索关键字",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "搜索关键字"
+            }
+          },
+          {
+            "name": "accountId",
+            "in": "query",
+            "description": "账户ID",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "账户ID",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "isOpenPinyin",
+            "in": "query",
+            "description": "是否开启拼音搜索",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "是否开启拼音搜索"
+            }
+          },
+          {
+            "name": "isOpenSynonym",
+            "in": "query",
+            "description": "是否开启同义词搜索",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "是否开启同义词搜索"
+            }
+          },
+          {
+            "name": "isOpenCrossLanguage",
+            "in": "query",
+            "description": "是否开启跨语言搜索",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "是否开启跨语言搜索"
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "当前页数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "当前页数",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页条数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "每页条数",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "lastValues",
+            "in": "query",
+            "description": "分页查询的最后一条记录排序字段值",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "description": "分页查询的最后一条记录排序字段值",
+              "items": {
+                "type": "object",
+                "description": "分页查询的最后一条记录排序字段值"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationArticleResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "更新",
+        "operationId": "update",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleUpdateAndPublishInputDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "保存",
+        "operationId": "save",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleSaveAndPublishInputDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/article/report": {
+      "post": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "举报",
+        "operationId": "report",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleReportInputDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/article/replySubComment": {
+      "post": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "回复子评论",
+        "operationId": "replySubComment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleReplySubCommentInputDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/article/like": {
+      "post": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "喜欢",
+        "operationId": "like",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleLikeInputDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/article/comment": {
+      "post": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "评论",
+        "operationId": "comment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleCommentInputDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/account/update": {
+      "post": {
+        "tags": [
+          "account-api"
+        ],
+        "summary": "更新",
+        "operationId": "update_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountUpdateInputDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/blog/account/sendLoginVerificationCode": {
+      "post": {
+        "tags": [
+          "account-api"
+        ],
+        "summary": "发送登录验证码",
+        "operationId": "sendLoginVerificationCode",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountSendLoginVerificationCodeInputDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/blog/account/logout": {
+      "post": {
+        "tags": [
+          "account-api"
+        ],
+        "summary": "登出",
+        "operationId": "logout",
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/blog/account/login": {
+      "get": {
+        "tags": [
+          "account-api"
+        ],
+        "summary": "获取登录账户",
+        "operationId": "getLoggedInAccount",
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoggedInAccount"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "account-api"
+        ],
+        "summary": "登录",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountLoginInputDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoggedInAccount"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/article/{articleId}": {
+      "get": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "查询",
+        "operationId": "query",
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/article/hot/search": {
+      "get": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "热搜分页查询",
+        "operationId": "hotSearchPageQuery",
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "当前页数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "当前页数",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页条数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "每页条数",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "lastValues",
+            "in": "query",
+            "description": "分页查询的最后一条记录排序字段值",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "description": "分页查询的最后一条记录排序字段值",
+              "items": {
+                "type": "object",
+                "description": "分页查询的最后一条记录排序字段值"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/article/headlines": {
+      "get": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "头条分页查询",
+        "operationId": "headlinesPageQuery",
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "当前页数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "当前页数",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页条数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "每页条数",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "lastValues",
+            "in": "query",
+            "description": "分页查询的最后一条记录排序字段值",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "description": "分页查询的最后一条记录排序字段值",
+              "items": {
+                "type": "object",
+                "description": "分页查询的最后一条记录排序字段值"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationArticleResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/article/account": {
+      "get": {
+        "tags": [
+          "article-api"
+        ],
+        "summary": "账户的文章分页搜索",
+        "operationId": "accountPageQuery",
+        "parameters": [
+          {
+            "name": "searchKeyword",
+            "in": "query",
+            "description": "搜索关键字",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "搜索关键字"
+            }
+          },
+          {
+            "name": "statuses",
+            "in": "query",
+            "description": "查询的状态",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "description": "查询的状态",
+              "items": {
+                "type": "string",
+                "description": "查询的状态",
+                "enum": [
+                  "DRAFT",
+                  "PUBLICATION",
+                  "VIEWABLE",
+                  "INVISIBLE"
+                ]
+              }
+            }
+          },
+          {
+            "name": "isOpenPinyin",
+            "in": "query",
+            "description": "是否开启拼音搜索",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "是否开启拼音搜索"
+            }
+          },
+          {
+            "name": "isOpenSynonym",
+            "in": "query",
+            "description": "是否开启同义词搜索",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "是否开启同义词搜索"
+            }
+          },
+          {
+            "name": "isOpenCrossLanguage",
+            "in": "query",
+            "description": "是否开启跨语言搜索",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "是否开启跨语言搜索"
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "当前页数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "当前页数",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页条数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "每页条数",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "lastValues",
+            "in": "query",
+            "description": "分页查询的最后一条记录排序字段值",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "description": "分页查询的最后一条记录排序字段值",
+              "items": {
+                "type": "object",
+                "description": "分页查询的最后一条记录排序字段值"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationArticleResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResult": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      },
+      "ArticleUpdateAndPublishInputDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "description": "文章ID",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "description": "标题"
+          },
+          "tags": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "标签",
+            "items": {
+              "type": "string",
+              "description": "标签"
+            }
+          },
+          "content": {
+            "type": "string",
+            "description": "内容"
+          },
+          "isPublish": {
+            "type": "boolean",
+            "description": "是否发布"
+          }
+        },
+        "description": "文章更新和发布输入数据"
+      },
+      "ArticleSaveAndPublishInputDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "标题"
+          },
+          "tags": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "标签",
+            "items": {
+              "type": "string",
+              "description": "标签"
+            }
+          },
+          "content": {
+            "type": "string",
+            "description": "内容"
+          },
+          "isPublish": {
+            "type": "boolean",
+            "description": "是否发布"
+          }
+        },
+        "description": "文章保存和发布输入数据"
+      },
+      "ArticleReportInputDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "description": "文章ID",
+            "format": "int64"
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注"
+          }
+        },
+        "description": "文章举报输入数据"
+      },
+      "ArticleReplySubCommentInputDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "description": "文章ID",
+            "format": "int64"
+          },
+          "commentId": {
+            "type": "integer",
+            "description": "评论ID",
+            "format": "int64"
+          },
+          "replyCommentId": {
+            "type": "integer",
+            "description": "回复的子评论ID",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string",
+            "description": "评论内容"
+          }
+        },
+        "description": "文章回复子评论输入数据"
+      },
+      "ArticleLikeInputDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "description": "文章ID",
+            "format": "int64"
+          }
+        },
+        "description": "文章喜欢输入数据"
+      },
+      "ArticleCommentInputDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "description": "文章ID",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string",
+            "description": "评论内容"
+          }
+        },
+        "description": "文章评论输入数据"
+      },
+      "AccountUpdateInputDTO": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "description": "头像"
+          },
+          "name": {
+            "type": "string",
+            "description": "名称"
+          },
+          "password": {
+            "type": "string",
+            "description": "密码"
+          },
+          "introduction": {
+            "type": "string",
+            "description": "简介"
+          }
+        },
+        "description": "账户更新输入数据"
+      },
+      "AccountSendLoginVerificationCodeInputDTO": {
+        "type": "object",
+        "properties": {
+          "phoneNo": {
+            "type": "string",
+            "description": "手机号"
+          }
+        },
+        "description": "账户发送登录验证码输入数据"
+      },
+      "AccountLoginInputDTO": {
+        "type": "object",
+        "properties": {
+          "phoneNo": {
+            "type": "string",
+            "description": "手机号"
+          },
+          "verificationCode": {
+            "type": "string",
+            "description": "验证码"
+          }
+        },
+        "description": "账户登录输入数据"
+      },
+      "LoggedInAccount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phoneNo": {
+            "type": "string"
+          },
+          "introduction": {
+            "type": "string"
+          },
+          "influenceValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ENABLED",
+              "DISABLED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "loggedInAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AccountResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phoneNo": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "introduction": {
+            "type": "string"
+          },
+          "influenceValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ENABLED",
+              "DISABLED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ArticleCommentDO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string"
+          },
+          "commentedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subComments": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleSubCommentDO"
+            }
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountResult"
+          }
+        }
+      },
+      "ArticleLikeRecordDO": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "isLiked": {
+            "type": "boolean"
+          },
+          "likedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ArticleReportRecordDO": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "remark": {
+            "type": "string"
+          },
+          "reportedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ArticleResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string"
+          },
+          "tags": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "content": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "PUBLICATION",
+              "VIEWABLE",
+              "INVISIBLE"
+            ]
+          },
+          "likes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleLikeRecordDO"
+            }
+          },
+          "reports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleReportRecordDO"
+            }
+          },
+          "comments": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleCommentDO"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountResult"
+          },
+          "likedNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reportedNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isLiked": {
+            "type": "boolean"
+          },
+          "isReported": {
+            "type": "boolean"
+          },
+          "customContent": {
+            "type": "string"
+          },
+          "cover": {
+            "type": "string"
+          }
+        }
+      },
+      "ArticleSubCommentDO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string"
+          },
+          "commentedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountResult"
+          },
+          "replyId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PaginationArticleResult": {
+        "type": "object",
+        "properties": {
+          "pageIndex": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleResult"
+            }
+          },
+          "lastValues": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "PaginationString": {
+        "type": "object",
+        "properties": {
+          "pageIndex": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lastValues": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  }
+}

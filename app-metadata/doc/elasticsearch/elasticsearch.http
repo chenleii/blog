@@ -1,0 +1,54 @@
+
+###
+### 创建索引article
+PUT http://127.0.0.1:9200/article
+Content-Type: application/json
+
+< ./json/article-index.json
+
+### 创建索引account
+PUT http://127.0.0.1:9200/account
+Content-Type: application/json
+
+< ./json/account-index.json
+
+### 查看索引article
+GET http://localhost:9200/article/
+
+### 查看索引account
+GET http://localhost:9200/account/
+
+
+### 删除article
+DELETE http://localhost:9200/article/
+
+### 删除accout
+DELETE http://localhost:9200/account/
+
+### 查看article文档
+GET http://localhost:9200/article/_doc/759972436635684864
+
+### 搜索article
+GET  http://localhost:9200/article/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "content": "测试"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+### 批量保存article
+PUT  http://localhost:9200/_bulk
+Content-Type: application/json
+
+< ./json/article-bulk.json
