@@ -22,11 +22,12 @@ public class TraceAspectj {
     @Around("@within(com.chen.blog.core.sharedkernel.trace.Trace) " +
             "|| @annotation(com.chen.blog.core.sharedkernel.trace.Trace)")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+
         try {
-            Traces.startTrace();
+            Traces.startTrace(this);
             return proceedingJoinPoint.proceed();
         } finally {
-            Traces.endTrace();
+            Traces.endTrace(this);
         }
     }
 }

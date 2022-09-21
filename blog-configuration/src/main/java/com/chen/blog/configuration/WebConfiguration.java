@@ -1,10 +1,13 @@
 package com.chen.blog.configuration;
 
 import com.chen.blog.core.sharedkernel.serializer.json.JacksonJsonSerializer;
+import com.chen.blog.infrastructure.trace.HttpTraceFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -24,6 +27,15 @@ import java.time.Instant;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
+
+    @Bean
+    public FilterRegistrationBean<HttpTraceFilter> httpTraceFilterFilterRegistrationBean() {
+        FilterRegistrationBean<HttpTraceFilter> filterFilterRegistrationBean = new FilterRegistrationBean<>();
+        filterFilterRegistrationBean.setFilter(new HttpTraceFilter());
+        filterFilterRegistrationBean.addUrlPatterns("/*");
+        filterFilterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return filterFilterRegistrationBean;
+    }
 
     @Bean
     public InternalResourceViewResolver defaultViewResolver() {

@@ -1,9 +1,9 @@
 package com.chen.blog.interfaces.http.result;
 
+import com.chen.blog.core.sharedkernel.trace.Traces;
 import com.chen.blog.interfaces.http.handle.UnknownErrorException;
 import lombok.Getter;
 import lombok.ToString;
-import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
@@ -32,6 +32,11 @@ public class ErrorResult {
      * 比如堆栈
      */
     private final Object error;
+
+    /**
+     * 链路追踪ID
+     */
+    private final String traceId = Traces.getTraceId();
 
     private ErrorResult(String errorCode, String errorMessage, Object error) {
         this.errorCode = errorCode;
