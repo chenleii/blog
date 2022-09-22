@@ -1,22 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!--<include resource="org/springframework/boot/logging/logback/defaults.xml"/>-->
+
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr([%36X{tid}]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="CONSOLE_LOG_CHARSET" value="${CONSOLE_LOG_CHARSET:-${file.encoding:-UTF-8}}"/>
+    <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] [%X{tid}] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="FILE_LOG_CHARSET" value="${FILE_LOG_CHARSET:-${file.encoding:-UTF-8}}"/>
+
+    <property name="MONITOR_LOG_PATTERN" value="%m%n"/>
 
     <property name="APP_NAME" value="blog"/>
     <property name="LOG_PATH" value="${user.home}/${APP_NAME}/logs"/>
     <property name="APPLICATION_LOG_FILE" value="${LOG_PATH}/application.log"/>
+    <property name="TRACE_MONITOR_LOG_FILE" value="${LOG_PATH}/trace-monitor.log"/>
+    <property name="HTTP_TRACE_MONITOR_LOG_FILE" value="${LOG_PATH}/http-trace-monitor.log"/>
     <property name="EVENT_BUS_LOG_FILE" value="${LOG_PATH}/eventbus.log"/>
+    <property name="MESSAGE_QUEUE_LOG_FILE" value="${LOG_PATH}/message-queue.log"/>
 
-    <property name="MONITOR_LOG_PATTERN" value="%m%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
 
     <appender name="APPLICATION"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${APPLICATION_LOG_FILE}</file>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${APPLICATION_LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="TRACE_MONITOR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${TRACE_MONITOR_LOG_FILE}</file>
+        <encoder>
+            <pattern>${MONITOR_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${TRACE_MONITOR_LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name="HTTP_TRACE_MONITOR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HTTP_TRACE_MONITOR_LOG_FILE}</file>
+        <encoder>
+            <pattern>${MONITOR_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${HTTP_TRACE_MONITOR_LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>7</maxHistory>
             <maxFileSize>50MB</maxFileSize>
             <totalSizeCap>20GB</totalSizeCap>
@@ -28,6 +78,7 @@
         <file>${EVENT_BUS_LOG_FILE}</file>
         <encoder>
             <pattern>${MONITOR_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${EVENT_BUS_LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
@@ -36,18 +87,42 @@
             <totalSizeCap>20GB</totalSizeCap>
         </rollingPolicy>
     </appender>
-
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="MESSAGE_QUEUE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${MESSAGE_QUEUE_LOG_FILE}</file>
         <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-            <charset>utf-8</charset>
+            <pattern>${MONITOR_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${MESSAGE_QUEUE_LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
     </appender>
 
 
+
+    <logger name="TraceMonitorLog" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="TRACE_MONITOR"/>
+    </logger>
+    <logger name="HttpTraceMonitorLog" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="HTTP_TRACE_MONITOR"/>
+    </logger>
     <logger name="EventBusLogger" additivity="false">
         <level value="INFO"/>
         <appender-ref ref="EVENT_BUS"/>
+    </logger>
+    <logger name="MessageQueueLogger" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="MESSAGE_QUEUE"/>
+    </logger>
+    <logger name="MessageQueueLogger" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="MESSAGE_QUEUE"/>
     </logger>
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
