@@ -6,10 +6,7 @@ import {IApi} from 'umi';
 export default (api: IApi) => {
   api.modifyHTML(($) => {
 
-    let $body = $('body');
-
-    $body.find('#root').remove();
-    $body.append([
+    $('body > #root').append([
       `
         <noscript>
             <div class="noscript-container">
@@ -24,7 +21,7 @@ export default (api: IApi) => {
         </noscript>
       `,
       `
-        <div id="root">
+        <div>
           <style>
             html,
             body,

@@ -23,8 +23,8 @@
 ## 应用启动说明
 
 * 安装相关依赖，项目启动： 执行 ```com.chen.blog.start.Application.java```
-* 访问应用: http://127.0.0.1:7001/index.html
-* 访问API: http://127.0.0.1:7001/doc.html
+* 访问应用页面: http://127.0.0.1:7001
+* 访问API文档: http://127.0.0.1:7001/doc.html
 
 ### 相关依赖安装步骤示例
 
