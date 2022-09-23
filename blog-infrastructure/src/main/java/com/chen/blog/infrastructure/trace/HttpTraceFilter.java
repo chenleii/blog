@@ -1,5 +1,6 @@
 package com.chen.blog.infrastructure.trace;
 
+import com.chen.blog.core.sharedkernel.trace.TraceConstant;
 import com.chen.blog.core.sharedkernel.trace.Traces;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,6 +21,8 @@ public class HttpTraceFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             Traces.startTrace(this);
+            // response设置返回链路追踪ID
+            response.setHeader(TraceConstant.HTTP_TRACE_HEADER_NAME, Traces.getTraceId());
             filterChain.doFilter(request, response);
         } finally {
             Traces.endTrace(this);

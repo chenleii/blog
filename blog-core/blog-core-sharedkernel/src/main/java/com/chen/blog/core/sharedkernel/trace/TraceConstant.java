@@ -16,4 +16,9 @@ public final class TraceConstant {
      * 默认http链路追踪监控日志名称
      */
     public static final String DEFAULT_HTTP_TRACE_MONITOR_LOGGER_NAME = "HttpTraceMonitorLog";
+
+    /**
+     * HTTP的链路追踪HEADER名称
+     */
+    public static final String HTTP_TRACE_HEADER_NAME = "x-tid";
 }
