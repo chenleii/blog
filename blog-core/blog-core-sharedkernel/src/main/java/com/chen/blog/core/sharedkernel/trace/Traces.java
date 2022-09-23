@@ -1,5 +1,7 @@
 package com.chen.blog.core.sharedkernel.trace;
 
+import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.MDC;
 
 import java.util.Objects;
@@ -52,6 +54,21 @@ public final class Traces {
      * @param object 开始链路追踪的标识
      */
     public static void startTrace(Object object) {
+        startTrace(object, null);
+    }
+
+    /**
+     * 开始链路跟踪
+     *
+     * @param object 开始链路追踪的标识
+     * @param tid    自定义的链路追踪ID（也可以是前一个调用方传递的链路追踪ID）
+     *               为null默认使用UUID
+     */
+    public static void startTrace(Object object, String tid) {
+        Preconditions.checkNotNull(object);
+
+        tid = ObjectUtils.defaultIfNull(tid, UUID.randomUUID().toString());
+
         if (isAlreadyTrace()) {
             // 已经开始链路追踪直接返回
             return;
@@ -59,7 +76,7 @@ public final class Traces {
         // 设置标识
         OBJECT_THREAD_LOCAL.set(object);
 
-        MDC.put(TID_KEY, UUID.randomUUID().toString());
+        MDC.put(TID_KEY, tid);
     }
 
     /**
@@ -68,6 +85,8 @@ public final class Traces {
      * @param object 开始链路追踪的标识
      */
     public static void endTrace(Object object) {
+        Preconditions.checkNotNull(object);
+
         if (!isAlreadyTrace()) {
             // 未开始链路追踪直接返回
             return;
