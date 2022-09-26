@@ -8,12 +8,14 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Spring Boot应用的入口类
  *
  * @author cl
  */
+@EnableScheduling
 @EnableRetry
 @EnableAsync
 @SpringBootApplication(

@@ -45,6 +45,8 @@
         <jjwt.version>0.11.5</jjwt.version>
         <java-jwt.version>3.19.2</java-jwt.version>
 
+        <webmagic.version>0.7.5</webmagic.version>
+
         <moneta-core.version>1.4.2</moneta-core.version>
         <jackson-datatype-money.version>1.2.2</jackson-datatype-money.version>
         <ip2region.version>2.6.5</ip2region.version>
@@ -278,6 +280,22 @@
                 <version>${java-jwt.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-core</artifactId>
+                <version>${webmagic.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-extension</artifactId>
+                <version>${webmagic.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>jedis</artifactId>
+                        <groupId>redis.clients</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
             <dependency>
                 <groupId>org.javamoney.moneta</groupId>
