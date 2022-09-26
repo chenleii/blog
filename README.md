@@ -59,8 +59,8 @@ exit
 
 # elasticsearch安装分词器
 docker exec -it elasticsearch7 /bin/bash
-elasticsearch-plugin intall https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.17.5/elasticsearch-analysis-ik-7.17.5.zip
-elasticsearch-plugin intall https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v7.17.5/elasticsearch-analysis-pinyin-7.17.5.zip
+elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.17.5/elasticsearch-analysis-ik-7.17.5.zip
+elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v7.17.5/elasticsearch-analysis-pinyin-7.17.5.zip
 exit
 
 # 可以查看本项目中该目录下 ./app-metadata/init/ 的文件，执行创建索引和批量导入一些数据。
