@@ -214,7 +214,7 @@ const ArticleList: React.FC = () => {
                 />
 
                 <div onClick={() => history.push(`/article/${item.id}`)}>
-                  <Typography.Title ellipsis={{rows: 1}} level={1}>
+                  <Typography.Title ellipsis={{rows: 1, tooltip: item?.title}} level={1}>
                     <Markdown content={item?.title}/>
                   </Typography.Title>
                   <Typography.Paragraph ellipsis={{rows: 5}}>
