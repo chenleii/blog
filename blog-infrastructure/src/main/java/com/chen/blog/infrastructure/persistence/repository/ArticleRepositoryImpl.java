@@ -270,7 +270,8 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
 
     public String getCover(ArticleRepresentation articleResult) {
         {
-            Pattern compile = Pattern.compile("!\\[.*\\]\\((.*)\\s?.*\\)");
+            // 匹配示例: ![image.png](https://segmentfault.com/img/remote/1460000042529346 "dump 虚拟线程")
+            Pattern compile = Pattern.compile("!\\[.*\\]\\(((?=.+\\s.*).+?(?=\\s)|.+).*\\)");
             Matcher matcher = compile.matcher(articleResult.getContent());
             if (matcher.find()) {
                 return matcher.group(1);
