@@ -46,6 +46,7 @@
         <java-jwt.version>3.19.2</java-jwt.version>
 
         <webmagic.version>0.7.5</webmagic.version>
+        <flexmark.version>0.62.2</flexmark.version>
 
         <moneta-core.version>1.4.2</moneta-core.version>
         <jackson-datatype-money.version>1.2.2</jackson-datatype-money.version>
@@ -295,6 +296,11 @@
                         <groupId>redis.clients</groupId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.vladsch.flexmark</groupId>
+                <artifactId>flexmark-all</artifactId>
+                <version>${flexmark.version}</version>
             </dependency>
 
             <dependency>

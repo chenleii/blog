@@ -270,7 +270,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
 
     public String getCover(ArticleRepresentation articleResult) {
         {
-            Pattern compile = Pattern.compile("!\\[.*\\]\\((.*)\\)");
+            Pattern compile = Pattern.compile("!\\[.*\\]\\((.*)\\s?.*\\)");
             Matcher matcher = compile.matcher(articleResult.getContent());
             if (matcher.find()) {
                 return matcher.group(1);
