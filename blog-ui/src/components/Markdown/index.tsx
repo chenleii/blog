@@ -25,7 +25,13 @@ const Markdown: React.FC<MarkdownProps> = (props: MarkdownProps) => {
       {/*  // onChange={onChange}*/}
       {/*/>*/}
 
-      <ReactMarkdown rehypePlugins={isHtml ? [rehypeRaw] : []}>
+      <ReactMarkdown rehypePlugins={isHtml ? [rehypeRaw] : []}
+                     components={{
+                       img(props) {
+                         return <img {...props} style={{maxWidth: '100%'}}/>
+                       }
+                     }}
+      >
         {content || ''}
       </ReactMarkdown>
     </>
