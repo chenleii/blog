@@ -20,6 +20,7 @@ export default defineConfig({
     // request响应取值
     dataField:'',
   },
+  outputPath:'../blog-start/src/main/resources/ui',
   // https://umijs.org/docs/max/dva
   dva: {},
   access: {},
