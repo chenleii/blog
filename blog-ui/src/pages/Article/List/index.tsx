@@ -199,11 +199,14 @@ const ArticleList: React.FC = () => {
                 }
                 extra=
                   {item?.cover
-                    ? <img
-                      width={272}
-                      alt="cover"
-                      src={item?.cover}
-                    />
+                    ?
+                    // 展示它容易内容溢出，先不展示了。
+                    // <img
+                    //   width={272}
+                    //   alt="cover"
+                    //   src={item?.cover}
+                    // />
+                    null
                     : null
                   }
               >
@@ -217,7 +220,7 @@ const ArticleList: React.FC = () => {
                   <Typography.Title ellipsis={{rows: 1, tooltip: item?.title}} level={1}>
                     <Markdown content={item?.title}/>
                   </Typography.Title>
-                  <Typography.Paragraph ellipsis={{rows: 5}}>
+                  <Typography.Paragraph ellipsis={{rows: 5}} style={{maxHeight:'200px'}}>
                     <Markdown content={item?.customContent || ''}/>
                   </Typography.Paragraph>
                 </div>
