@@ -21,7 +21,6 @@ export default (api: IApi) => {
         </noscript>
       `,
       `
-        <div>
           <style>
             html,
             body,
@@ -214,7 +213,6 @@ export default (api: IApi) => {
 
               </div>
           </div>
-      </div>
       `
     ])
     return $;
