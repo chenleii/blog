@@ -79,8 +79,8 @@ public class ArticleHotRepositoryImpl extends ArticleRepositoryImpl implements A
         Preconditions.checkNotNull(pageQuery);
 
         Page<ArticleHotDO> page = articleHotMongoRepository.findAll(
-                PageRequest.of(Math.toIntExact(pageQuery.getPageIndex()) - 1, Math.toIntExact(pageQuery.getPageSize()))
-                        .withSort(Sort.Direction.DESC, "heat","updatedAt")
+                PageRequest.of(Math.toIntExact(pageQuery.getPageIndex()) - 1, Math.toIntExact(pageQuery.getPageSize()) + 1)
+                        .withSort(Sort.Direction.DESC, "heat", "updatedAt")
         );
 
         Pagination<ArticleRepresentation> defaultPagination = Pagination.create(pageQuery);

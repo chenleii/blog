@@ -65,7 +65,7 @@ public class ArticleHotSearchRepositoryImpl implements ArticleHotSearchRepositor
         Preconditions.checkNotNull(pageQuery);
 
         Page<ArticleHotSearchDO> page = articleHotSearchMongoRepository.findAll(
-                PageRequest.of(Math.toIntExact(pageQuery.getPageIndex())-1, Math.toIntExact(pageQuery.getPageSize()))
+                PageRequest.of(Math.toIntExact(pageQuery.getPageIndex()) - 1, Math.toIntExact(pageQuery.getPageSize()) + 1)
                         .withSort(Sort.Direction.DESC, "updatedAt", "heat")
         );
 
