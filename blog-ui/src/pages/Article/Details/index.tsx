@@ -62,6 +62,7 @@ const Article: React.FC = () => {
   let queryArticle = async () => {
     try {
       let articleId = params.articleId;
+      // @ts-ignore
       let article = await api.articleApi.query({articleId: articleId});
 
       article.comments = article?.comments?.map((item: any) => {

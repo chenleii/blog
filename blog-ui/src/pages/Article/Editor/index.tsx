@@ -38,6 +38,7 @@ const CreateArticle: React.FC = () => {
         setArticle({});
       } else {
         // 更新
+        // @ts-ignore
         let article = await api.articleApi.query({articleId: articleId});
         setArticle(article);
       }

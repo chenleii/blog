@@ -13,22 +13,19 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
   const {} = props;
 
   const inputRef = useRef<InputRef | null>(null);
-  let intl = useIntl();
+  const intl = useIntl();
   const [searchValue, setSearchValue] = useState<string>("");
   const [blogArticleSearchHistory, setBlogArticleSearchHistory] = useState<string[]>([]);
   const [hotArticleList, setHotArticleList] = useState<API.ArticleResult[]>([]);
   const [hotSearchList, setHotSearchList] = useState<string[]>([]);
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
-  const [isOpenInput, setIsOpenInput] = useState<boolean>(false);
 
 
   let openDropdown = async () => {
-    setIsOpenInput(true);
     setIsOpenDropdown(true);
   }
   let resetDropdown = async () => {
     setIsOpenDropdown(false);
-    setIsOpenInput(false);
   }
 
   let loadBlogArticleSearchHistory = async () => {
@@ -41,7 +38,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
   let loadHotArticleList = async () => {
     let hotArticlePage = await api.articleApi.headlinesPageQuery({
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 5,
     });
 
     setHotArticleList(hotArticlePage?.list || []);
@@ -102,8 +99,15 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
         autoFocus={true}
         getPopupContainer={trigger => trigger.parentElement || document.body}
         trigger={['click']}
-        placement="bottom"
+        placement="bottomLeft"
         overlayStyle={{width: "390px"}}
+        onOpenChange={async (open: boolean) => {
+          if (open) {
+            await openDropdown();
+          } else {
+            await resetDropdown();
+          }
+        }}
         overlay={
           <>
             <Card
@@ -141,7 +145,8 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
               title={intl.formatMessage({
                 id: 'component.globalHeader.HeaderSearch.hotSearch.title',
                 defaultMessage: '热搜',
-              })}>
+              })}
+            >
               <Space wrap={true}>
                 {
                   hotSearchList.map((item: string) => {
@@ -160,22 +165,26 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
               title={intl.formatMessage({
                 id: 'component.globalHeader.HeaderSearch.hotArticle.title',
                 defaultMessage: '热门文章',
-              })}>
+              })}
+              bodyStyle={{padding: '0', margin: '0'}}
+            >
               {
                 hotArticleList.map((item: API.ArticleResult) => {
                   return (
-                    <Card.Grid
-                      key={item?.id}
-                      style={{width: '50%',}}
-                      onClick={(value) => toArticlePage(item?.id)}
-                    >
-                      <Badge.Ribbon text="热" color="red">
-                        <Typography.Paragraph ellipsis={{rows: 1}}>
+                    <Badge.Ribbon key={item?.id} text='Hot' color="red">
+                      <Card.Grid
+                        key={item?.id}
+                        style={{width: '100%',}}
+                        onClick={(value) => toArticlePage(item?.id)}
+                      >
+                        <Typography.Paragraph
+                          ellipsis={{rows: 1}}
+                          style={{width: '100%', margin: '0'}}
+                        >
                           {item?.title}
                         </Typography.Paragraph>
-                      </Badge.Ribbon>
-
-                    </Card.Grid>
+                      </Card.Grid>
+                    </Badge.Ribbon>
                   )
                 })
               }
@@ -185,7 +194,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
       >
         <Input
           style={
-            !isOpenInput
+            !isOpenDropdown
               ? {width: '230px'}
               : {width: '390px'}
           }
@@ -209,7 +218,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
             }
           }}
           onFocus={async () => {
-            await openDropdown();
+
           }}
           onBlur={async () => {
 

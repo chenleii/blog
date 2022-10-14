@@ -114,7 +114,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
       return (
         <>
           {children}
-          {!props.location?.pathname?.includes('/login') && (
+          {isDev && !props.location?.pathname?.includes('/login') && (
             <SettingDrawer
               disableUrlParams
               enableDarkTheme
