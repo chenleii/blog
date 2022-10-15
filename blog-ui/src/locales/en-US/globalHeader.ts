@@ -1,17 +1,23 @@
 export default {
-  'component.globalHeader.search': 'Search',
-  'component.globalHeader.search.example1': 'Search example 1',
-  'component.globalHeader.search.example2': 'Search example 2',
-  'component.globalHeader.search.example3': 'Search example 3',
-  'component.globalHeader.help': 'Help',
-  'component.globalHeader.notification': 'Notification',
-  'component.globalHeader.notification.empty': 'You have viewed all notifications.',
-  'component.globalHeader.message': 'Message',
-  'component.globalHeader.message.empty': 'You have viewed all messsages.',
-  'component.globalHeader.event': 'Event',
-  'component.globalHeader.event.empty': 'You have viewed all events.',
-  'component.noticeIcon.clear': 'Clear',
-  'component.noticeIcon.cleared': 'Cleared',
-  'component.noticeIcon.empty': 'No notifications',
-  'component.noticeIcon.view-more': 'View more',
+
+  'component.globalHeader.HeaderRightContent.createArticle': 'Write an article',
+
+  'component.globalHeader.HeaderRightContent.AvatarDropdown.accountCenter': 'Account center',
+  'component.globalHeader.HeaderRightContent.AvatarDropdown.accountSettings': 'Account settings',
+  'component.globalHeader.HeaderRightContent.AvatarDropdown.logout': 'Logout',
+  'component.globalHeader.HeaderRightContent.AvatarDropdown.login': 'To login',
+  'component.globalHeader.HeaderRightContent.AvatarDropdown.notLoggedIn': 'Not logged in',
+
+  'component.globalHeader.HeaderSearch.search.placeholder': 'Search',
+  'component.globalHeader.HeaderSearch.searchHistory.title': 'Search history',
+  'component.globalHeader.HeaderSearch.searchHistory.extra': 'Empty',
+  'component.globalHeader.HeaderSearch.hotSearch.title': 'Hot search',
+  'component.globalHeader.HeaderSearch.hotArticle.title': 'Hot articles',
+
+
+
+  'app.login.modal.title': 'You\'re not logged in yet',
+  'app.login.modal.content': 'Are you sure to log in？',
+  'app.login.modal.okText': 'Confirm',
+  'app.login.modal.cancelText': 'Cancel',
 };

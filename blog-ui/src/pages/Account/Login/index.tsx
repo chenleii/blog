@@ -57,7 +57,7 @@ const Login: React.FC = () => {
       <div className={styles.content}>
         <LoginForm
           logo={<img alt="logo" src="/logo.svg"/>}
-          title={intl.formatMessage({id: 'pages.layouts.userLayout.title'})}
+          title={intl.formatMessage({id: 'app.copyright.produced'})}
           subTitle={' '}
           initialValues={{}}
           actions={[]}
@@ -163,16 +163,6 @@ const Login: React.FC = () => {
                 defaultMessage: '自动登录',
               })}
             </ProFormCheckbox>
-            <a
-              style={{
-                float: 'right',
-              }}
-            >
-              {intl.formatMessage({
-                id: "pages.login.forgotPassword",
-                defaultMessage: '忘记密码',
-              })}
-            </a>
           </div>
         </LoginForm>
       </div>
