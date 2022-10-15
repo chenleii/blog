@@ -3,7 +3,7 @@ import HeaderRightContent from '@/components/HeaderRightContent';
 import {ExclamationCircleOutlined, LinkOutlined} from '@ant-design/icons';
 import {SettingDrawer, Settings as LayoutSettings} from '@ant-design/pro-components';
 import type {RunTimeLayoutConfig} from '@umijs/max';
-import {history, Link} from '@umijs/max';
+import {history, Link, useIntl} from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import {AxiosResponse, RequestConfig, RequestError, RequestOptions} from "@@/plugin-request/request";
 import {isNil, negate, pickBy} from 'lodash';
@@ -11,6 +11,8 @@ import {Modal, notification, Space} from 'antd';
 import {stringify} from 'querystring';
 import api from './services/api';
 import HeaderSearch from "@/components/HeaderSearch";
+import {formatMessage, getIntl, injectIntl} from "@@/exports";
+import {getLocale, setIntl} from "@@/plugin-locale/localeExports";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/account/login';
@@ -169,13 +171,17 @@ export const request: RequestConfig = {
       const data = response?.data;
 
       if (data?.errorCode === 'NotLogin') {
-        // 如何国际化？？？
+
+        // 如何更好的国际化？？？
+        // const intl = useIntl();
+        const intl = getIntl(getLocale());
+
         Modal.confirm({
-          title: '您还未登录哦',
+          title: intl.formatMessage({id:'app.login.modal.title'}),
           icon: <ExclamationCircleOutlined/>,
-          content: '确认去登录吗？',
-          okText: '确认',
-          cancelText: '取消',
+          content: intl.formatMessage({id:'app.login.modal.content'}),
+          okText: intl.formatMessage({id:'app.login.modal.okText'}),
+          cancelText: intl.formatMessage({id:'app.login.modal.cancelText'}),
           onOk: () => {
             // const {search, pathname} = history.location;
             history.replace({
