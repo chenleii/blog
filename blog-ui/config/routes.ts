@@ -1,24 +1,32 @@
 ﻿export default [
   {
     path: '/account',
-    layout: false,
     routes: [
       {
         name: 'account.login',
         path: '/account/login',
         component: './Account/Login',
+        hideInMenu: true,
+        // layout: false,
+        // headerRender: false,
+        // footerRender: false,
+        // menuRender: false,
+        // menuHeaderRender: false,
+        // menuExtraRender: false,
+      },
+      {
+        name: 'account.center',
+        path: '/account/center',
+        component: './Account/Center',
+        hideInMenu: true,
+      },
+      {
+        name: 'account.settings',
+        path: '/account/settings',
+        component: './Account/Update',
+        hideInMenu: true,
       },
     ],
-  },
-  {
-    // name: 'account.center',
-    path: '/account/center',
-    component: './Account/Center',
-  },
-  {
-    // name: 'account.settings',
-    path: '/account/settings',
-    component: './Account/Update',
   },
   {
     path: '/article',
@@ -34,7 +42,7 @@
       {
         path: '/article/:articleId/editor',
         component: './Article/Editor',
-      }
+      },
     ],
   },
 

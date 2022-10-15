@@ -26,7 +26,7 @@ const AvatarDropdown: React.FC<HeaderRightContentProps> = ({}) => {
       }
       if (key === 'login') {
         history.push({
-          pathname: `/account/${key}`,
+          pathname: `/account/login`,
           search: stringify({
             redirect: window.location.href,
           }),

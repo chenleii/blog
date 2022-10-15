@@ -30,31 +30,25 @@ export async function getInitialState(): Promise<InitialState> {
   const fetchLoggedInAccount = async () => {
     return await api.accountApi.getLoggedInAccount({skipErrorHandler: true})
   };
-  // 如果不是登录页面，执行
-  if (history.location.pathname !== loginPath) {
-    try {
-      const loggedInAccount = await fetchLoggedInAccount();
-      return {
-        fetchLoggedInAccount,
-        isLoggedIn: true,
-        loginPath: loginPath,
-        loggedInAccount,
-        settings: defaultSettings,
-      };
-    } catch (e) {
-      return {
-        fetchLoggedInAccount,
-        isLoggedIn: false,
-        loginPath: loginPath,
-        settings: defaultSettings,
-      };
-    }
+
+  try {
+    const loggedInAccount = await fetchLoggedInAccount();
+    return {
+      fetchLoggedInAccount,
+      isLoggedIn: true,
+      loginPath: loginPath,
+      loggedInAccount,
+      settings: defaultSettings,
+    };
+  } catch (e) {
+    return {
+      fetchLoggedInAccount,
+      isLoggedIn: false,
+      loginPath: loginPath,
+      settings: defaultSettings,
+    };
   }
-  return {
-    loginPath: loginPath,
-    fetchLoggedInAccount,
-    settings: defaultSettings,
-  };
+
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
@@ -68,7 +62,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
       if (props.isMobile) {
         return <HeaderRightContent smallScreen/>;
       }
-      return <HeaderRightContent />;
+      return <HeaderRightContent/>;
     },
     headerContentRender: (props, defaultDom) => {
       if (document.body.clientWidth < 1400) {
@@ -90,9 +84,11 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     },
     footerRender: () => <Footer/>,
     onPageChange: () => {
-      const {location} = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.loggedInAccount && location.pathname !== loginPath) {
+      // 如果没有登录，重定向到登录页。
+      if (!initialState?.isLoggedIn
+        && !initialState?.loggedInAccount
+        && history.location.pathname !== loginPath) {
+        // 不跳转，不登录也可以访问。
         // history.push(loginPath);
       }
     },
@@ -113,7 +109,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
       return (
         <>
           {children}
-          {isDev && !props.location?.pathname?.includes('/login') && (
+          {isDev && (
             <SettingDrawer
               disableUrlParams
               enableDarkTheme
@@ -173,6 +169,7 @@ export const request: RequestConfig = {
       const data = response?.data;
 
       if (data?.errorCode === 'NotLogin') {
+        // 如何国际化？？？
         Modal.confirm({
           title: '您还未登录哦',
           icon: <ExclamationCircleOutlined/>,

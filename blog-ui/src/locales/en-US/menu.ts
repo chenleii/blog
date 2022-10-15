@@ -5,6 +5,6 @@ export default {
 
   'menu.account.login': 'Login',
   'menu.account.center': 'Account center',
-  'menu.account.setting': 'Account settings',
+  'menu.account.settings': 'Account settings',
 
 };

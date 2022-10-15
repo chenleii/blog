@@ -6,6 +6,6 @@ export default {
 
   'menu.account.login': '登录',
   'menu.account.center': '账户中心',
-  'menu.account.setting': '账户设置',
+  'menu.account.settings': '账户设置',
 
 };
