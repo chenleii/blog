@@ -8,7 +8,7 @@ export async function pageQuery(
   params: API.pageQueryParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.PaginationArticleResult>('/api/blog/article', {
+  return request<API.PaginationArticleRepresentation>('/api/blog/article', {
     method: 'GET',
     params: {
       ...params,
@@ -54,7 +54,7 @@ export async function query(
   options?: { [key: string]: any },
 ) {
   const { articleId: param0, ...queryParams } = params;
-  return request<API.ArticleResult>(`/api/blog/article/${param0}`, {
+  return request<API.ArticleRepresentation>(`/api/blog/article/${param0}`, {
     method: 'GET',
     params: { ...queryParams },
     ...(options || {}),
@@ -67,7 +67,7 @@ export async function accountPageQuery(
   params: API.accountPageQueryParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.PaginationArticleResult>('/api/blog/article/account', {
+  return request<API.PaginationArticleRepresentation>('/api/blog/article/account', {
     method: 'GET',
     params: {
       ...params,
@@ -94,7 +94,7 @@ export async function headlinesPageQuery(
   params: API.headlinesPageQueryParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.PaginationArticleResult>('/api/blog/article/headlines', {
+  return request<API.PaginationArticleRepresentation>('/api/blog/article/headlines', {
     method: 'GET',
     params: {
       ...params,

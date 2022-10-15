@@ -20,6 +20,11 @@
       "description": "Generated server url"
     }
   ],
+  "security": [
+    {
+      "bearer-jwt": []
+    }
+  ],
   "tags": [
     {
       "name": "article-api",
@@ -28,6 +33,10 @@
     {
       "name": "account-api",
       "description": "账户接口"
+    },
+    {
+      "name": "timedtask-api",
+      "description": "定时任务接口"
     }
   ],
   "paths": {
@@ -128,8 +137,18 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationArticleRepresentation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -138,8 +157,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -164,16 +183,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginationArticleResult"
                 }
               }
             }
@@ -197,8 +206,19 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -207,8 +227,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -233,17 +253,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int64"
                 }
               }
             }
@@ -267,8 +276,19 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -277,8 +297,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -306,14 +326,57 @@
                 }
               }
             }
-          },
+          }
+        }
+      }
+    },
+    "/api/timedtask/reptile": {
+      "post": {
+        "tags": [
+          "timedtask-api"
+        ],
+        "summary": "爬虫定时任务",
+        "operationId": "reptile",
+        "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int64"
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -339,8 +402,19 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -349,8 +423,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -375,17 +449,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
                 }
               }
             }
@@ -411,8 +474,19 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -421,8 +495,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -447,17 +521,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int64"
                 }
               }
             }
@@ -483,8 +546,19 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -493,8 +567,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -519,17 +593,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
                 }
               }
             }
@@ -555,8 +618,19 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -565,8 +639,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -591,17 +665,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int64"
                 }
               }
             }
@@ -627,8 +690,11 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -637,8 +703,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -666,9 +732,6 @@
                 }
               }
             }
-          },
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -691,8 +754,11 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -701,8 +767,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -730,9 +796,67 @@
                 }
               }
             }
-          },
+          }
+        }
+      }
+    },
+    "/api/blog/account/refreshLogin": {
+      "post": {
+        "tags": [
+          "account-api"
+        ],
+        "summary": "刷新登录",
+        "operationId": "refreshLogin",
+        "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoggedInAccount"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
           }
         }
       }
@@ -745,8 +869,11 @@
         "summary": "登出",
         "operationId": "logout",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -755,8 +882,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -784,9 +911,6 @@
                 }
               }
             }
-          },
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -799,8 +923,18 @@
         "summary": "获取登录账户",
         "operationId": "getLoggedInAccount",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoggedInAccount"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -809,8 +943,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -835,16 +969,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoggedInAccount"
                 }
               }
             }
@@ -868,8 +992,18 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoggedInAccount"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -878,8 +1012,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -904,16 +1038,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoggedInAccount"
                 }
               }
             }
@@ -940,8 +1064,18 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleRepresentation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -950,8 +1084,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -976,16 +1110,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ArticleResult"
                 }
               }
             }
@@ -1039,8 +1163,18 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationString"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -1049,8 +1183,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -1075,16 +1209,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginationString"
                 }
               }
             }
@@ -1138,8 +1262,18 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationArticleRepresentation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -1148,8 +1282,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -1174,16 +1308,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResult"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginationArticleResult"
                 }
               }
             }
@@ -1298,8 +1422,18 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationArticleRepresentation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -1308,8 +1442,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "*/*": {
                 "schema": {
@@ -1337,16 +1471,6 @@
                 }
               }
             }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginationArticleResult"
-                }
-              }
-            }
           }
         }
       }
@@ -1365,6 +1489,9 @@
           },
           "error": {
             "type": "object"
+          },
+          "traceId": {
+            "type": "string"
           }
         }
       },
@@ -1525,20 +1652,6 @@
         },
         "description": "账户发送登录验证码输入数据"
       },
-      "AccountLoginInputDTO": {
-        "type": "object",
-        "properties": {
-          "phoneNo": {
-            "type": "string",
-            "description": "手机号"
-          },
-          "verificationCode": {
-            "type": "string",
-            "description": "验证码"
-          }
-        },
-        "description": "账户登录输入数据"
-      },
       "LoggedInAccount": {
         "type": "object",
         "properties": {
@@ -1583,7 +1696,21 @@
           }
         }
       },
-      "AccountResult": {
+      "AccountLoginInputDTO": {
+        "type": "object",
+        "properties": {
+          "phoneNo": {
+            "type": "string",
+            "description": "手机号"
+          },
+          "verificationCode": {
+            "type": "string",
+            "description": "验证码"
+          }
+        },
+        "description": "账户登录输入数据"
+      },
+      "AccountRepresentation": {
         "type": "object",
         "properties": {
           "id": {
@@ -1641,8 +1768,8 @@
             "type": "string"
           },
           "commentedAt": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "date-time"
           },
           "subComments": {
             "uniqueItems": true,
@@ -1652,7 +1779,7 @@
             }
           },
           "account": {
-            "$ref": "#/components/schemas/AccountResult"
+            "$ref": "#/components/schemas/AccountRepresentation"
           }
         }
       },
@@ -1688,7 +1815,7 @@
           }
         }
       },
-      "ArticleResult": {
+      "ArticleRepresentation": {
         "type": "object",
         "properties": {
           "id": {
@@ -1749,7 +1876,7 @@
             "format": "date-time"
           },
           "account": {
-            "$ref": "#/components/schemas/AccountResult"
+            "$ref": "#/components/schemas/AccountRepresentation"
           },
           "likedNumber": {
             "type": "integer",
@@ -1788,11 +1915,11 @@
             "type": "string"
           },
           "commentedAt": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "date-time"
           },
           "account": {
-            "$ref": "#/components/schemas/AccountResult"
+            "$ref": "#/components/schemas/AccountRepresentation"
           },
           "replyId": {
             "type": "integer",
@@ -1800,7 +1927,7 @@
           }
         }
       },
-      "PaginationArticleResult": {
+      "PaginationArticleRepresentation": {
         "type": "object",
         "properties": {
           "pageIndex": {
@@ -1818,7 +1945,7 @@
           "list": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ArticleResult"
+              "$ref": "#/components/schemas/ArticleRepresentation"
             }
           },
           "lastValues": {
@@ -1857,6 +1984,13 @@
             }
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "bearer-jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

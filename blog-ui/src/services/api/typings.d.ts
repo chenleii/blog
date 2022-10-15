@@ -25,7 +25,7 @@ declare namespace API {
     lastValues?: Record<string, any>[];
   };
 
-  type AccountResult = {
+  type AccountRepresentation = {
     id?: number;
     avatar?: string;
     name?: string;
@@ -58,9 +58,9 @@ declare namespace API {
     id?: number;
     accountId?: number;
     content?: string;
-    commentedAt?: number;
+    commentedAt?: string;
     subComments?: ArticleSubCommentDO[];
-    account?: AccountResult;
+    account?: AccountRepresentation;
   };
 
   type ArticleCommentInputDTO = {
@@ -72,7 +72,7 @@ declare namespace API {
 
   type ArticleLikeInputDTO = {
     /** 文章ID */
-    articleId?: bigint;
+    articleId?: number;
   };
 
   type ArticleLikeRecordDO = {
@@ -105,9 +105,9 @@ declare namespace API {
     reportedAt?: string;
   };
 
-  type ArticleResult = {
+  type ArticleRepresentation = {
     id?: number;
-    accountId?: string;
+    accountId?: number;
     title?: string;
     tags?: string[];
     content?: string;
@@ -117,7 +117,7 @@ declare namespace API {
     comments?: ArticleCommentDO[];
     createdAt?: string;
     updatedAt?: string;
-    account?: AccountResult;
+    account?: AccountRepresentation;
     likedNumber?: number;
     reportedNumber?: number;
     isLiked?: boolean;
@@ -141,8 +141,8 @@ declare namespace API {
     id?: number;
     accountId?: number;
     content?: string;
-    commentedAt?: number;
-    account?: AccountResult;
+    commentedAt?: string;
+    account?: AccountRepresentation;
     replyId?: number;
   };
 
@@ -163,6 +163,7 @@ declare namespace API {
     errorCode?: string;
     errorMessage?: string;
     error?: Record<string, any>;
+    traceId?: string;
   };
 
   type headlinesPageQueryParams = {
@@ -215,11 +216,11 @@ declare namespace API {
     lastValues?: Record<string, any>[];
   };
 
-  type PaginationArticleResult = {
+  type PaginationArticleRepresentation = {
     pageIndex?: number;
     pageSize?: number;
     total?: number;
-    list?: ArticleResult[];
+    list?: ArticleRepresentation[];
     lastValues?: Record<string, any>[];
   };
 

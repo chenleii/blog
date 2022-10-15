@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 
 export default {
-  'GET /api/blog/article/': (req: Request, res: Response) => {
+  'POST /api/blog/account/refreshLogin': (req: Request, res: Response) => {
     res.status(200).send({});
   },
 };

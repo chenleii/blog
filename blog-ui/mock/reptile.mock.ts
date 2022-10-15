@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 
 export default {
-  'GET /health': (req: Request, res: Response) => {
+  'POST /api/timedtask/reptile': (req: Request, res: Response) => {
     res.status(200).send({});
   },
 };

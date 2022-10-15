@@ -30,6 +30,14 @@ export async function logout(options?: { [key: string]: any }) {
   });
 }
 
+/** 刷新登录 POST /api/blog/account/refreshLogin */
+export async function refreshLogin(options?: { [key: string]: any }) {
+  return request<API.LoggedInAccount>('/api/blog/account/refreshLogin', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
 /** 发送登录验证码 POST /api/blog/account/sendLoginVerificationCode */
 export async function sendLoginVerificationCode(
   body: API.AccountSendLoginVerificationCodeInputDTO,
