@@ -21,6 +21,16 @@ export default defineConfig({
     dataField:'',
   },
   outputPath:'../blog-start/src/main/resources/ui',
+  // mfsu: {
+  //   shared: {
+  //     react: {
+  //       singleton: true,
+  //     },
+  //   },
+  // },
+  mfsu:{
+    strategy:'normal'
+  },
   // https://umijs.org/docs/max/dva
   dva: {},
   access: {},
