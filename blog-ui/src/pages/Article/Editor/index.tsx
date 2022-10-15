@@ -8,7 +8,7 @@ import MarkdownEditor from '@/components/MarkdownEditor';
 const CreateArticle: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
-  const [article, setArticle] = useState<API.ArticleResult>({});
+  const [article, setArticle] = useState<API.ArticleRepresentation>({});
   let intl = useIntl();
 
 

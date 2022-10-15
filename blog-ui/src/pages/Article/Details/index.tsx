@@ -14,7 +14,7 @@ const Article: React.FC = () => {
   const {loggedInAccount} = initialState || {};
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
-  const [article, setArticle] = useState<API.ArticleResult>({});
+  const [article, setArticle] = useState<API.ArticleRepresentation>({});
   let intl = useIntl();
   let access = useAccess();
 

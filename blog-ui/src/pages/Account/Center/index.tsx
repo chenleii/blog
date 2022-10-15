@@ -23,7 +23,7 @@ const AccountCenter: React.FC = () => {
   const [articleListLoading, setArticleListLoading] = useState<boolean>(false);
   const params = useParams();
   const [account, setAccount] = useState<API.LoggedInAccount>({});
-  const [accountArticlePage, setAccountArticlePage] = useState<API.PaginationArticleResult>({});
+  const [accountArticlePage, setAccountArticlePage] = useState<API.PaginationArticleRepresentation>({});
   let [accountArticlePageQueryInputDTO, setAccountArticlePageQueryInputDTO] = useState<API.accountPageQueryParams>({
     pageIndex: 1,
     pageSize: 10,

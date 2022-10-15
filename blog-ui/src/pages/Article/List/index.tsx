@@ -18,7 +18,7 @@ const ArticleList: React.FC = () => {
     pageSize: 10,
     searchKeyword: searchParams.get("searchKeyword") || '',
   });
-  const [page, setPage] = useState<API.PaginationArticleResult>({
+  const [page, setPage] = useState<API.PaginationArticleRepresentation>({
     pageIndex: 0,
     pageSize: 10,
     list: [],
@@ -72,7 +72,7 @@ const ArticleList: React.FC = () => {
     setLoading(true);
 
     try {
-      let res: API.PaginationArticleResult = {};
+      let res: API.PaginationArticleRepresentation = {};
       if (isHotQuery) {
         res = await api.articleApi.headlinesPageQuery(articlePageQueryInputDTO);
       } else {
