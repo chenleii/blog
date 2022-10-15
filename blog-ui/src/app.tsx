@@ -91,7 +91,6 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     footerRender: () => <Footer/>,
     onPageChange: () => {
       const {location} = history;
-      console.log(history);
       // 如果没有登录，重定向到 login
       if (!initialState?.loggedInAccount && location.pathname !== loginPath) {
         // history.push(loginPath);
@@ -181,11 +180,11 @@ export const request: RequestConfig = {
           okText: '确认',
           cancelText: '取消',
           onOk: () => {
-            const {search, pathname} = history.location;
+            // const {search, pathname} = history.location;
             history.replace({
               pathname: loginPath,
               search: stringify({
-                redirect: pathname + search,
+                redirect: window.location.href,
               }),
             });
           },

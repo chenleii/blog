@@ -7,6 +7,7 @@ import React, {useCallback} from 'react';
 import styles from './index.less';
 import api from "@/services/api";
 import {useIntl} from "@@/exports";
+import {stringify} from "querystring";
 
 export type HeaderRightContentProps = {};
 
@@ -14,34 +15,22 @@ const AvatarDropdown: React.FC<HeaderRightContentProps> = ({}) => {
   const {initialState, setInitialState} = useModel('@@initialState');
   let intl = useIntl();
 
-
-  /**
-   * 退出登录，并且将当前的 url 保存
-   */
-  const loginOut = async () => {
-    await api.accountApi.logout();
-
-    // const {search, pathname} = history.location;
-    // const urlParams = new URL(window.location.href).searchParams;
-    // /** 此方法会跳转到 redirect 参数所在的位置 */
-    // const redirect = urlParams.get('redirect');
-    // // Note: There may be security issues, please note
-    // if (window.location.pathname !== initialState?.loginPath && !redirect) {
-    //   history.replace({
-    //     pathname: initialState?.loginPath,
-    //     search: stringify({
-    //       redirect: pathname + search,
-    //     }),
-    //   });
-    // }
-  };
-
   const onMenuClick = useCallback(
     async (event: MenuInfo) => {
       const {key} = event;
       if (key === 'logout') {
         setInitialState((s) => ({...s, isLoggedIn: false, loggedInAccount: undefined}));
-        await loginOut();
+        // 退出登录
+        await api.accountApi.logout();
+        return;
+      }
+      if (key === 'login') {
+        history.push({
+          pathname: `/account/${key}`,
+          search: stringify({
+            redirect: window.location.href,
+          }),
+        });
         return;
       }
       history.push(`/account/${key}`);

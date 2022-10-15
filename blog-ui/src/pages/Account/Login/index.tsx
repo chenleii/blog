@@ -2,7 +2,7 @@ import Footer from '@/components/Footer';
 import api from '@/services/api';
 import {LockOutlined, MobileOutlined,} from '@ant-design/icons';
 import {LoginForm, ProFormCaptcha, ProFormCheckbox, ProFormText,} from '@ant-design/pro-components';
-import {history, SelectLang, useIntl, useModel} from '@umijs/max';
+import {SelectLang, useIntl, useModel} from '@umijs/max';
 import {message} from 'antd';
 import React from 'react';
 import styles from './index.less';
@@ -35,8 +35,9 @@ const Login: React.FC = () => {
       });
       message.success(defaultLoginSuccessMessage);
       await fetchLoggedInAccount();
+
       const urlParams = new URL(window.location.href).searchParams;
-      history.push(urlParams.get('redirect') || '/');
+      window.location.href = urlParams.get('redirect') || '/';
 
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
