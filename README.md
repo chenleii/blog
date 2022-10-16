@@ -25,11 +25,12 @@
 
 ## 应用启动说明
 
-* 安装相关依赖，项目启动： 执行 ```com.chen.blog.start.Application.java```
+* 安装相关依赖（见下文：**安装相关依赖示例**）。
+* 启动应用： 执行 ```com.chen.blog.start.Application.java```。
 * 访问应用页面: http://127.0.0.1:7001
 * 访问API文档: http://127.0.0.1:7001/doc.html
 
-### 相关依赖安装步骤示例
+### 安装相关依赖示例
 
 ```shell
 # 安装docker省略......
