@@ -1,5 +1,6 @@
 
-###
+# 仅项目owner使用
+
 ### 创建索引article
 PUT http://127.0.0.1:9200/article
 Content-Type: application/json
