@@ -62,7 +62,7 @@
         <commons-net.version>3.8.0</commons-net.version>
         <commons-crypto.version>1.1.0</commons-crypto.version>
         <guava.version>31.1-jre</guava.version>
-        <fastjson.version>1.2.83.noneautotype</fastjson.version>
+        <fastjson.version>1.2.83_noneautotype</fastjson.version>
 
         <testcontainers-bom.version>1.17.3</testcontainers-bom.version>
         <cucumber.version>7.6.0</cucumber.version>
