@@ -21,6 +21,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
                 "com.chen.blog.infrastructure",
                 "com.chen.blog.configuration",
                 "com.chen.blog.interfaces.http",
+                "com.chen.blog.interfaces.timedtask",
         }
 )
 @EnableElasticsearchRepositories(basePackages = "com.chen.blog.infrastructure.persistence.repository.elasticsearch")
