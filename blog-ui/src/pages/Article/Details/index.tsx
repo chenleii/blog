@@ -81,6 +81,12 @@ const Article: React.FC = () => {
     await queryArticle();
   }
 
+  let shareRun = async () => {
+    copy(window.location.href);
+    message.success(
+      intl.formatMessage({id: "pages.ArticleDetails.share.message",}));
+  }
+
   let queryArticle = async () => {
     try {
       let articleId = params.articleId;
@@ -195,12 +201,8 @@ const Article: React.FC = () => {
             <MessageOutlined/>
             {article?.comments ? article?.comments.length : 0}
           </Space>
-          <Space>
-            <ShareAltOutlined onClick={() => {
-              copy(window.location.href);
-              message.success(
-                intl.formatMessage({id: "pages.ArticleDetails.share.message",}));
-            }}/>
+          <Space onClick={()=> shareRun()}>
+            <ShareAltOutlined/>
             {intl.formatMessage({
               id: "pages.ArticleDetails.share.title",
               defaultMessage: "分享",
