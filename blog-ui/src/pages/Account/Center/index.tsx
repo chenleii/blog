@@ -1,5 +1,5 @@
 import {PageContainer} from '@ant-design/pro-components';
-import {BackTop, Button, Card, Input, List, Space, Typography,} from 'antd';
+import {BackTop, Button, Card, Divider, Input, List, Space, Typography,} from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
 import {history, useIntl, useModel, useParams} from "@@/exports";
@@ -21,6 +21,7 @@ const AccountCenter: React.FC = () => {
   const {loggedInAccount} = initialState as InitialState || {};
   const [loading, setLoading] = useState<boolean>(false);
   const [articleListLoading, setArticleListLoading] = useState<boolean>(false);
+  const [isEnd, setIsEnd] = useState<boolean>(false);
   const params = useParams();
   const [account, setAccount] = useState<API.LoggedInAccount>({});
   const [accountArticlePage, setAccountArticlePage] = useState<API.PaginationArticleRepresentation>({});
@@ -47,6 +48,10 @@ const AccountCenter: React.FC = () => {
         lastValues: accountArticlePageRes.lastValues,
       };
       setAccountArticlePage(tempPage);
+
+      if ((accountArticlePageRes?.list?.length || 0) < (accountArticlePageQueryInputDTO.pageSize || 0)) {
+        setIsEnd(true);
+      }
     } finally {
       setLoading(false);
       setArticleListLoading(false);
@@ -119,14 +124,16 @@ const AccountCenter: React.FC = () => {
           loading={loading || articleListLoading}
           dataSource={accountArticlePage?.list}
           loadMore={
-            <div style={{textAlign: 'center', marginTop: 12,}}>
-              <Button onClick={loadMoreAccountArticlePage}>
-                {intl.formatMessage({
-                  id: 'pages.account.center.articleList.loadMore',
-                  defaultMessage: '加载更多',
-                })}
-              </Button>
-            </div>
+            isEnd
+              ? <Divider plain>{intl.formatMessage({id: 'pages.ArticleList.endMessage'})}</Divider>
+              : <div style={{textAlign: 'center', marginTop: 12,}}>
+                <Button onClick={loadMoreAccountArticlePage}>
+                  {intl.formatMessage({
+                    id: 'pages.account.center.articleList.loadMore',
+                    defaultMessage: '加载更多',
+                  })}
+                </Button>
+              </div>
           }
           renderItem={item => (
             <List.Item
@@ -164,10 +171,10 @@ const AccountCenter: React.FC = () => {
               />
 
               <div onClick={() => history.push(`/article/${item.id}`)}>
-                <Typography.Title ellipsis={{rows: 1}} level={1}>
+                <Typography.Title ellipsis={{rows: 1, tooltip: item?.title}} level={1}>
                   <Markdown content={item?.title}/>
                 </Typography.Title>
-                <Typography.Paragraph ellipsis={{rows: 5}}>
+                <Typography.Paragraph ellipsis={{rows: 5}} style={{maxHeight: '200px'}}>
                   <Markdown content={item?.customContent || ''}/>
                 </Typography.Paragraph>
               </div>
