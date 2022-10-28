@@ -11,6 +11,8 @@ export default {
 
 
   'pages.ArticleDetails.update': 'Edit',
+  'pages.ArticleDetails.share.title': 'Share',
+  'pages.ArticleDetails.share.message': 'The link to the article has been copied to the clipboard, go ahead and share it with your friends.',
   'pages.ArticleDetails.report.title': 'To confirm the report?',
   'pages.ArticleDetails.report.remark': 'Report reasons',
   'pages.ArticleDetails.report.submitButton': 'Report',

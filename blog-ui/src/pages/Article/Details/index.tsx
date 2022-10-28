@@ -1,6 +1,27 @@
-import {LikeFilled, LikeOutlined, MessageOutlined, WarningFilled, WarningOutlined} from '@ant-design/icons';
+import {
+  LikeFilled,
+  LikeOutlined,
+  MessageOutlined,
+  ShareAltOutlined,
+  WarningFilled,
+  WarningOutlined
+} from '@ant-design/icons';
 import {PageContainer} from '@ant-design/pro-components';
-import {BackTop, Button, Card, Comment, Divider, Form, Input, List, Popover, Space, Tooltip, Typography,} from 'antd';
+import {
+  BackTop,
+  Button,
+  Card,
+  Comment,
+  Divider,
+  Form,
+  Input,
+  List,
+  message,
+  Popover,
+  Space,
+  Tooltip,
+  Typography,
+} from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
 import {history, useAccess, useIntl, useModel, useParams} from "@@/exports";
@@ -8,6 +29,7 @@ import api from "@/services/api";
 import moment from 'moment';
 import TextArea from 'antd/lib/input/TextArea';
 import Markdown from '@/components/Markdown';
+import copy from "copy-to-clipboard";
 
 const Article: React.FC = () => {
   const {initialState} = useModel('@@initialState');
@@ -98,7 +120,7 @@ const Article: React.FC = () => {
         loading={loading}
         extra={
           access.canArticleUpdate(article)
-            ? <a onClick={()=> history.push(`/article/${article?.id}/editor`)}>
+            ? <a onClick={() => history.push(`/article/${article?.id}/editor`)}>
               {intl.formatMessage({
                 id: 'pages.ArticleDetails.update',
                 defaultMessage: '编辑',
@@ -172,6 +194,17 @@ const Article: React.FC = () => {
           <Space>
             <MessageOutlined/>
             {article?.comments ? article?.comments.length : 0}
+          </Space>
+          <Space>
+            <ShareAltOutlined onClick={() => {
+              copy(window.location.href);
+              message.success(
+                intl.formatMessage({id: "pages.ArticleDetails.share.message",}));
+            }}/>
+            {intl.formatMessage({
+              id: "pages.ArticleDetails.share.title",
+              defaultMessage: "分享",
+            })}
           </Space>
         </Space>
       </Card>

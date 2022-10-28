@@ -11,6 +11,8 @@ export default {
 
 
   'pages.ArticleDetails.update': '编辑',
+  'pages.ArticleDetails.share.title': '分享',
+  'pages.ArticleDetails.share.message': '文章链接已复制到剪切板，快去分享给你的小伙伴吧。',
   'pages.ArticleDetails.report.title': '确认举报吗？',
   'pages.ArticleDetails.report.remark': '举报原因',
   'pages.ArticleDetails.report.submitButton': '举报',
