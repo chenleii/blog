@@ -123,8 +123,6 @@ public class Article implements DomainEventPublisher {
     public void like(Account account) {
         Preconditions.checkNotNull(account);
 
-        checkCanUpdate(account);
-
         boolean liked = isLiked(account);
         getLikes().add(ArticleLikedRecord.create(account, !liked));
 
@@ -171,8 +169,6 @@ public class Article implements DomainEventPublisher {
 
     public void report(Account account, String remark) {
         Preconditions.checkNotNull(account);
-
-        checkCanUpdate(account);
 
         getReports().add(ArticleReportedRecord.create(account, remark));
 
@@ -307,8 +303,6 @@ public class Article implements DomainEventPublisher {
         Preconditions.checkNotNull(commentId);
         Preconditions.checkNotNull(content);
 
-        checkCanUpdate(account);
-
         ArticleComment comment = ArticleComment.create(commentId, account.getId(), content);
 
         getComments().add(comment);
@@ -349,8 +343,6 @@ public class Article implements DomainEventPublisher {
         Preconditions.checkNotNull(commentId);
         Preconditions.checkNotNull(subCommentId);
         Preconditions.checkNotNull(content);
-
-        checkCanUpdate(account);
 
         ArticleSubComment articleSubComment = ArticleSubComment.create(subCommentId, replySubCommentId, account.getId(), content);
 
