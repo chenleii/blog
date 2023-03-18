@@ -178,12 +178,16 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
                 searchHits.getTotalHits(), list, resultLastValues);
     }
 
-    protected Pagination<ArticleRepresentation> batchPageQuery(PageQuery pageQuery, Long total, Long accountId, Collection<Long> ids) {
+    protected Pagination<ArticleRepresentation> batchPageQuery(PageQuery pageQuery, Long total, Long accountId, List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return Pagination.create(pageQuery);
         }
         List<ArticleDO> articleDOList = IterableUtils.toList(articleMongoRepository.findAllById(ids));
         List<ArticleRepresentation> list = ArticleResultConverter.MAPPER.listFromList(articleDOList);
+        // 保证按照批量查询ids的顺序返回
+        list = list.stream()
+                .sorted(Comparator.comparingInt(v -> ids.indexOf(v.getId())))
+                .collect(Collectors.toList());
         // 补全其他信息信息
         setOther(accountId, list);
         return Pagination.create(pageQuery,
