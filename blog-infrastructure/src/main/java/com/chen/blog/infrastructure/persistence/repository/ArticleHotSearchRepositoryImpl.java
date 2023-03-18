@@ -66,7 +66,7 @@ public class ArticleHotSearchRepositoryImpl implements ArticleHotSearchRepositor
 
         Page<ArticleHotSearchDO> page = articleHotSearchMongoRepository.findAll(
                 PageRequest.of(Math.toIntExact(pageQuery.getPageIndex()) - 1, Math.toIntExact(pageQuery.getPageSize()) + 1)
-                        .withSort(Sort.Direction.DESC, "updatedAt", "heat")
+                        .withSort(Sort.Direction.DESC, "heat", "updatedAt", "id")
         );
 
         Pagination<String> defaultPagination = Pagination.create(pageQuery);
