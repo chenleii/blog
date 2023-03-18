@@ -4,10 +4,13 @@ import com.chen.blog.core.sharedkernel.event.DomainEvent;
 import com.chen.blog.core.sharedkernel.mq.Message;
 import com.chen.blog.core.sharedkernel.serializer.Serializers;
 import com.chen.blog.core.sharedkernel.trace.Traces;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * @author cl
@@ -31,6 +34,33 @@ public final class Loggers {
     }
 
     /**
+     * 业务监控日志
+     */
+    public static class BizMonitorLogger {
+        private static final Logger logger = LoggerFactory.getLogger(BizMonitorLogger.class.getSimpleName());
+
+        public static void log(String tag, Object... args) {
+            if (ArrayUtils.isEmpty(args)) {
+                logger.info(
+                        DELIMITER
+                                + tag
+                                + DELIMITER
+                );
+                return;
+            }
+            logger.info(
+                    DELIMITER
+                            + tag
+                            + DELIMITER
+                            + Arrays.stream(args)
+                            .map(Object::toString)
+                            .collect(Collectors.joining(DELIMITER))
+                            + DELIMITER
+            );
+        }
+    }
+
+    /**
      * 事件总线日志记录器
      */
     public static class EventBusLogger {
@@ -38,19 +68,21 @@ public final class Loggers {
 
         public static void log(DomainEvent domainEvent) {
             logger.info(
-                    EventBusLogger.class.getSimpleName() +
-                            DELIMITER +
-                            Traces.getTraceId() +
-                            DELIMITER +
-                            getTimestamp() +
-                            DELIMITER +
-                            domainEvent.code() +
-                            DELIMITER +
-                            domainEvent.type() +
-                            DELIMITER +
-                            domainEvent.occurredAt().toEpochMilli() +
-                            DELIMITER +
-                            Serializers.json().toJsonString(domainEvent)
+                    DELIMITER
+                            + EventBusLogger.class.getSimpleName()
+                            + DELIMITER
+                            + Traces.getTraceId()
+                            + DELIMITER
+                            + getTimestamp()
+                            + DELIMITER
+                            + domainEvent.code()
+                            + DELIMITER
+                            + domainEvent.type()
+                            + DELIMITER
+                            + domainEvent.occurredAt().toEpochMilli()
+                            + DELIMITER
+                            + Serializers.json().toJsonString(domainEvent)
+                            + DELIMITER
             );
 
         }
@@ -64,24 +96,25 @@ public final class Loggers {
 
         public static void log(String topic, String tag, Message message) {
             logger.info(
-                    MessageQueueLogger.class.getSimpleName() +
-                            DELIMITER +
-                            Traces.getTraceId() +
-                            DELIMITER +
-                            getTimestamp() +
-                            DELIMITER +
-                            topic +
-                            DELIMITER +
-                            tag +
-                            DELIMITER +
-                            message.key() +
-                            DELIMITER +
-                            message.occurredAt().toEpochMilli() +
-                            DELIMITER +
-                            Serializers.json().toJsonString(message)
+                    DELIMITER
+                            + MessageQueueLogger.class.getSimpleName()
+                            + DELIMITER
+                            + Traces.getTraceId()
+                            + DELIMITER
+                            + getTimestamp()
+                            + DELIMITER
+                            + topic
+                            + DELIMITER
+                            + tag
+                            + DELIMITER
+                            + message.key()
+                            + DELIMITER
+                            + message.occurredAt().toEpochMilli()
+                            + DELIMITER
+                            + Serializers.json().toJsonString(message)
+                            + DELIMITER
             );
         }
     }
-
 
 }
