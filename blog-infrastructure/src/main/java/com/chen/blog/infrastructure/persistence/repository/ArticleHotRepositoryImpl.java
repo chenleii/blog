@@ -80,7 +80,7 @@ public class ArticleHotRepositoryImpl extends ArticleRepositoryImpl implements A
 
         Page<ArticleHotDO> page = articleHotMongoRepository.findAll(
                 PageRequest.of(Math.toIntExact(pageQuery.getPageIndex()) - 1, Math.toIntExact(pageQuery.getPageSize()) + 1)
-                        .withSort(Sort.Direction.DESC, "heat", "updatedAt")
+                        .withSort(Sort.Direction.DESC, "heat", "updatedAt", "id")
         );
 
         Pagination<ArticleRepresentation> defaultPagination = Pagination.create(pageQuery);
