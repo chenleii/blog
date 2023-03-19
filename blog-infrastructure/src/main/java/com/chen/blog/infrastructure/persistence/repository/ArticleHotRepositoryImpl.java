@@ -1,23 +1,26 @@
 package com.chen.blog.infrastructure.persistence.repository;
 
-import com.chen.blog.core.sharedkernel.cqrs.Pagination;
+import com.chen.blog.core.article.domain.model.ArticleId;
+import com.chen.blog.core.article.domain.model.cqrs.representation.ArticleRepresentation;
 import com.chen.blog.core.hot.doamin.model.ArticleHot;
 import com.chen.blog.core.hot.doamin.model.cqrs.query.ArticleHotPageQuery;
 import com.chen.blog.core.hot.doamin.model.repository.ArticleHotQueryRepository;
 import com.chen.blog.core.hot.doamin.model.repository.ArticleHotRepository;
-import com.chen.blog.core.article.domain.model.ArticleId;
-import com.chen.blog.core.article.domain.model.cqrs.representation.ArticleRepresentation;
+import com.chen.blog.core.sharedkernel.cqrs.Pagination;
 import com.chen.blog.infrastructure.persistence.repository.dataobject.ArticleHotDO;
 import com.chen.blog.infrastructure.persistence.repository.domainconverter.ArticleHotConverter;
 import com.chen.blog.infrastructure.persistence.repository.mongodb.ArticleHotMongoRepository;
 import com.chen.blog.infrastructure.persistence.repository.mongodb.ArticleMongoRepository;
 import com.google.common.base.Preconditions;
+import com.mongodb.client.MongoClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.MongoExpression;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationExpression;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,6 +40,7 @@ public class ArticleHotRepositoryImpl extends ArticleRepositoryImpl implements A
 
     @Inject
     private MongoTemplate mongoTemplate;
+    private MongoClient mongoClient;
 
     @Inject
     private ArticleHotMongoRepository articleHotMongoRepository;
@@ -78,25 +82,42 @@ public class ArticleHotRepositoryImpl extends ArticleRepositoryImpl implements A
     public Pagination<ArticleRepresentation> pageQuery(ArticleHotPageQuery pageQuery) {
         Preconditions.checkNotNull(pageQuery);
 
-        Page<ArticleHotDO> page = articleHotMongoRepository.findAll(
-                PageRequest.of(Math.toIntExact(pageQuery.getPageIndex()) - 1, Math.toIntExact(pageQuery.getPageSize()) + 1)
-                        .withSort(Sort.Direction.DESC, "heat", "updatedAt", "id")
-        );
+        // 查询总条数
+        final long count = articleHotMongoRepository.count();
+        // 查询当前页数据，按照日期+热度值+id排序。
+        final AggregationResults<ArticleHotDO> articleHotResult = mongoTemplate.aggregateAndReturn(ArticleHotDO.class)
+                .by(
+                        Aggregation.newAggregation(
+                                Aggregation.project(ArticleHotDO.class)
+                                        .andInclude("id", "heat")
+                                        .and(AggregationExpression.from(
+                                                MongoExpression.create(
+                                                        "$dateToString:{" +
+                                                                "format:'%Y%m%d'," +
+                                                                "date:{$add:[new Date(0),'$updatedAt']}," +
+                                                                "timezone: 'Asia/Shanghai'" +
+                                                                "}"))
+                                        ).as("date"),
+                                Aggregation.sort(Sort.by(Sort.Direction.DESC, "date", "heat", "id")),
+                                Aggregation.skip((pageQuery.getPageIndex() - 1) * pageQuery.getPageSize()),
+                                Aggregation.limit(pageQuery.getPageSize())
+                        )
+                ).all();
 
         Pagination<ArticleRepresentation> defaultPagination = Pagination.create(pageQuery);
-        if (Objects.isNull(page)) {
+        if (Objects.isNull(articleHotResult)) {
             return defaultPagination;
         }
 
-        List<ArticleHotDO> content = page.getContent();
-        if (CollectionUtils.isEmpty(content)) {
+        final List<ArticleHotDO> mappedResults = articleHotResult.getMappedResults();
+        if (CollectionUtils.isEmpty(mappedResults)) {
             return defaultPagination;
         }
 
-        List<Long> articleIdList = content.stream()
+        List<Long> articleIdList = mappedResults.stream()
                 .map(ArticleHotDO::getArticleId)
                 .collect(Collectors.toList());
 
-        return super.batchPageQuery(pageQuery, page.getTotalElements(), pageQuery.getCurrentAccountId(), articleIdList);
+        return super.batchPageQuery(pageQuery, count, pageQuery.getCurrentAccountId(), articleIdList);
     }
 }
