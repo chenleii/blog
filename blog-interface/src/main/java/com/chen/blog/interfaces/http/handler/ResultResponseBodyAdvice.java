@@ -1,6 +1,9 @@
-package com.chen.blog.interfaces.http.handle;
+package com.chen.blog.interfaces.http.handler;
 
-import com.chen.blog.interfaces.http.result.R;
+import com.chen.blog.core.sharedkernel.trace.Traces;
+import com.chen.blog.interfaces.http.handler.annotation.ResultWrapper;
+import com.chen.blog.interfaces.http.handler.error.Errors;
+import com.chen.blog.interfaces.http.handler.result.R;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.http.MediaType;
@@ -11,13 +14,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.util.Optional;
+
 /**
- * 包装返回结果为：
- * {
- * "code": "200",
- * "msg": "成功",
- * "data": {}
- * }
+ * 包装返回结果
  *
  * @author cl
  * @version 1.0
@@ -40,14 +40,18 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest serverHttpRequest,
                                   ServerHttpResponse serverHttpResponse) {
-        R<?> r = null;
-        if (body instanceof R) {
-            r= ((R<?>) body);
-        }else {
-            r = R.success(body);
-        }
 
-        return r;
+        return Optional.ofNullable(body)
+                .filter(R.class::isInstance)
+                .map(R.class::cast)
+                .orElse(
+                        R.builder()
+                                .traceId(Traces.getTraceId())
+                                .success(true)
+                                .errorCode(Errors.successfulErrorCode())
+                                .data(body)
+                                .build()
+                );
     }
 
 }

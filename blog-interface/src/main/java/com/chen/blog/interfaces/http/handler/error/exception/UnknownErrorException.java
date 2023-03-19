@@ -1,4 +1,4 @@
-package com.chen.blog.interfaces.http.handle;
+package com.chen.blog.interfaces.http.handler.error.exception;
 
 /**
  * @author cl

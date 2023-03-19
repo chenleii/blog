@@ -1,6 +1,6 @@
-package com.chen.blog.interfaces.http.handle;
+package com.chen.blog.interfaces.http.handler;
 
-import com.chen.blog.interfaces.http.result.ErrorResult;
+import com.chen.blog.interfaces.http.handler.error.exception.UnknownErrorException;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
@@ -60,7 +60,7 @@ public class ErrorController extends BasicErrorController {
     }
 
     @RequestMapping
-    public ErrorResult error(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void error(HttpServletRequest request, HttpServletResponse response) throws Exception {
         WebRequest webRequest = new ServletWebRequest(request);
         HttpStatus status = super.getStatus(request);
         String uri = Objects.toString(webRequest.getAttribute(RequestDispatcher.ERROR_REQUEST_URI, RequestAttributes.SCOPE_REQUEST), "");
