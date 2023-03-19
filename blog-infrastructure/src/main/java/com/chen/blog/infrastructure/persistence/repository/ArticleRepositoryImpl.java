@@ -93,9 +93,10 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
 
 
     @Override
-    public Pagination<ArticleRepresentation> pageQuery(ArticlePageQuery pageQuery) {
+    public Pagination<ArticleRepresentation> pageQuery(ArticlePageQuery pageQuery){
         Preconditions.checkNotNull(pageQuery);
 
+        // 获取查询参数
         String searchKeyword = pageQuery.getSearchKeyword();
         Long accountId = pageQuery.getAccountId();
         Set<ArticleStatus> statuses = pageQuery.getStatuses();
@@ -103,6 +104,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
         int pageIndex = Math.toIntExact(pageQuery.getPageIndex()) - 1;
         List<Object> lastValues = pageQuery.getLastValues();
 
+        // 构建查询条件
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         if (StringUtils.isNotBlank(searchKeyword)) {
             boolQueryBuilder.must(
@@ -110,7 +112,6 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
                             .should(QueryBuilders.matchQuery("title", searchKeyword))
                             .should(QueryBuilders.matchQuery("tags", searchKeyword))
                             .should(QueryBuilders.matchQuery("content", searchKeyword))
-
             );
         }
         if (Objects.nonNull(accountId)) {
@@ -120,6 +121,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
             boolQueryBuilder.must(QueryBuilders.termsQuery("status", pageQuery.getStatuses().stream().map(Enum::name).collect(Collectors.toList())));
         }
 
+        // 设置查询高亮
         HighlightBuilder highlightBuilder = new HighlightBuilder()
                 .field("title")
                 .field("tags")
@@ -130,6 +132,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
                 .withQuery(boolQueryBuilder)
                 .withHighlightBuilder(highlightBuilder);
 
+        // 分页查询，优先使用es的search after优化
         if (CollectionUtils.isNotEmpty(lastValues) && pageIndex > 0) {
             nativeSearchQueryBuilder
                     .withPageable(PageRequest.ofSize(pageSize))
@@ -139,14 +142,15 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
                     .withPageable(PageRequest.of(pageIndex, pageSize));
         }
 
+        // 排序，关键词搜索优先按相关性分数倒序
         if (StringUtils.isNotBlank(searchKeyword)) {
-            // 有搜索内容按相关性排序
+            // 有搜索关键词按相关性排序
             nativeSearchQueryBuilder
                     .withSorts(SortBuilders.scoreSort().order(SortOrder.DESC))
                     .withSorts(SortBuilders.fieldSort("updatedAt").order(SortOrder.DESC))
                     .withSorts(SortBuilders.fieldSort("id").order(SortOrder.DESC));
         } else {
-            // 没有搜索内容按更新时间排序
+            // 没有搜索关键词按更新时间排序
             nativeSearchQueryBuilder
                     .withSorts(SortBuilders.fieldSort("updatedAt").order(SortOrder.DESC))
                     .withSorts(SortBuilders.fieldSort("id").order(SortOrder.DESC));
@@ -157,6 +161,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
         List<SearchHit<ArticleDO>> searchHitList = searchHits.getSearchHits();
         List<ArticleDO> articleDOList = searchHitList.stream()
                 .peek((item) -> {
+                    // 将高亮字段设置回实体
                     List<String> titleList = item.getHighlightField("title");
                     if (CollectionUtils.isNotEmpty(titleList)) {
                         item.getContent().setTitle(titleList.get(0));
