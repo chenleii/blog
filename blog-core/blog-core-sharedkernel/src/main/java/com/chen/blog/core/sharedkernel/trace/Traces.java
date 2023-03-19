@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * 链路追踪
+ * 链路跟踪
  * <p>
  * 仅在当前线程处理，无线程安全问题。
  *
@@ -19,12 +19,12 @@ import java.util.UUID;
 public final class Traces {
 
     /**
-     * 链路追踪ID的KEY
+     * 链路跟踪ID的KEY
      */
     public static final String TID_KEY = "tid";
 
     /**
-     * 用于记录已开始链路追踪标识
+     * 用于记录已开始链路跟踪标识
      * <p>
      * 用来保证{@link Traces#startTrace(Object)}和{@link Traces#endTrace(Object)}幂等。
      */
@@ -40,7 +40,7 @@ public final class Traces {
     }
 
     /**
-     * 是否已开始链路追踪
+     * 是否已开始链路跟踪
      *
      * @return 是/否
      */
@@ -51,7 +51,7 @@ public final class Traces {
     /**
      * 开始链路跟踪
      *
-     * @param object 开始链路追踪的标识
+     * @param object 开始链路跟踪的标识
      */
     public static void startTrace(Object object) {
         startTrace(object, null);
@@ -60,8 +60,8 @@ public final class Traces {
     /**
      * 开始链路跟踪
      *
-     * @param object 开始链路追踪的标识
-     * @param tid    自定义的链路追踪ID（也可以是前一个调用方传递的链路追踪ID）
+     * @param object 开始链路跟踪的标识
+     * @param tid    自定义的链路跟踪ID（也可以是前一个调用方传递的链路跟踪ID）
      *               为null默认使用UUID
      */
     public static void startTrace(Object object, String tid) {
@@ -70,7 +70,7 @@ public final class Traces {
         tid = ObjectUtils.defaultIfNull(tid, UUID.randomUUID().toString());
 
         if (isAlreadyTrace()) {
-            // 已经开始链路追踪直接返回
+            // 已经开始链路跟踪直接返回
             return;
         }
         // 设置标识
@@ -80,19 +80,19 @@ public final class Traces {
     }
 
     /**
-     * 结束链路追踪
+     * 结束链路跟踪
      *
-     * @param object 开始链路追踪的标识
+     * @param object 开始链路跟踪的标识
      */
     public static void endTrace(Object object) {
         Preconditions.checkNotNull(object);
 
         if (!isAlreadyTrace()) {
-            // 未开始链路追踪直接返回
+            // 未开始链路跟踪直接返回
             return;
         }
 
-        // 开始链路追踪的标识，才能结束。
+        // 开始链路跟踪的标识，才能结束。
         Object currentObject = OBJECT_THREAD_LOCAL.get();
         if (!Objects.equals(currentObject, object)) {
             return;

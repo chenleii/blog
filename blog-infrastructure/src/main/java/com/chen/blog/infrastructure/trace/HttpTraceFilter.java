@@ -20,11 +20,11 @@ public class HttpTraceFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            // 获取调用方的链路追踪ID
+            // 获取调用方的链路跟踪ID
             String tid = request.getHeader(TraceConstant.HTTP_TRACE_HEADER_NAME);
             Traces.startTrace(this, tid);
 
-            // response设置返回链路追踪ID
+            // response设置返回链路跟踪ID
             response.setHeader(TraceConstant.HTTP_TRACE_HEADER_NAME, Traces.getTraceId());
             filterChain.doFilter(request, response);
         } finally {

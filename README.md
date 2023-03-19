@@ -83,7 +83,7 @@ DDD + CQRS + 事件总线
 |       +-port: 外部端口相关
 |       +-event: 领域事件
 |       +-mq: 消息队列
-|       +-trace: 链路追踪
+|       +-trace: 链路跟踪
 |       +-logger: 通用日志相关如事件溯源日志
 |       +-lock: 锁抽象
 |       +-specification: 业务规则抽象
