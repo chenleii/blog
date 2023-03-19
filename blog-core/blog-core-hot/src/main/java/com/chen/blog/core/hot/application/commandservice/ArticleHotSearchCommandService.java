@@ -10,6 +10,8 @@ import com.chen.blog.core.sharedkernel.cqrs.annotation.CommandService;
 import com.chen.blog.core.sharedkernel.lock.Locks;
 import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
@@ -40,6 +42,7 @@ public class ArticleHotSearchCommandService {
     @Inject
     private AccountRepository accountRepository;
 
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public void hotSearch(@Valid ArticleSearchCommand command) {
         String keywords = command.getKeywords();

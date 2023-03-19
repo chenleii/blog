@@ -48,7 +48,7 @@ public class ArticleCommandService {
     private AccountCommandService accountCommandService;
 
 
-    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 5, backoff = @Backoff(delay = 100))
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class, noRollbackFor = ArticleRiskControlException.class)
     public Long save(@Valid ArticleSaveAndPublishCommand command) {
         AccountId accountId = AccountId.of(command.getAccountId());
@@ -68,7 +68,7 @@ public class ArticleCommandService {
         return articleId.getId();
     }
 
-    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 5, backoff = @Backoff(delay = 100))
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class, noRollbackFor = ArticleRiskControlException.class)
     public Long update(@Valid ArticleUpdateAndPublishCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
@@ -90,7 +90,7 @@ public class ArticleCommandService {
         return articleId.getId();
     }
 
-    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 5, backoff = @Backoff(delay = 100))
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public int like(@Valid ArticleLikeCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
@@ -106,7 +106,7 @@ public class ArticleCommandService {
         return article.likeNumber();
     }
 
-    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 5, backoff = @Backoff(delay = 100))
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public int report(@Valid ArticleReportCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
@@ -123,7 +123,7 @@ public class ArticleCommandService {
         return article.reportNumber();
     }
 
-    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 5, backoff = @Backoff(delay = 100))
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public Long comment(@Valid ArticleCommentCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
@@ -141,7 +141,7 @@ public class ArticleCommandService {
         return commentId.getId();
     }
 
-    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 5, backoff = @Backoff(delay = 100))
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public Long replySubComment(@Valid ArticleReplySubCommentCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());

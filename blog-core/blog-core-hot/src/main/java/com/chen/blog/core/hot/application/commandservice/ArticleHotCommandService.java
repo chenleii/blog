@@ -11,6 +11,8 @@ import com.chen.blog.core.sharedkernel.cqrs.annotation.CommandService;
 import com.chen.blog.core.sharedkernel.lock.Locks;
 import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
@@ -43,6 +45,7 @@ public class ArticleHotCommandService {
 
 
 
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public void access(@Valid ArticleAccessCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
@@ -51,6 +54,7 @@ public class ArticleHotCommandService {
         handle(articleId, (ArticleHot::access));
     }
 
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public void like(@Valid ArticleLikeCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
@@ -60,6 +64,7 @@ public class ArticleHotCommandService {
         handle(articleId, (ArticleHot::like));
     }
 
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public void dislike(@Valid ArticleDislikeCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
@@ -69,6 +74,7 @@ public class ArticleHotCommandService {
         handle(articleId, (ArticleHot::dislike));
     }
 
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public void report(@Valid ArticleReportCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
@@ -77,6 +83,7 @@ public class ArticleHotCommandService {
         handle(articleId, (ArticleHot::report));
     }
 
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public void comment(@Valid ArticleCommentCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
@@ -108,6 +115,7 @@ public class ArticleHotCommandService {
         }
     }
 
+    @Retryable(exceptionExpression = "message.contains('WriteConflict')", maxAttempts = 10, backoff = @Backoff(delay = 1))
     @Transactional(rollbackFor = Exception.class)
     public void delete(@Valid ArticleHotDeleteCommand command) {
         ArticleId articleId = ArticleId.of(command.getArticleId());
