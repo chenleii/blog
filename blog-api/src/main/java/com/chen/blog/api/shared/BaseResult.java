@@ -1,8 +1,10 @@
-package com.chen.blog.client;
+package com.chen.blog.api.shared;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * @author cl
@@ -11,8 +13,8 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString(callSuper = true)
-public abstract class BaseResult {
+@ToString
+public abstract class BaseResult implements Serializable {
 
     /**
      * 是否成功

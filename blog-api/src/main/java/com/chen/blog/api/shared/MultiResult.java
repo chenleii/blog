@@ -1,4 +1,4 @@
-package com.chen.blog.client;
+package com.chen.blog.api.shared;
 
 import lombok.Getter;
 import lombok.Setter;

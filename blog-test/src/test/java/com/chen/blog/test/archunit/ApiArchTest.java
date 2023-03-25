@@ -8,8 +8,8 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
  * @author cl
  * @since  2020/07/23
  */
-@AnalyzeClasses(packages = "com.chen.blog.client")
-public class ClientArchTest {
+@AnalyzeClasses(packages = "com.chen.blog.api")
+public class ApiArchTest {
 
 
 }
