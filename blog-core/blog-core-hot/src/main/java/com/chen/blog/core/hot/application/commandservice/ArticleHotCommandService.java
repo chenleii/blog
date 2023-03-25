@@ -16,9 +16,9 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.Valid;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.validation.Valid;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.function.Consumer;

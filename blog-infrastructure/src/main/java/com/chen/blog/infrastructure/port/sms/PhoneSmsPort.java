@@ -2,7 +2,7 @@ package com.chen.blog.infrastructure.port.sms;
 
 import com.chen.blog.core.account.port.SmsPort;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 /**
  * @author cl

@@ -1,7 +1,7 @@
 package com.chen.blog.core.sharedkernel.lock;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * @author cl

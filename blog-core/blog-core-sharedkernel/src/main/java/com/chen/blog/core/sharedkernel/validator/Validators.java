@@ -1,8 +1,8 @@
 package com.chen.blog.core.sharedkernel.validator;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.Validator;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.validation.Validator;
 
 /**
  * @author cl

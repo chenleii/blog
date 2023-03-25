@@ -28,11 +28,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.util.IllegalFormatException;
 import java.util.Optional;
 import java.util.Set;
@@ -126,7 +126,7 @@ public class ExceptionHandler {
 
     /**
      * 参数验证失败
-     * controller加注解{@link javax.validation.Valid} {@link org.springframework.validation.annotation.Validated}的情况
+     * controller加注解{@link jakarta.validation.Valid} {@link org.springframework.validation.annotation.Validated}的情况
      */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @org.springframework.web.bind.annotation.ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})

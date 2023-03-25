@@ -4,8 +4,8 @@ package com.chen.blog.core.sharedkernel.serializer;
 import com.chen.blog.core.sharedkernel.serializer.json.JacksonJsonSerializer;
 import com.chen.blog.core.sharedkernel.serializer.json.JsonSerializer;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * @author cl

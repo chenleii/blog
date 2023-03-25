@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.time.Duration;
 import java.util.Base64;
 

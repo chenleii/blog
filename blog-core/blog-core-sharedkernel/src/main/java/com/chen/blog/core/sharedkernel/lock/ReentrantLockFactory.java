@@ -1,6 +1,6 @@
 package com.chen.blog.core.sharedkernel.lock;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;

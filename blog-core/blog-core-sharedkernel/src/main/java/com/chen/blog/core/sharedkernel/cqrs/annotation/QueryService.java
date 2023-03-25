@@ -2,7 +2,7 @@ package com.chen.blog.core.sharedkernel.cqrs.annotation;
 
 import com.chen.blog.core.sharedkernel.ddd.annotation.ApplicationService;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.lang.annotation.*;
 
 /**

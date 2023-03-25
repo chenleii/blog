@@ -11,7 +11,7 @@ import org.lionsoul.ip2region.xdb.Searcher;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.io.IOException;
 
 /**

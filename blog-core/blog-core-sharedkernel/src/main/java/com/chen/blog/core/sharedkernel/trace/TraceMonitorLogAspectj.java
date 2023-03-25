@@ -11,7 +11,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.Objects;
 import java.util.Optional;
 

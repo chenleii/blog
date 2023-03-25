@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * @author cl

@@ -4,7 +4,7 @@ import com.chen.blog.core.article.domain.model.Article;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.Objects;
 
 import static com.chen.blog.core.article.domain.model.riskcontrol.RiskControlConstants.SENSITIVE_WORDS;

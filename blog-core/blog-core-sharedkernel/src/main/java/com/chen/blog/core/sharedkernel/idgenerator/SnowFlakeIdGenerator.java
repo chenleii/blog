@@ -2,7 +2,7 @@ package com.chen.blog.core.sharedkernel.idgenerator;
 
 import lombok.SneakyThrows;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.util.Objects;

@@ -3,7 +3,7 @@ package com.chen.blog.test.bdd.stepdefinitions;
 import lombok.Getter;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * @author cl

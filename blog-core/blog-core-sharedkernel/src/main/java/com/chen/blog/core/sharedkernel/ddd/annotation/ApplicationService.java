@@ -1,6 +1,6 @@
 package com.chen.blog.core.sharedkernel.ddd.annotation;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.lang.annotation.*;
 
 /**

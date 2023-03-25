@@ -3,7 +3,7 @@ package com.chen.blog.infrastructure.persistence.repository.elasticsearch;
 import com.chen.blog.infrastructure.persistence.repository.dataobject.AccountDO;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 /**
  * @author cl

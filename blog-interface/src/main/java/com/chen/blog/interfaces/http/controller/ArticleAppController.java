@@ -27,8 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
-import javax.validation.Valid;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 
 /**
  * @author cl

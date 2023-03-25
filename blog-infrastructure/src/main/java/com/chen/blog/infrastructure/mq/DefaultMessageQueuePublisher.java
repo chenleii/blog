@@ -4,7 +4,7 @@ import com.chen.blog.core.sharedkernel.mq.Message;
 import com.chen.blog.core.sharedkernel.mq.MessageQueuePublisher;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 /**
  * @author cl

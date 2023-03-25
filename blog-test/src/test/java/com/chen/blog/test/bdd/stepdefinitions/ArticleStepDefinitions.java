@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Objects;
 
 /**
@@ -110,7 +110,7 @@ public class ArticleStepDefinitions extends SharedStepDefinitions {
         dto.setIsPublish(isPublish);
 
         final MvcResult mvcResult = mockMvc.perform(
-                        MockMvcRequestBuilders.post("/api/blog/article/")
+                        MockMvcRequestBuilders.post("/api/blog/article")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -151,7 +151,7 @@ public class ArticleStepDefinitions extends SharedStepDefinitions {
         Thread.sleep(2000);
 
         final MvcResult mvcResult = mockMvc.perform(
-                        MockMvcRequestBuilders.get("/api/blog/article/")
+                        MockMvcRequestBuilders.get("/api/blog/article")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                                 .param("pageIndex", "1")
@@ -203,7 +203,7 @@ public class ArticleStepDefinitions extends SharedStepDefinitions {
         dto.setIsPublish(isPublish);
 
         final MvcResult mvcResult = mockMvc.perform(
-                        MockMvcRequestBuilders.put("/api/blog/article/")
+                        MockMvcRequestBuilders.put("/api/blog/article")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                                 .contentType(MediaType.APPLICATION_JSON)

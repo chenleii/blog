@@ -9,8 +9,8 @@ import com.chen.blog.core.sharedkernel.ddd.annotation.DomainService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.util.Objects;
 
 /**

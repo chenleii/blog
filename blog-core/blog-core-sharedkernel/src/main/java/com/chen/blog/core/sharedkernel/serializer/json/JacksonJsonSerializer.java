@@ -11,7 +11,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.SneakyThrows;
 import org.zalando.jackson.datatype.money.MoneyModule;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.io.IOException;
 import java.util.List;
 

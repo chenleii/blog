@@ -2,7 +2,7 @@ package com.chen.blog.test.bdd.stepdefinitions;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 /**
  * @author cl

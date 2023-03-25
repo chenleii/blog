@@ -4,8 +4,8 @@ import com.chen.blog.core.sharedkernel.event.DomainEvent;
 import com.chen.blog.core.sharedkernel.event.EventPublisher;
 import org.springframework.context.ApplicationEventPublisher;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * @author cl

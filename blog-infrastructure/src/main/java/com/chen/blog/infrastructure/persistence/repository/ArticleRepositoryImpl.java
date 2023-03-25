@@ -1,14 +1,20 @@
 package com.chen.blog.infrastructure.persistence.repository;
 
+import co.elastic.clients.elasticsearch._types.*;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.chen.blog.core.account.domain.model.cqrs.representation.AccountRepresentation;
-import com.chen.blog.core.article.domain.model.cqrs.representation.ArticleRepresentation;
-import com.chen.blog.core.sharedkernel.cqrs.PageQuery;
-import com.chen.blog.core.sharedkernel.cqrs.Pagination;
-import com.chen.blog.core.article.domain.model.*;
+import com.chen.blog.core.article.domain.model.Article;
+import com.chen.blog.core.article.domain.model.ArticleId;
+import com.chen.blog.core.article.domain.model.ArticleStatus;
 import com.chen.blog.core.article.domain.model.cqrs.query.ArticlePageQuery;
 import com.chen.blog.core.article.domain.model.cqrs.query.ArticleQuery;
+import com.chen.blog.core.article.domain.model.cqrs.representation.ArticleRepresentation;
 import com.chen.blog.core.article.domain.model.repository.ArticleQueryRepository;
 import com.chen.blog.core.article.domain.model.repository.ArticleRepository;
+import com.chen.blog.core.sharedkernel.cqrs.PageQuery;
+import com.chen.blog.core.sharedkernel.cqrs.Pagination;
 import com.chen.blog.infrastructure.persistence.repository.dataobject.AccountDO;
 import com.chen.blog.infrastructure.persistence.repository.dataobject.ArticleDO;
 import com.chen.blog.infrastructure.persistence.repository.domainconverter.ArticleConverter;
@@ -22,22 +28,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.client.elc.NativeQuery;
+import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
+import org.springframework.data.elasticsearch.client.elc.QueryBuilders;
+import org.springframework.data.elasticsearch.client.erhlc.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.client.erhlc.HighlightQueryBuilder;
+import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQuery;
+import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.HighlightQuery;
+import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightParameters;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,7 +68,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
     public static final String HIGHLIGHT_PRE = "<font color=\"red\">";
     public static final String HIGHLIGHT_POST = "</font>";
     @Inject
-    private ElasticsearchRestTemplate elasticsearchRestTemplate;
+    private ElasticsearchTemplate elasticsearchTemplate;
     @Inject
     private ArticleElasticsearchRepository articleElasticsearchRepository;
 
@@ -93,7 +104,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
 
 
     @Override
-    public Pagination<ArticleRepresentation> pageQuery(ArticlePageQuery pageQuery){
+    public Pagination<ArticleRepresentation> pageQuery(ArticlePageQuery pageQuery) {
         Preconditions.checkNotNull(pageQuery);
 
         // 获取查询参数
@@ -104,59 +115,99 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
         int pageIndex = Math.toIntExact(pageQuery.getPageIndex()) - 1;
         List<Object> lastValues = pageQuery.getLastValues();
 
-        // 构建查询条件
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        if (StringUtils.isNotBlank(searchKeyword)) {
-            boolQueryBuilder.must(
-                    QueryBuilders.boolQuery()
-                            .should(QueryBuilders.matchQuery("title", searchKeyword))
-                            .should(QueryBuilders.matchQuery("tags", searchKeyword))
-                            .should(QueryBuilders.matchQuery("content", searchKeyword))
-            );
-        }
-        if (Objects.nonNull(accountId)) {
-            boolQueryBuilder.must(QueryBuilders.matchQuery("accountId", accountId));
-        }
-        if (CollectionUtils.isNotEmpty(statuses)) {
-            boolQueryBuilder.must(QueryBuilders.termsQuery("status", pageQuery.getStatuses().stream().map(Enum::name).collect(Collectors.toList())));
-        }
+        NativeQueryBuilder nativeQueryBuilder = NativeQuery.builder()
+                // 查询条件
+                .withQuery((queryBuilder) -> {
+                    queryBuilder.bool((boolQueryBuilder) -> {
+                        if (StringUtils.isNotBlank(searchKeyword)) {
+                            boolQueryBuilder.must((mustBuilder) ->
+                                    mustBuilder.bool((keywordBoolQuerBuilder) ->
+                                            keywordBoolQuerBuilder.should((keywordBoolShouldQuerBuilder) ->
+                                                    keywordBoolShouldQuerBuilder.match((matchBuilder ->
+                                                            matchBuilder.field("title").query(searchKeyword)))
+                                            ).should((keywordBoolShouldQuerBuilder) ->
+                                                    keywordBoolShouldQuerBuilder.match((matchBuilder ->
+                                                            matchBuilder.field("tags").query(searchKeyword)))
+                                            ).should((keywordBoolShouldQuerBuilder) ->
+                                                    keywordBoolShouldQuerBuilder.match((matchBuilder ->
+                                                            matchBuilder.field("content").query(searchKeyword)))
+                                            )
+                                    )
+                            );
+                        }
+                        if (Objects.nonNull(accountId)) {
+                            boolQueryBuilder.must((mustBuilder) ->
+                                    mustBuilder.match((matchBuilder) ->
+                                            matchBuilder.field("accountId").query(accountId)
+                                    )
+                            );
+                        }
+                        if (CollectionUtils.isNotEmpty(statuses)) {
+                            boolQueryBuilder.must((mustBuilder) ->
+                                    mustBuilder.terms((matchBuilder) ->
+                                            matchBuilder.field("status").terms((termsQueryField) ->
+                                                    termsQueryField.value(statuses.stream()
+                                                            .map(ArticleStatus::name)
+                                                            .map(FieldValue::of)
+                                                            .collect(Collectors.toList()))
+                                            )
+                                    )
+                            );
+                        }
 
-        // 设置查询高亮
-        HighlightBuilder highlightBuilder = new HighlightBuilder()
-                .field("title")
-                .field("tags")
-                .field("content")
-                .preTags(HIGHLIGHT_PRE)
-                .postTags(HIGHLIGHT_POST);
-        NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
-                .withQuery(boolQueryBuilder)
-                .withHighlightBuilder(highlightBuilder);
+                        return boolQueryBuilder;
+                    });
+                    return queryBuilder;
+                })
+                // 设置查询高亮
+                .withHighlightQuery(
+                        new HighlightQuery(
+                                new Highlight(
+                                        HighlightParameters.builder()
+                                                .withPreTags(HIGHLIGHT_PRE)
+                                                .withPostTags(HIGHLIGHT_POST)
+                                                .build(),
+                                        List.of(
+                                                new HighlightField("title"),
+                                                new HighlightField("tags"),
+                                                new HighlightField("content")
+                                        )
+                                ),
+                                ArticleDO.class
+                        )
+                );
 
         // 分页查询，优先使用es的search after优化
         if (CollectionUtils.isNotEmpty(lastValues) && pageIndex > 0) {
-            nativeSearchQueryBuilder
+            nativeQueryBuilder
                     .withPageable(PageRequest.ofSize(pageSize))
                     .withSearchAfter(lastValues);
         } else {
-            nativeSearchQueryBuilder
+            nativeQueryBuilder
                     .withPageable(PageRequest.of(pageIndex, pageSize));
         }
 
         // 排序，关键词搜索优先按相关性分数倒序
         if (StringUtils.isNotBlank(searchKeyword)) {
-            // 有搜索关键词按相关性排序
-            nativeSearchQueryBuilder
-                    .withSorts(SortBuilders.scoreSort().order(SortOrder.DESC))
-                    .withSorts(SortBuilders.fieldSort("updatedAt").order(SortOrder.DESC))
-                    .withSorts(SortBuilders.fieldSort("id").order(SortOrder.DESC));
-        } else {
-            // 没有搜索关键词按更新时间排序
-            nativeSearchQueryBuilder
-                    .withSorts(SortBuilders.fieldSort("updatedAt").order(SortOrder.DESC))
-                    .withSorts(SortBuilders.fieldSort("id").order(SortOrder.DESC));
+            nativeQueryBuilder.withSort((sortOptionsBuilder) ->
+                    sortOptionsBuilder.score((scoreBuilder) ->
+                            scoreBuilder.order(SortOrder.Desc)
+                    )
+            );
         }
-        NativeSearchQuery searchQuery = nativeSearchQueryBuilder.build();
-        SearchHits<ArticleDO> searchHits = elasticsearchRestTemplate.search(searchQuery, ArticleDO.class);
+        nativeQueryBuilder.withSort((sortOptionsBuilder) ->
+                sortOptionsBuilder.field((filedBuilder) ->
+                        filedBuilder.field("updatedAt").order(SortOrder.Desc)
+                )
+        );
+        nativeQueryBuilder.withSort((sortOptionsBuilder) ->
+                sortOptionsBuilder.field((filedBuilder) ->
+                        filedBuilder.field("id").order(SortOrder.Desc)
+                )
+        );
+
+        NativeQuery nativeQuery = nativeQueryBuilder.build();
+        SearchHits<ArticleDO> searchHits = elasticsearchTemplate.search(nativeQuery, ArticleDO.class);
 
         List<SearchHit<ArticleDO>> searchHitList = searchHits.getSearchHits();
         List<ArticleDO> articleDOList = searchHitList.stream()

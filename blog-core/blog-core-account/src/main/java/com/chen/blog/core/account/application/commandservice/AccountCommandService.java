@@ -9,13 +9,14 @@ import com.chen.blog.core.account.domain.model.service.AccountService;
 import com.chen.blog.core.account.domain.model.service.PhoneVerificationCodeService;
 import com.chen.blog.core.sharedkernel.cqrs.annotation.CommandService;
 import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.Valid;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 
 /**
  * @author cl

@@ -2,8 +2,8 @@ package com.chen.blog.core.sharedkernel.event;
 
 import com.chen.blog.core.sharedkernel.logger.Loggers;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.util.Objects;
 
 /**

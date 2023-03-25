@@ -3,7 +3,7 @@ package com.chen.blog.core.sharedkernel.cqrs;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 /**

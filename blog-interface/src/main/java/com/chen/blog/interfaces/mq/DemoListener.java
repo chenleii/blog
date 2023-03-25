@@ -2,7 +2,7 @@ package com.chen.blog.interfaces.mq;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 
 /**

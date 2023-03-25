@@ -12,8 +12,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import java.util.Optional;
 

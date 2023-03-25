@@ -3,7 +3,7 @@ package com.chen.blog.core.article.domain.model;
 
 import com.chen.blog.core.sharedkernel.ddd.annotation.DomainFactory;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 /**
  * @author cl
