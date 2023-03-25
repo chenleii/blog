@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
-import jakarta.inject.Named;
 import java.time.Duration;
 import java.util.Base64;
 
@@ -19,7 +18,6 @@ import java.util.Base64;
 @Getter
 @Setter
 @ToString
-@Named
 @EnableConfigurationProperties(ApiProperties.class)
 @ConfigurationProperties(prefix = "api")
 public class ApiProperties {
@@ -35,6 +33,12 @@ public class ApiProperties {
      */
     @NestedConfigurationProperty
     private JwtProperties jwt = new JwtProperties();
+
+    /**
+     * api的异常处理器配置
+     */
+    @NestedConfigurationProperty
+    private ExceptionHandlerProperties exceptionHandler = new ExceptionHandlerProperties();
 
 
     @Getter
@@ -80,4 +84,28 @@ public class ApiProperties {
             this.secretKeyBytes = Base64.getDecoder().decode(secretKey);
         }
     }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class ExceptionHandlerProperties {
+
+        /**
+         * 错误堆栈跟踪
+         */
+        @NestedConfigurationProperty
+        private ErrorStackTraceProperties errorStackTrace;
+
+        @Getter
+        @Setter
+        @ToString
+        public static class ErrorStackTraceProperties {
+
+            /**
+             * 是否开启
+             */
+            private boolean enabled;
+        }
+    }
+
 }

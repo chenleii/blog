@@ -1,6 +1,7 @@
 package com.chen.blog.interfaces.http.handler;
 
 
+import com.chen.blog.configuration.properties.ApiProperties;
 import com.chen.blog.core.sharedkernel.exception.DomainRuntimeException;
 import com.chen.blog.core.sharedkernel.exception.NotExistException;
 import com.chen.blog.core.sharedkernel.logger.Loggers;
@@ -49,8 +50,8 @@ import java.util.function.Function;
 @ControllerAdvice
 public class ExceptionHandler {
 
-    @Value("${api.exception-handler.error-stack-trace.enabled:false}")
-    private boolean errorStackTraceEnabled;
+    @Inject
+    private ApiProperties apiProperties;
 
     @Inject
     private HttpServletRequest request;
@@ -235,7 +236,7 @@ public class ExceptionHandler {
                 .success(false)
                 .errorCode(Errors.toErrorCode(exception))
                 .errorMessage(StringUtils.isNotBlank(errorMessage) ? errorMessage : exception.getLocalizedMessage())
-                .errorStackTrace(errorStackTraceEnabled ? ExceptionUtils.getStackTrace(exception) : null)
+                .errorStackTrace(apiProperties.getExceptionHandler().getErrorStackTrace().isEnabled() ? ExceptionUtils.getStackTrace(exception) : null)
                 .error(null)
                 .data(null)
                 .build();

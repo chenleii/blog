@@ -36,8 +36,7 @@
         <mybatis-plus-generator.version>3.5.2</mybatis-plus-generator.version>
         <velocity-engine-core.version>2.0</velocity-engine-core.version>
 
-        <knife4j.version>3.0.3</knife4j.version>
-        <springdoc-openapi.version>1.6.11</springdoc-openapi.version>
+        <knife4j-openapi3-jakarta.version>4.1.0</knife4j-openapi3-jakarta.version>
 
         <modelmapper.version>2.3.5</modelmapper.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>
@@ -224,18 +223,8 @@
 
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-springdoc-ui</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
-                <version>${springdoc-openapi.version}</version>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j-openapi3-jakarta.version}</version>
             </dependency>
 
 
