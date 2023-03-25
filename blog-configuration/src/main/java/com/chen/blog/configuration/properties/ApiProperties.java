@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
 import java.util.Base64;
@@ -18,6 +19,7 @@ import java.util.Base64;
 @Getter
 @Setter
 @ToString
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ApiProperties.class)
 @ConfigurationProperties(prefix = "api")
 public class ApiProperties {
@@ -94,7 +96,7 @@ public class ApiProperties {
          * 错误堆栈跟踪
          */
         @NestedConfigurationProperty
-        private ErrorStackTraceProperties errorStackTrace;
+        private ErrorStackTraceProperties errorStackTrace = new ErrorStackTraceProperties();
 
         @Getter
         @Setter
