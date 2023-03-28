@@ -1,4 +1,4 @@
-package com.chen.blog.test.bdd.stepdefinitions.configuration;
+package com.chen.blog.test.bdd.configuration;
 
 import com.chen.blog.test.TestApplication;
 import io.cucumber.spring.CucumberContextConfiguration;

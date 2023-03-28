@@ -1,4 +1,4 @@
-package com.chen.blog.test.bdd.stepdefinitions.configuration;
+package com.chen.blog.test.bdd.configuration;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
