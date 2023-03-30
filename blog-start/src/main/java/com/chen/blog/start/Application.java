@@ -4,20 +4,25 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.ImportRuntimeHints;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+
 /**
  * Spring Boot应用的入口类
  *
  * @author cl
  */
+@ImportRuntimeHints(BlogRuntimeHintsRegistrar.class)
 @EnableScheduling
 @EnableRetry
 @EnableAsync
+@EnableAspectJAutoProxy
 @SpringBootApplication(
         scanBasePackages = {"com.chen.blog"}
 )

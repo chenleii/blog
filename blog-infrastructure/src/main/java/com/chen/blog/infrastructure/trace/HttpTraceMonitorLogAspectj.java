@@ -2,6 +2,8 @@ package com.chen.blog.infrastructure.trace;
 
 import com.chen.blog.core.sharedkernel.trace.TraceConstant;
 import com.chen.blog.core.sharedkernel.trace.Traces;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,8 +14,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.inject.Named;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -30,15 +30,17 @@ public class HttpTraceMonitorLogAspectj {
     private final Logger logger = LoggerFactory.getLogger(TraceConstant.DEFAULT_HTTP_TRACE_MONITOR_LOGGER_NAME);
 
 
-    @Around("@within(org.springframework.stereotype.Controller) " +
+    @Around("(@within(com.chen.blog.core.sharedkernel.trace.Trace) " +
+            "|| @annotation(com.chen.blog.core.sharedkernel.trace.Trace))" +
+            "&& (@within(org.springframework.stereotype.Controller) " +
             "|| @within(org.springframework.web.bind.annotation.RestController) " +
             "|| @within(org.springframework.web.bind.annotation.RequestMapping) " +
-            "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)"+
-            "|| @annotation(org.springframework.web.bind.annotation.GetMapping)"+
-            "|| @annotation(org.springframework.web.bind.annotation.PostMapping)"+
-            "|| @annotation(org.springframework.web.bind.annotation.PutMapping)"+
-            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)"+
-            "|| @annotation(org.springframework.web.bind.annotation.PatchMapping)"
+            "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.GetMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PatchMapping))"
     )
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         HttpServletRequest request = resolveRequest();

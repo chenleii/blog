@@ -2,6 +2,7 @@ package com.chen.blog.infrastructure.persistence.repository;
 
 import com.chen.blog.core.article.domain.model.ArticleId;
 import com.chen.blog.core.article.domain.model.cqrs.representation.ArticleRepresentation;
+import com.chen.blog.core.article.domain.model.repository.ArticleQueryRepository;
 import com.chen.blog.core.hot.doamin.model.ArticleHot;
 import com.chen.blog.core.hot.doamin.model.cqrs.query.ArticleHotPageQuery;
 import com.chen.blog.core.hot.doamin.model.repository.ArticleHotQueryRepository;
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
  */
 @Named
 @Slf4j
-public class ArticleHotRepositoryImpl extends ArticleRepositoryImpl implements ArticleHotRepository, ArticleHotQueryRepository {
+public class ArticleHotRepositoryImpl implements ArticleHotRepository, ArticleHotQueryRepository {
 
     @Inject
     private MongoTemplate mongoTemplate;
@@ -48,6 +49,8 @@ public class ArticleHotRepositoryImpl extends ArticleRepositoryImpl implements A
     @Inject
     private ArticleMongoRepository articleMongoRepository;
 
+    @Inject
+    private ArticleQueryRepository articleQueryRepository;
 
     @Override
     public ArticleHot getByArticleId(ArticleId articleId) {
@@ -118,6 +121,7 @@ public class ArticleHotRepositoryImpl extends ArticleRepositoryImpl implements A
                 .map(ArticleHotDO::getArticleId)
                 .collect(Collectors.toList());
 
-        return super.batchPageQuery(pageQuery, count, pageQuery.getCurrentAccountId(), articleIdList);
+        List<ArticleRepresentation> articleRepresentations = articleQueryRepository.batchQuery(articleIdList, pageQuery.getCurrentAccountId());
+        return Pagination.create(pageQuery, count, articleRepresentations);
     }
 }

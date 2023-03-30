@@ -6,6 +6,8 @@ import com.chen.blog.core.article.domain.model.cqrs.query.ArticlePageQuery;
 import com.chen.blog.core.article.domain.model.cqrs.query.ArticleQuery;
 import com.chen.blog.core.sharedkernel.cqrs.annotation.QueryRepository;
 
+import java.util.List;
+
 /**
  * @author cl
  * @version 1.0
@@ -19,5 +21,7 @@ public interface ArticleQueryRepository {
 
 
     ArticleRepresentation queryById(ArticleQuery query);
+
+    List<ArticleRepresentation> batchQuery(List<Long> articleIds, Long queryAccountId);
 
 }

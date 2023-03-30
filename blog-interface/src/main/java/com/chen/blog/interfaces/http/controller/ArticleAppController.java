@@ -104,7 +104,7 @@ public class ArticleAppController extends AbstractAppController {
 
     @Operation(summary = "分页查询")
     @GetMapping("")
-    public Pagination<ArticleRepresentation> pageQuery(ArticlePageQueryInputDTO dto) {
+    public Pagination<ArticleRepresentation> pageQuery(@ModelAttribute ArticlePageQueryInputDTO dto) {
         boolean isLoggedIn = super.isLoggedIn();
         Long currentLoggedInAccountId = isLoggedIn ? super.getCurrentLoggedInAccountId() : null;
 
@@ -132,7 +132,7 @@ public class ArticleAppController extends AbstractAppController {
 
     @Operation(summary = "账户的文章分页搜索")
     @GetMapping("/account")
-    public Pagination<ArticleRepresentation> accountPageQuery(ArticleAccountPageQueryInputDTO dto) {
+    public Pagination<ArticleRepresentation> accountPageQuery(@ModelAttribute ArticleAccountPageQueryInputDTO dto) {
         Long currentLoggedInAccountId = super.getCurrentLoggedInAccountId();
 
         Pagination<ArticleRepresentation> pagination = articleQueryService.pageQuery(
@@ -163,7 +163,7 @@ public class ArticleAppController extends AbstractAppController {
 
     @Operation(summary = "头条分页查询")
     @GetMapping("/headlines")
-    public Pagination<ArticleRepresentation> headlinesPageQuery(PageQueryInputDTO dto) {
+    public Pagination<ArticleRepresentation> headlinesPageQuery(@ModelAttribute PageQueryInputDTO dto) {
         boolean isLoggedIn = super.isLoggedIn();
         Long currentLoggedInAccountId = isLoggedIn ? super.getCurrentLoggedInAccountId() : null;
 
@@ -180,7 +180,7 @@ public class ArticleAppController extends AbstractAppController {
 
     @Operation(summary = "热搜分页查询")
     @GetMapping("/hot/search")
-    public Pagination<String> hotSearchPageQuery(PageQueryInputDTO dto) {
+    public Pagination<String> hotSearchPageQuery(@ModelAttribute PageQueryInputDTO dto) {
         return articleHotSearchQueryService.pageQuery(ArticleHotSearchPageQuery.builder().pageIndex(dto.getPageIndex()).pageSize(dto.getPageSize()).lastValues(dto.getLastValues()).build());
     }
 

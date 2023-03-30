@@ -69,6 +69,22 @@ exit
 
 ```
 
+### graalvm打包本地可执行文件并启动
+
+```shell
+# 安装graalvm并配置环境变量，省略...
+# 执行maven打包编译
+./mvnw -DskipTests=true clean install
+# 执行graalvm打包
+./mvnw -DskipTests=true -Pnative -pl blog-start native:compile-no-fork
+# 启动
+./blog-start/target/blog-start
+
+# 内存占用查看
+ps aux | grep blog-start | grep -v grep | awk '{print $11 "\t" $6/1024"MB" }'
+```
+
+
 ## 应用架构
 
 DDD + CQRS + 事件总线
