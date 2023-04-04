@@ -2,16 +2,23 @@
 <configuration>
     <!--<include resource="org/springframework/boot/logging/logback/defaults.xml"/>-->
 
-    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
-    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <!-- 异常前后加换行 -->
+    <conversionRule conversionWord="wt"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <!-- 异常&jar包信息前后加换行 -->
+    <conversionRule conversionWord="wet"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
 
-    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr([%36X{tid}]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
-    <property name="CONSOLE_LOG_CHARSET" value="${CONSOLE_LOG_CHARSET:-${file.encoding:-UTF-8}}"/>
-    <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] [%X{tid}] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
-    <property name="FILE_LOG_CHARSET" value="${FILE_LOG_CHARSET:-${file.encoding:-UTF-8}}"/>
+    <!-- 官方文档：https://logback.qos.ch/manual/layouts.html#ClassicPatternLayout -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%date{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5level) %clr(%32mdc{tid}){faint} %clr([%15.15thread]){faint} %clr(%-39.39logger{39}){cyan} %clr(:){faint} %msg%n%wet"/>
+    <property name="CONSOLE_LOG_CHARSET" value="${file.encoding:-UTF-8}"/>
+    <property name="FILE_LOG_PATTERN"
+              value="%date{yyyy-MM-dd HH:mm:ss.SSS} %5level %mdc{tid} [%thread] %logger{39} : %msg%n%throwable{full}"/>
+    <property name="FILE_LOG_CHARSET" value="${file.encoding:-UTF-8}"/>
 
-    <property name="BLANK_LOG_PATTERN" value="%m%n"/>
+    <property name="BLANK_LOG_PATTERN" value="%msg%n"/>
 
     <property name="APP_NAME" value="blog"/>
     <property name="LOG_PATH" value="${user.home}/${APP_NAME}/logs"/>
@@ -118,31 +125,34 @@
     </appender>
 
 
-
-    <logger name="BizMonitorLogger" additivity="false">
-        <level value="INFO"/>
+    <logger name="BizMonitorLogger" level="INFO" additivity="false">
         <appender-ref ref="BIZ_MONITOR"/>
     </logger>
-    <logger name="TraceMonitorLog" additivity="false">
-        <level value="INFO"/>
+    <logger name="TraceMonitorLog" level="INFO" additivity="false">
         <appender-ref ref="TRACE_MONITOR"/>
     </logger>
-    <logger name="HttpTraceMonitorLog" additivity="false">
-        <level value="INFO"/>
+    <logger name="HttpTraceMonitorLog" level="INFO" additivity="false">
         <appender-ref ref="HTTP_TRACE_MONITOR"/>
     </logger>
-    <logger name="EventBusLogger" additivity="false">
-        <level value="INFO"/>
+    <logger name="EventBusLogger" level="INFO" additivity="false">
         <appender-ref ref="EVENT_BUS"/>
     </logger>
-    <logger name="MessageQueueLogger" additivity="false">
-        <level value="INFO"/>
+    <logger name="MessageQueueLogger" level="INFO" additivity="false">
         <appender-ref ref="MESSAGE_QUEUE"/>
     </logger>
-    <logger name="MessageQueueLogger" additivity="false">
-        <level value="INFO"/>
+    <logger name="MessageQueueLogger" level="INFO" additivity="false">
         <appender-ref ref="MESSAGE_QUEUE"/>
     </logger>
+
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
+    <logger name="org.apache.catalina.util.LifecycleBase" level="ERROR"/>
+    <logger name="org.apache.coyote.http11.Http11NioProtocol" level="WARN"/>
+    <logger name="org.apache.sshd.common.util.SecurityUtils" level="WARN"/>
+    <logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN"/>
+    <logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="ERROR"/>
+    <logger name="org.hibernate.validator.internal.util.Version" level="WARN"/>
+    <logger name="org.springframework.boot.actuate.endpoint.jmx" level="WARN"/>
+
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="APPLICATION"/>
