@@ -16,8 +16,8 @@ import com.chen.blog.core.hot.doamin.model.cqrs.command.ArticleSearchCommand;
 import com.chen.blog.core.hot.doamin.model.cqrs.query.ArticleHotPageQuery;
 import com.chen.blog.core.hot.doamin.model.cqrs.query.ArticleHotSearchPageQuery;
 import com.chen.blog.core.sharedkernel.cqrs.Pagination;
-import com.chen.blog.core.sharedkernel.trace.Trace;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.OpenTracer;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import com.chen.blog.interfaces.http.dto.PageQueryInputDTO;
 import com.chen.blog.interfaces.http.dto.input.*;
 import com.google.common.collect.Sets;
@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
  * @version 1.0
  * @since 2021/9/8 15:24
  */
-@Trace
+@OpenTracer
 @TraceMonitorLog
 @Tag(name = "article-api", description = "文章接口")
 @Slf4j

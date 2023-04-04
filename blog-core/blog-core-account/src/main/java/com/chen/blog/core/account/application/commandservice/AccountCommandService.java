@@ -8,10 +8,9 @@ import com.chen.blog.core.account.domain.model.repository.AccountRepository;
 import com.chen.blog.core.account.domain.model.service.AccountService;
 import com.chen.blog.core.account.domain.model.service.PhoneVerificationCodeService;
 import com.chen.blog.core.sharedkernel.cqrs.annotation.CommandService;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 

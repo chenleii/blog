@@ -3,7 +3,7 @@ package com.chen.blog.core.sharedkernel.logger;
 import com.chen.blog.core.sharedkernel.event.DomainEvent;
 import com.chen.blog.core.sharedkernel.mq.Message;
 import com.chen.blog.core.sharedkernel.serializer.Serializers;
-import com.chen.blog.core.sharedkernel.trace.Traces;
+import com.chen.blog.core.sharedkernel.tracer.Tracers;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +71,7 @@ public final class Loggers {
                     DELIMITER
                             + EventBusLogger.class.getSimpleName()
                             + DELIMITER
-                            + Traces.getTraceId()
+                            + Tracers.getTraceId()
                             + DELIMITER
                             + getTimestamp()
                             + DELIMITER
@@ -99,7 +99,7 @@ public final class Loggers {
                     DELIMITER
                             + MessageQueueLogger.class.getSimpleName()
                             + DELIMITER
-                            + Traces.getTraceId()
+                            + Tracers.getTraceId()
                             + DELIMITER
                             + getTimestamp()
                             + DELIMITER

@@ -4,7 +4,7 @@ import com.chen.blog.core.hot.application.commandservice.ArticleHotCommandServic
 import com.chen.blog.core.hot.doamin.model.cqrs.command.*;
 import com.chen.blog.core.article.domain.model.ArticleStatus;
 import com.chen.blog.core.article.domain.model.event.*;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.event.TransactionalEventListener;

@@ -1,7 +1,7 @@
-package com.chen.blog.infrastructure.trace;
+package com.chen.blog.infrastructure.tracer;
 
-import com.chen.blog.core.sharedkernel.trace.TraceConstant;
-import com.chen.blog.core.sharedkernel.trace.Traces;
+import com.chen.blog.core.sharedkernel.tracer.TracerConstant;
+import com.chen.blog.core.sharedkernel.tracer.Tracers;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -12,24 +12,26 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 应用于在http接口方式调用下，处理链路跟踪器开始和关闭的接口过滤器。
+ *
  * @author cl
  * @version 1.0
  * @since 2022/9/15 22:51
  */
-public class HttpTraceFilter extends OncePerRequestFilter {
+public class OpenTracerHttpFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             // 获取调用方的链路跟踪ID
-            String tid = request.getHeader(TraceConstant.HTTP_TRACE_HEADER_NAME);
-            Traces.startTrace(this, tid);
+            String tid = request.getHeader(TracerConstant.HTTP_TRACE_ID_HEADER_NAME);
+            Tracers.startTrace(request, tid);
 
             // response设置返回链路跟踪ID
-            response.setHeader(TraceConstant.HTTP_TRACE_HEADER_NAME, Traces.getTraceId());
+            response.setHeader(TracerConstant.HTTP_TRACE_ID_HEADER_NAME, Tracers.getTraceId());
             filterChain.doFilter(request, response);
         } finally {
-            Traces.endTrace(this);
+            Tracers.endTrace(request);
         }
     }
 

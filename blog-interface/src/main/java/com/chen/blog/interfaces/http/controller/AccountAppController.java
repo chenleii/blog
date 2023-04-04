@@ -7,8 +7,8 @@ import com.chen.blog.core.account.domain.model.cqrs.command.AccountLoginCommand;
 import com.chen.blog.core.account.domain.model.cqrs.command.AccountRefreshLoginCommand;
 import com.chen.blog.core.account.domain.model.cqrs.command.AccountUpdateCommand;
 import com.chen.blog.core.account.domain.model.cqrs.command.SendLoginVerificationCodeCommand;
-import com.chen.blog.core.sharedkernel.trace.Trace;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.OpenTracer;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import com.chen.blog.interfaces.http.dto.input.AccountLoginInputDTO;
 import com.chen.blog.interfaces.http.dto.input.AccountSendLoginVerificationCodeInputDTO;
 import com.chen.blog.interfaces.http.dto.input.AccountUpdateInputDTO;
@@ -24,7 +24,7 @@ import jakarta.inject.Inject;
  * @version 1.0
  * @since 2021/9/8 15:24
  */
-@Trace
+@OpenTracer
 @TraceMonitorLog
 @Tag(name = "account-api",description = "账户接口")
 @Slf4j

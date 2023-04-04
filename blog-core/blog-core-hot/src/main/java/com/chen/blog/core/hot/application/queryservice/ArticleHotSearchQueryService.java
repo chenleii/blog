@@ -4,7 +4,7 @@ import com.chen.blog.core.hot.doamin.model.cqrs.query.ArticleHotSearchPageQuery;
 import com.chen.blog.core.hot.doamin.model.repository.ArticleHotSearchQueryRepository;
 import com.chen.blog.core.sharedkernel.cqrs.Pagination;
 import com.chen.blog.core.sharedkernel.cqrs.annotation.QueryService;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 

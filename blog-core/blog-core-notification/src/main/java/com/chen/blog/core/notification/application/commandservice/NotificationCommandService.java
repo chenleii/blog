@@ -5,7 +5,7 @@ import com.chen.blog.core.account.domain.model.repository.AccountRepository;
 import com.chen.blog.core.notification.domain.model.cqrs.command.NotificationCreateCommand;
 import com.chen.blog.core.notification.domain.model.repository.NotificationRepository;
 import com.chen.blog.core.sharedkernel.cqrs.annotation.CommandService;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;

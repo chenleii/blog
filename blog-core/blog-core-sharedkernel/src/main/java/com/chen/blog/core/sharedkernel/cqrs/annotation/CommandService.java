@@ -1,7 +1,6 @@
 package com.chen.blog.core.sharedkernel.cqrs.annotation;
 
 import com.chen.blog.core.sharedkernel.ddd.annotation.ApplicationService;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
 
 import jakarta.inject.Named;
 import java.lang.annotation.*;

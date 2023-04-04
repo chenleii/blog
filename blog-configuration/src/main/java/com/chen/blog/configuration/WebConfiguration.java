@@ -1,7 +1,7 @@
 package com.chen.blog.configuration;
 
 import com.chen.blog.core.sharedkernel.serializer.json.JacksonJsonSerializer;
-import com.chen.blog.infrastructure.trace.HttpTraceFilter;
+import com.chen.blog.infrastructure.tracer.OpenTracerHttpFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -29,9 +29,9 @@ public class WebConfiguration implements WebMvcConfigurer {
 
 
     @Bean
-    public FilterRegistrationBean<HttpTraceFilter> httpTraceFilterFilterRegistrationBean() {
-        FilterRegistrationBean<HttpTraceFilter> filterFilterRegistrationBean = new FilterRegistrationBean<>();
-        filterFilterRegistrationBean.setFilter(new HttpTraceFilter());
+    public FilterRegistrationBean<OpenTracerHttpFilter> httpTraceFilterFilterRegistrationBean() {
+        FilterRegistrationBean<OpenTracerHttpFilter> filterFilterRegistrationBean = new FilterRegistrationBean<>();
+        filterFilterRegistrationBean.setFilter(new OpenTracerHttpFilter());
         filterFilterRegistrationBean.addUrlPatterns("/*");
         filterFilterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return filterFilterRegistrationBean;

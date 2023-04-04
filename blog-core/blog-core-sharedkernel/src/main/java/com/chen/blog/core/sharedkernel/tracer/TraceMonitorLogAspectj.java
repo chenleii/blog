@@ -1,4 +1,4 @@
-package com.chen.blog.core.sharedkernel.trace;
+package com.chen.blog.core.sharedkernel.tracer;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,10 +12,13 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 
 import jakarta.inject.Named;
+
 import java.util.Objects;
 import java.util.Optional;
 
 /**
+ * 链路跟踪监控日志输出注解的AOP处理
+ *
  * @author cl
  * @version 1.0
  * @since 2022/9/15 22:45
@@ -26,8 +29,8 @@ import java.util.Optional;
 public class TraceMonitorLogAspectj {
 
 
-    @Around("@within(com.chen.blog.core.sharedkernel.trace.TraceMonitorLog) " +
-            "|| @annotation(com.chen.blog.core.sharedkernel.trace.TraceMonitorLog)")
+    @Around("@within(com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog) " +
+            "|| @annotation(com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog)")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         TraceMonitorLog traceMonitorLog = resolveTraceMonitorLog(proceedingJoinPoint);
         if (Objects.isNull(traceMonitorLog)) {
@@ -50,7 +53,7 @@ public class TraceMonitorLogAspectj {
             logger.info("tags={},ref={},tid={},time={},rt={},error={}",
                     traceMonitorLog.tags(),
                     proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName() + "#" + proceedingJoinPoint.getSignature().getName(),
-                    Traces.getTraceId(),
+                    Tracers.getTraceId(),
                     startTime,
                     endTime - startTime,
                     Optional.ofNullable(throwable).map(Throwable::getClass).map(Class::getSimpleName).orElse(null));

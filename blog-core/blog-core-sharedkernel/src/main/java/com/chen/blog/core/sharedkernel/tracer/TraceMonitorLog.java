@@ -1,14 +1,14 @@
-package com.chen.blog.core.sharedkernel.trace;
+package com.chen.blog.core.sharedkernel.tracer;
 
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.*;
 
 /**
+ * 链路跟踪监控日志输出
  * 作用于类或方法上
- * 打印链路跟踪监控日志
  * <p>
- * 优先使用方法上的注解
+ * 优先使用方法上的注解字段
  *
  * @author cl
  * @version 1.0
@@ -32,5 +32,5 @@ public @interface TraceMonitorLog {
      *
      * @return 日志名称
      */
-    String loggerName() default TraceConstant.DEFAULT_TRACE_MONITOR_LOGGER_NAME;
+    String loggerName() default TracerConstant.DEFAULT_TRACE_MONITOR_LOGGER_NAME;
 }

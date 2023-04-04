@@ -1,6 +1,6 @@
 package com.chen.blog.interfaces.http.handler;
 
-import com.chen.blog.core.sharedkernel.trace.Traces;
+import com.chen.blog.core.sharedkernel.tracer.Tracers;
 import com.chen.blog.interfaces.http.handler.annotation.ResultWrapper;
 import com.chen.blog.interfaces.http.handler.error.Errors;
 import com.chen.blog.interfaces.http.handler.result.R;
@@ -46,7 +46,7 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                 .map(R.class::cast)
                 .orElse(
                         R.builder()
-                                .traceId(Traces.getTraceId())
+                                .traceId(Tracers.getTraceId())
                                 .success(true)
                                 .errorCode(Errors.successfulErrorCode())
                                 .data(body)

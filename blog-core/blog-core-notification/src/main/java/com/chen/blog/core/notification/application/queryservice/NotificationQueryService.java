@@ -6,7 +6,7 @@ import com.chen.blog.core.notification.domain.model.cqrs.query.NotificationQuery
 import com.chen.blog.core.notification.domain.model.repository.NotificationQueryRepository;
 import com.chen.blog.core.sharedkernel.cqrs.Pagination;
 import com.chen.blog.core.sharedkernel.cqrs.annotation.QueryService;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 

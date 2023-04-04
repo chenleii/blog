@@ -8,7 +8,7 @@ import com.chen.blog.core.hot.doamin.model.repository.ArticleHotSearchRepository
 import com.chen.blog.core.article.domain.model.repository.ArticleRepository;
 import com.chen.blog.core.sharedkernel.cqrs.annotation.CommandService;
 import com.chen.blog.core.sharedkernel.lock.Locks;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;

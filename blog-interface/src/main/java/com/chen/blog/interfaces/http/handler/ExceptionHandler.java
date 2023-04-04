@@ -5,7 +5,7 @@ import com.chen.blog.configuration.properties.ApiProperties;
 import com.chen.blog.core.sharedkernel.exception.DomainRuntimeException;
 import com.chen.blog.core.sharedkernel.exception.NotExistException;
 import com.chen.blog.core.sharedkernel.logger.Loggers;
-import com.chen.blog.core.sharedkernel.trace.Traces;
+import com.chen.blog.core.sharedkernel.tracer.Tracers;
 import com.chen.blog.interfaces.http.exception.NotLoginException;
 import com.chen.blog.interfaces.http.handler.error.Errors;
 import com.chen.blog.interfaces.http.handler.error.exception.UnknownErrorException;
@@ -16,7 +16,6 @@ import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -230,9 +229,9 @@ public class ExceptionHandler {
     private R<?> handle(Throwable exception, String errorMessage) {
         log.error(this.getClass().getSimpleName() + ":" + exception.getClass().getSimpleName(), exception);
         // 打印监控日志
-        Loggers.BizMonitorLogger.log(this.getClass().getSimpleName(), Traces.getTraceId(), request.getRequestURI(), exception.getClass().getSimpleName());
+        Loggers.BizMonitorLogger.log(this.getClass().getSimpleName(), Tracers.getTraceId(), request.getRequestURI(), exception.getClass().getSimpleName());
         return R.builder()
-                .traceId(Traces.getTraceId())
+                .traceId(Tracers.getTraceId())
                 .success(false)
                 .errorCode(Errors.toErrorCode(exception))
                 .errorMessage(StringUtils.isNotBlank(errorMessage) ? errorMessage : exception.getLocalizedMessage())

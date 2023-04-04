@@ -6,7 +6,7 @@ import com.chen.blog.core.article.domain.model.cqrs.representation.ArticleRepres
 import com.chen.blog.core.article.domain.model.repository.ArticleQueryRepository;
 import com.chen.blog.core.sharedkernel.cqrs.Pagination;
 import com.chen.blog.core.sharedkernel.cqrs.annotation.QueryService;
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 

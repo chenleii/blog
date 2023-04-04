@@ -1,7 +1,7 @@
-package com.chen.blog.infrastructure.trace;
+package com.chen.blog.infrastructure.tracer;
 
-import com.chen.blog.core.sharedkernel.trace.TraceConstant;
-import com.chen.blog.core.sharedkernel.trace.Traces;
+import com.chen.blog.core.sharedkernel.tracer.TracerConstant;
+import com.chen.blog.core.sharedkernel.tracer.Tracers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @Deprecated
 public class HttpTraceMonitorLogFilter extends OncePerRequestFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(TraceConstant.DEFAULT_HTTP_TRACE_MONITOR_LOGGER_NAME);
+    private final Logger logger = LoggerFactory.getLogger(TracerConstant.DEFAULT_HTTP_TRACE_MONITOR_LOGGER_NAME);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -38,7 +38,7 @@ public class HttpTraceMonitorLogFilter extends OncePerRequestFilter {
             long endTime = System.currentTimeMillis();
             logger.info("uri={},tid={},time={},rt={},error={}",
                     request.getRequestURI(),
-                    Traces.getTraceId(),
+                    Tracers.getTraceId(),
                     startTime,
                     endTime - startTime,
                     Optional.ofNullable(throwable).map(Throwable::getClass).map(Class::getSimpleName).orElse(null));

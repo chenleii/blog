@@ -1,6 +1,6 @@
 package com.chen.blog.core.account.application.eventlistener;
 
-import com.chen.blog.core.sharedkernel.trace.TraceMonitorLog;
+import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import lombok.extern.slf4j.Slf4j;
 
 import jakarta.inject.Named;

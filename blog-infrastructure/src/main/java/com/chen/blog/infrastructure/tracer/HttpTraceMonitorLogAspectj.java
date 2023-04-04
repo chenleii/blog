@@ -1,7 +1,7 @@
-package com.chen.blog.infrastructure.trace;
+package com.chen.blog.infrastructure.tracer;
 
-import com.chen.blog.core.sharedkernel.trace.TraceConstant;
-import com.chen.blog.core.sharedkernel.trace.Traces;
+import com.chen.blog.core.sharedkernel.tracer.TracerConstant;
+import com.chen.blog.core.sharedkernel.tracer.Tracers;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,11 +27,11 @@ import java.util.Optional;
 @Order(Ordered.HIGHEST_PRECEDENCE + 150)
 public class HttpTraceMonitorLogAspectj {
 
-    private final Logger logger = LoggerFactory.getLogger(TraceConstant.DEFAULT_HTTP_TRACE_MONITOR_LOGGER_NAME);
+    private final Logger logger = LoggerFactory.getLogger(TracerConstant.DEFAULT_HTTP_TRACE_MONITOR_LOGGER_NAME);
 
 
-    @Around("(@within(com.chen.blog.core.sharedkernel.trace.Trace) " +
-            "|| @annotation(com.chen.blog.core.sharedkernel.trace.Trace))" +
+    @Around("(@within(com.chen.blog.core.sharedkernel.tracer.OpenTracer) " +
+            "|| @annotation(com.chen.blog.core.sharedkernel.tracer.OpenTracer))" +
             "&& (@within(org.springframework.stereotype.Controller) " +
             "|| @within(org.springframework.web.bind.annotation.RestController) " +
             "|| @within(org.springframework.web.bind.annotation.RequestMapping) " +
@@ -63,7 +63,7 @@ public class HttpTraceMonitorLogAspectj {
             logger.info("uri={},ref={},tid={},time={},rt={},error={}",
                     request.getRequestURI(),
                     proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName() + "#" + proceedingJoinPoint.getSignature().getName(),
-                    Traces.getTraceId(),
+                    Tracers.getTraceId(),
                     startTime,
                     endTime - startTime,
                     Optional.ofNullable(throwable).map(Throwable::getClass).map(Class::getSimpleName).orElse(null));
