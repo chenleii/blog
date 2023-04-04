@@ -19,10 +19,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.crypto.SecretKey;
+
 import jakarta.inject.Inject;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -63,11 +65,9 @@ public abstract class AbstractAppController {
                     .signWith(key)
                     .compact();
 
-            /**
-             * 该如何响应jwt呢？？？
-             */
-            // 跨域访问需为请求头Authorization配置cors
+            // 将jwt放入harder的Authorization中（跨域访问需为header的Authorization配置cors）。
             getResponse().setHeader(HttpHeaders.AUTHORIZATION, token);
+            // 方便前端不用处理jwt，将jwt放入cookie一份（注意csrf攻击风险）。
             Cookie cookie = new Cookie(HttpHeaders.AUTHORIZATION, token);
             cookie.setHttpOnly(true);
             cookie.setPath("/");
@@ -95,21 +95,23 @@ public abstract class AbstractAppController {
 
     protected LoggedInAccount getCurrentLoggedInAccount() {
         if (getApiProperties().getJwt().isEnabled()) {
+            String authorization = getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+            String jwt = StringUtils.removeStart(authorization, "Bearer ");
+
+            if (StringUtils.isBlank(jwt)) {
+                Cookie[] cookies = getRequest().getCookies();
+                jwt = Objects.nonNull(cookies)
+                        ? Stream.of(cookies)
+                        .filter((cookie -> Objects.equals(cookie.getName(), HttpHeaders.AUTHORIZATION)))
+                        .map(Cookie::getValue)
+                        .findFirst()
+                        .orElse(null)
+                        : null;
+            }
+            if (StringUtils.isBlank(jwt)) {
+                throw new NotLoginException("not login.");
+            }
             try {
-                String authorization = getRequest().getHeader(HttpHeaders.AUTHORIZATION);
-                String jwt = StringUtils.removeStart(authorization, "Bearer ");
-
-                if (StringUtils.isBlank(jwt)) {
-                    Cookie[] cookies = getRequest().getCookies();
-                    jwt = Objects.nonNull(cookies)
-                            ? Stream.of(cookies)
-                            .filter((cookie -> Objects.equals(cookie.getName(), HttpHeaders.AUTHORIZATION)))
-                            .map(Cookie::getValue)
-                            .findFirst()
-                            .orElse(null)
-                            : null;
-                }
-
                 SecretKey key = Keys.hmacShaKeyFor(getApiProperties().getJwt().getSecretKeyBytes());
                 Jws<Claims> jws = Jwts.parserBuilder()
                         .setSigningKey(key)

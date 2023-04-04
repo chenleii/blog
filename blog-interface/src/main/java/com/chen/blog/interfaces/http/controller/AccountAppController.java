@@ -77,6 +77,12 @@ public class AccountAppController extends AbstractAppController {
         return loggedInAccount;
     }
 
+    @Operation(summary = "是否已登录")
+    @GetMapping("/isLoggedIn")
+    public boolean isLoggedIn() {
+        return super.isLoggedIn();
+    }
+
     @Operation(summary = "获取登录账户")
     @GetMapping("/login")
     public LoggedInAccount getLoggedInAccount() {
