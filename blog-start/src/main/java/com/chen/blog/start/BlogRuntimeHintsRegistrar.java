@@ -3,7 +3,7 @@ package com.chen.blog.start;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
 import co.elastic.clients.elasticsearch.indices.IndexSettings;
 import com.chen.blog.core.sharedkernel.converter.Converter;
-import com.chen.blog.interfaces.http.handler.ExceptionHandler;
+import com.chen.blog.interfaces.http.handler.ErrorHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
@@ -33,7 +33,7 @@ public class BlogRuntimeHintsRegistrar implements RuntimeHintsRegistrar {
     @SneakyThrows
     @Override
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-        hints.reflection().registerType(ExceptionHandler.class, MemberCategory.INVOKE_DECLARED_METHODS);
+        hints.reflection().registerType(ErrorHandler.class, MemberCategory.INVOKE_DECLARED_METHODS);
 
         PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = resourcePatternResolver.getResources(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "com/chen/blog/**/*.class");

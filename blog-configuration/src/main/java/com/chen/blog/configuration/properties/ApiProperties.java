@@ -37,10 +37,10 @@ public class ApiProperties {
     private JwtProperties jwt = new JwtProperties();
 
     /**
-     * api的异常处理器配置
+     * api的错误处理器配置
      */
     @NestedConfigurationProperty
-    private ExceptionHandlerProperties exceptionHandler = new ExceptionHandlerProperties();
+    private ErrorHandlerProperties errorHandler = new ErrorHandlerProperties();
 
 
     @Getter
@@ -49,7 +49,7 @@ public class ApiProperties {
     public static class DocProperties {
 
         /**
-         * 是否开启
+         * 是否开启的
          */
         private boolean enabled;
     }
@@ -60,7 +60,7 @@ public class ApiProperties {
     public static class JwtProperties {
 
         /**
-         * 是否开启
+         * 是否开启的
          */
         private boolean enabled;
 
@@ -90,21 +90,21 @@ public class ApiProperties {
     @Getter
     @Setter
     @ToString
-    public static class ExceptionHandlerProperties {
+    public static class ErrorHandlerProperties {
 
         /**
-         * 错误堆栈跟踪
+         * 堆栈跟踪
          */
         @NestedConfigurationProperty
-        private ErrorStackTraceProperties errorStackTrace = new ErrorStackTraceProperties();
+        private StackTraceProperties stackTrace = new StackTraceProperties();
 
         @Getter
         @Setter
         @ToString
-        public static class ErrorStackTraceProperties {
+        public static class StackTraceProperties {
 
             /**
-             * 是否开启
+             * 是否开启的
              */
             private boolean enabled;
         }

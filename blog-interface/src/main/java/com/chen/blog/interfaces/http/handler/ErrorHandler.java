@@ -24,6 +24,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -39,7 +40,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * 异常处理器
+ * 错误处理器
  *
  * @author cl
  * @since 2018/11/3 0:17.
@@ -47,7 +48,7 @@ import java.util.function.Function;
 @Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
-public class ExceptionHandler {
+public class ErrorHandler {
 
     @Inject
     private ApiProperties apiProperties;
@@ -60,7 +61,7 @@ public class ExceptionHandler {
      * 未登录异常
      */
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-    @org.springframework.web.bind.annotation.ExceptionHandler(NotLoginException.class)
+    @ExceptionHandler(NotLoginException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           NotLoginException exception) {
@@ -72,7 +73,7 @@ public class ExceptionHandler {
      * 不存在异常
      */
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @org.springframework.web.bind.annotation.ExceptionHandler(NotExistException.class)
+    @ExceptionHandler(NotExistException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           NotExistException exception) {
@@ -83,7 +84,7 @@ public class ExceptionHandler {
      * 领域运行时异常
      */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler(DomainRuntimeException.class)
+    @ExceptionHandler(DomainRuntimeException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           DomainRuntimeException exception) {
@@ -94,7 +95,7 @@ public class ExceptionHandler {
      * 非法参数异常
      */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler(IllegalArgumentException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           IllegalArgumentException exception) {
@@ -105,7 +106,7 @@ public class ExceptionHandler {
      * 非法状态异常
      */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler(IllegalStateException.class)
+    @ExceptionHandler(IllegalStateException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           IllegalStateException exception) {
@@ -116,7 +117,7 @@ public class ExceptionHandler {
      * 非法格式异常
      */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler(IllegalFormatException.class)
+    @ExceptionHandler(IllegalFormatException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           IllegalFormatException exception) {
@@ -129,7 +130,7 @@ public class ExceptionHandler {
      * controller加注解{@link jakarta.validation.Valid} {@link org.springframework.validation.annotation.Validated}的情况
      */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           BindException exception) {
@@ -148,7 +149,7 @@ public class ExceptionHandler {
      * service加注解{@link org.springframework.validation.annotation.Validated}的情况
      */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           ConstraintViolationException exception) {
@@ -164,7 +165,7 @@ public class ExceptionHandler {
      * 缺少请求参数
      */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler(MissingServletRequestParameterException.class)
+    @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           MissingServletRequestParameterException exception) {
@@ -176,7 +177,7 @@ public class ExceptionHandler {
      * 如:json格式错误
      */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler(HttpMessageConversionException.class)
+    @ExceptionHandler(HttpMessageConversionException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           HttpMessageConversionException exception) {
@@ -187,7 +188,7 @@ public class ExceptionHandler {
      * 404错误.
      */
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @org.springframework.web.bind.annotation.ExceptionHandler(NoHandlerFoundException.class)
+    @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           NoHandlerFoundException exception) {
@@ -199,7 +200,7 @@ public class ExceptionHandler {
      * 未知错误异常
      */
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    @org.springframework.web.bind.annotation.ExceptionHandler(UnknownErrorException.class)
+    @ExceptionHandler(UnknownErrorException.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
                           UnknownErrorException exception) throws Throwable {
@@ -212,10 +213,10 @@ public class ExceptionHandler {
      * 兜底
      */
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    @ExceptionHandler(Throwable.class)
     @ResponseBody
     public R<?> exception(HttpServletRequest request, HttpServletResponse response,
-                          Exception exception) {
+                          Throwable exception) {
         return handle(exception, null);
     }
 
@@ -235,7 +236,7 @@ public class ExceptionHandler {
                 .success(false)
                 .errorCode(Errors.toErrorCode(exception))
                 .errorMessage(StringUtils.isNotBlank(errorMessage) ? errorMessage : exception.getLocalizedMessage())
-                .errorStackTrace(apiProperties.getExceptionHandler().getErrorStackTrace().isEnabled() ? ExceptionUtils.getStackTrace(exception) : null)
+                .errorStackTrace(apiProperties.getErrorHandler().getStackTrace().isEnabled() ? ExceptionUtils.getStackTrace(exception) : null)
                 .error(null)
                 .data(null)
                 .build();
