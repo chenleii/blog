@@ -406,6 +406,29 @@
         </dependencies>
     </dependencyManagement>
 
+    <profiles>
+        <profile>
+            <id>extension</id>
+            <modules>
+                <module>blog-extension</module>
+            </modules>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.chen.blog</groupId>
+                        <artifactId>blog-extension</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.chen.blog</groupId>
+                        <artifactId>blog-extension-crawler</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <!--测试-->

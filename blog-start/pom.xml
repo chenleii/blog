@@ -96,6 +96,16 @@
 
     <profiles>
         <profile>
+            <id>extension</id>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.chen.blog</groupId>
+                    <artifactId>blog-extension-crawler</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
             <id>native</id>
             <dependencies>
                 <dependency>

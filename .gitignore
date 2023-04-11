@@ -63,3 +63,6 @@ screenshot
 .eslintcache
 
 build
+
+# 自定义
+blog-extension/
