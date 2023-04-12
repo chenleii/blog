@@ -1,9 +1,12 @@
 package com.chen.blog.core.notification.domain.model.cqrs.query;
 
+import com.chen.blog.core.notification.domain.model.NotificationStatus;
 import com.chen.blog.core.sharedkernel.cqrs.PageQuery;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Set;
 
 /**
  * @author cl
@@ -14,4 +17,14 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @SuperBuilder
 public class NotificationPageQuery extends PageQuery {
+
+    /**
+     * 查询的账户ID
+     */
+    private final Long accountId;
+
+    /**
+     * 查询的状态
+     */
+    private final Set<NotificationStatus> statuses;
 }

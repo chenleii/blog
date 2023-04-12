@@ -21,8 +21,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = MappingConstants.ComponentModel.DEFAULT,
         uses = {IdMapper.class, EnumMapper.class, TimeMapper.class, MonetaryMapper.class,},
         imports = {Serializers.class, Money.class,})
-public interface AccountResultConverter extends SourceFromTargetConverter<AccountRepresentation, AccountDO> {
-    AccountResultConverter MAPPER = Mappers.getMapper(AccountResultConverter.class);
+public interface AccountRepresentationConverter extends SourceFromTargetConverter<AccountRepresentation, AccountDO> {
+    AccountRepresentationConverter MAPPER = Mappers.getMapper(AccountRepresentationConverter.class);
 
 
 }

@@ -21,5 +21,9 @@
             <groupId>com.chen.blog</groupId>
             <artifactId>blog-core-account</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.chen.blog</groupId>
+            <artifactId>blog-core-article</artifactId>
+        </dependency>
     </dependencies>
 </project>

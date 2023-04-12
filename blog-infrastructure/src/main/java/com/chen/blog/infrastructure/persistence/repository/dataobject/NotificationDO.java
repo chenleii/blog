@@ -1,37 +1,38 @@
-package com.chen.blog.core.notification.domain.model.cqrs.representation;
+package com.chen.blog.infrastructure.persistence.repository.dataobject;
 
+import com.chen.blog.core.notification.domain.model.NotificationDetailsAdditionalInfo;
 import com.chen.blog.core.notification.domain.model.NotificationDetailsType;
 import com.chen.blog.core.notification.domain.model.NotificationStatus;
-import com.chen.blog.core.sharedkernel.cqrs.Representation;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.springframework.stereotype.Indexed;
+import com.chen.blog.core.sharedkernel.ddd.annotation.ValueObject;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author cl
- * @version 1.0
- * @since 2022/9/6 22:23
+ * @since 2023/4/12 21:50
  */
-@Getter
-@Setter
-@ToString
-public class NotificationRepresentation implements Representation {
-
+@Data
+@EqualsAndHashCode(callSuper = false)
+@org.springframework.data.mongodb.core.mapping.Document(collection = "notification")
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "notification")
+public class NotificationDO implements Serializable {
 
     /**
      * ID
      */
+    @Id
     private Long id;
 
 
     /**
      * 账户ID
      */
+    @Indexed
     private Long accountId;
     /**
      * 详情
@@ -41,20 +42,24 @@ public class NotificationRepresentation implements Representation {
     /**
      * 状态
      */
+    @Indexed
     private NotificationStatus status;
 
 
     /**
      * 创建于
      */
+    @Indexed
     private Long createdAt;
     /**
      * 已读于
      */
+    @Indexed
     private Long hasReadAt;
     /**
      * 清除于
      */
+    @Indexed
     private Long clearedAt;
 
     @Data

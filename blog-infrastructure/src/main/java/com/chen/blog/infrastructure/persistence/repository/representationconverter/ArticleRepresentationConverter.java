@@ -8,7 +8,6 @@ import com.chen.blog.infrastructure.persistence.repository.domainconverter.EnumM
 import com.chen.blog.infrastructure.persistence.repository.domainconverter.IdMapper;
 import com.chen.blog.infrastructure.persistence.repository.domainconverter.MonetaryMapper;
 import com.chen.blog.infrastructure.persistence.repository.domainconverter.TimeMapper;
-import jakarta.inject.Inject;
 import org.javamoney.moneta.Money;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -22,8 +21,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = MappingConstants.ComponentModel.DEFAULT,
         uses = {IdMapper.class, EnumMapper.class, TimeMapper.class, MonetaryMapper.class,},
         imports = {Serializers.class, Money.class,})
-public interface ArticleResultConverter extends SourceFromTargetConverter<ArticleRepresentation, ArticleDO> {
-    ArticleResultConverter MAPPER = Mappers.getMapper(ArticleResultConverter.class);
+public interface ArticleRepresentationConverter extends SourceFromTargetConverter<ArticleRepresentation, ArticleDO> {
+    ArticleRepresentationConverter MAPPER = Mappers.getMapper(ArticleRepresentationConverter.class);
 
 
 }
