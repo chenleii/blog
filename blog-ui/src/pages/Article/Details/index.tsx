@@ -112,6 +112,19 @@ const Article: React.FC = () => {
     queryArticle();
   }, [params]);
 
+  useEffect(() => {
+    // 获取当前地址栏中的锚点 eg:#评论ID
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.getElementById(hash);
+      if (element) {
+        // 滚动到锚点位置
+        element.scrollIntoView();
+      }
+    }
+  }, [loading]);
+
+
   return (
     <PageContainer
       header={{
@@ -201,7 +214,7 @@ const Article: React.FC = () => {
             <MessageOutlined/>
             {article?.comments ? article?.comments.length : 0}
           </Space>
-          <Space onClick={()=> shareRun()}>
+          <Space onClick={() => shareRun()}>
             <ShareAltOutlined/>
             {intl.formatMessage({
               id: "pages.ArticleDetails.share.title",
@@ -244,7 +257,7 @@ const Article: React.FC = () => {
           itemLayout="horizontal"
           dataSource={article?.comments}
           renderItem={comment => (
-            <li>
+            <li id={"#" + comment.id}>
               <Comment
                 actions={[
                   <Popover
@@ -288,7 +301,7 @@ const Article: React.FC = () => {
                 avatar={<Avatar src={comment?.account?.avatar} alt=""/>}
                 datetime={
                   <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                    <span>{moment(comment?.commentedAt).fromNow()}</span>
+                    <span>{moment(comment?.commentedAt, undefined, intl.locale).fromNow()}</span>
                   </Tooltip>
                 }
                 content={
@@ -305,7 +318,7 @@ const Article: React.FC = () => {
                       itemLayout="horizontal"
                       dataSource={comment?.subComments}
                       renderItem={subComment => (
-                        <li>
+                        <li id={"#" + subComment.id}>
                           <Comment
                             actions={[
                               <Popover
@@ -349,7 +362,7 @@ const Article: React.FC = () => {
                             avatar={<Avatar src={subComment?.account?.avatar} alt=""/>}
                             datetime={
                               <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                <span>{moment(subComment?.commentedAt).fromNow()}</span>
+                                <span>{moment(subComment?.commentedAt, undefined, intl.locale).fromNow()}</span>
                               </Tooltip>
                             }
                             content={

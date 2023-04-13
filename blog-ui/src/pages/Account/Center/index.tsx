@@ -1,5 +1,5 @@
 import {PageContainer} from '@ant-design/pro-components';
-import {BackTop, Button, Card, Divider, Input, List, Space, Typography,} from 'antd';
+import {BackTop, Button, Card, Col, Divider, Input, List, Row, Space, Typography,} from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
 import {history, useIntl, useModel, useParams} from "@@/exports";
@@ -156,11 +156,13 @@ const AccountCenter: React.FC = () => {
               }
               extra=
                 {item?.cover
-                  ? <img
-                    width={272}
-                    alt="cover"
-                    src={item?.cover}
-                  />
+                  ?
+                  // <img
+                  //   width={'100%'}
+                  //   alt="cover"
+                  //   src={item?.cover}
+                  // />
+                  null
                   : null
                 }
             >
@@ -170,14 +172,26 @@ const AccountCenter: React.FC = () => {
                 description={item?.account?.introduction}
               />
 
-              <div onClick={() => history.push(`/article/${item.id}`)}>
+              <Typography onClick={() => history.push(`/article/${item.id}`)}>
                 <Typography.Title ellipsis={{rows: 1, tooltip: item?.title}} level={1}>
                   <Markdown content={item?.title}/>
                 </Typography.Title>
-                <Typography.Paragraph ellipsis={{rows: 5}} style={{maxHeight: '200px'}}>
-                  <Markdown content={item?.customContent || ''}/>
-                </Typography.Paragraph>
-              </div>
+                <Row>
+                  <Col lg={16} xs={24}>
+                    <Typography.Paragraph ellipsis={{rows: 5}} style={{maxHeight: '200px'}}>
+                      <Markdown content={item?.customContent || ''}/>
+                    </Typography.Paragraph>
+                  </Col>
+                  <Col lg={8} xs={0}>
+                    <img
+                      width={'100%'}
+                      style={{paddingLeft:16}}
+                      alt="cover"
+                      src={item?.cover}
+                    />
+                  </Col>
+                </Row>
+              </Typography>
             </List.Item>
           )
           }

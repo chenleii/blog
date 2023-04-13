@@ -159,11 +159,8 @@ declare namespace API {
     isPublish?: boolean;
   };
 
-  type ErrorResult = {
-    errorCode?: string;
-    errorMessage?: string;
-    error?: Record<string, any>;
-    traceId?: string;
+  type clearParams = {
+    notificationId: number;
   };
 
   type headlinesPageQueryParams = {
@@ -197,7 +194,26 @@ declare namespace API {
     loggedInAt?: string;
   };
 
-  type pageQueryParams = {
+  type NotificationDetails = {
+    type?: 'ACCOUNT_DISABLED' | 'ARTICLE_LIKE' | 'ARTICLE_COMMENT';
+    title?: string;
+    content?: string;
+    additionalInfo?: NotificationDetailsAdditionalInfo;
+  };
+
+  type NotificationDetailsAdditionalInfo = any;
+
+  type NotificationRepresentation = {
+    id?: number;
+    accountId?: number;
+    details?: NotificationDetails;
+    status?: 'UNREAD' | 'HAS_READ' | 'CLEARED';
+    createdAt?: string;
+    hasReadAt?: string;
+    clearedAt?: string;
+  };
+
+  type articlePageQueryParams = {
     /** 搜索关键字 */
     searchKeyword?: string;
     /** 账户ID */
@@ -216,11 +232,32 @@ declare namespace API {
     lastValues?: Record<string, any>[];
   };
 
+  type pageQueryParams = {
+    /** 账户ID */
+    accountId?: number;
+    /** 状态 */
+    statuses?: ('UNREAD' | 'HAS_READ' | 'CLEARED')[];
+    /** 当前页数 */
+    pageIndex?: number;
+    /** 每页条数 */
+    pageSize?: number;
+    /** 分页查询的最后一条记录排序字段值 */
+    lastValues?: Record<string, any>[];
+  };
+
   type PaginationArticleRepresentation = {
     pageIndex?: number;
     pageSize?: number;
     total?: number;
     list?: ArticleRepresentation[];
+    lastValues?: Record<string, any>[];
+  };
+
+  type PaginationNotificationRepresentation = {
+    pageIndex?: number;
+    pageSize?: number;
+    total?: number;
+    list?: NotificationRepresentation[];
     lastValues?: Record<string, any>[];
   };
 
@@ -232,7 +269,25 @@ declare namespace API {
     lastValues?: Record<string, any>[];
   };
 
-  type queryParams = {
+  type query1Params = {
     articleId: number;
+  };
+
+  type queryParams = {
+    notificationId: number;
+  };
+
+  type readParams = {
+    notificationId: number;
+  };
+
+  type RObject = {
+    traceId?: string;
+    success?: boolean;
+    errorCode?: string;
+    errorMessage?: string;
+    errorStackTrace?: string;
+    error?: Record<string, any>;
+    data?: Record<string, any>;
   };
 }

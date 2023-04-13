@@ -1,6 +1,6 @@
 import {LikeFilled, LikeOutlined, MessageOutlined, WarningFilled, WarningOutlined} from '@ant-design/icons';
 import {PageContainer} from '@ant-design/pro-components';
-import {BackTop, Button, Card, Divider, Form, Input, List, Popover, Skeleton, Space, Typography,} from 'antd';
+import {BackTop, Button, Card, Col, Divider, Form, Input, List, Popover, Row, Skeleton, Space, Typography,} from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
 import {history, useIntl, useLocation, useSearchParams} from "@@/exports";
@@ -10,10 +10,10 @@ import Markdown from "@/components/Markdown";
 
 const ArticleList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  let location = useLocation();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
-  let intl = useIntl();
-  const [articlePageQueryInputDTO, setArticlePageQueryInputDTO] = useState<API.pageQueryParams>({
+  const intl = useIntl();
+  const [articlePageQueryInputDTO, setArticlePageQueryInputDTO] = useState<API.articlePageQueryParams>({
     pageIndex: 1,
     pageSize: 10,
     searchKeyword: searchParams.get("searchKeyword") || '',
@@ -26,10 +26,10 @@ const ArticleList: React.FC = () => {
   });
 
   // 区分是不是热门文章查询
-  let isHotQuery = location.pathname.includes("/headlines");
+  const isHotQuery = location.pathname.includes("/headlines");
 
-  let likeRun = async (item: any) => {
-    let res = await api.articleApi.like({articleId: item.id});
+  const likeRun = async (item: any) => {
+    const res = await api.articleApi.like({articleId: item.id});
     (page.list || [])
       .filter(it => {
         return it?.id === item.id
@@ -40,7 +40,7 @@ const ArticleList: React.FC = () => {
         return it;
       });
 
-    let tempPage = {
+    const tempPage = {
       ...page,
       list: page.list,
     };
@@ -48,8 +48,8 @@ const ArticleList: React.FC = () => {
 
   };
 
-  let reportRun = async (item: any, form: any) => {
-    let res = await api.articleApi.report({articleId: item.id, remark: form.remark});
+  const reportRun = async (item: any, form: any) => {
+    const res = await api.articleApi.report({articleId: item.id, remark: form.remark});
     (page.list || [])
       .filter(it => {
         return it?.id === item.id
@@ -60,7 +60,7 @@ const ArticleList: React.FC = () => {
         return it;
       });
 
-    let tempPage = {
+    const tempPage = {
       ...page,
       list: page.list,
     };
@@ -68,7 +68,7 @@ const ArticleList: React.FC = () => {
 
   }
 
-  let loadMore = async () => {
+  const loadMore = async () => {
     setLoading(true);
 
     try {
@@ -82,7 +82,7 @@ const ArticleList: React.FC = () => {
       articlePageQueryInputDTO.lastValues = res.lastValues;
       setArticlePageQueryInputDTO(articlePageQueryInputDTO);
 
-      let tempPage = {
+      const tempPage = {
         pageIndex: res.pageIndex,
         pageSize: res.pageSize,
         list: [...page.list || [], ...res.list || []],
@@ -97,7 +97,7 @@ const ArticleList: React.FC = () => {
     }
   };
 
-  let refresh = async () => {
+  const refresh = async () => {
     setLoading(true);
 
     // 重置参数
@@ -202,7 +202,7 @@ const ArticleList: React.FC = () => {
                     ?
                     // 展示它容易内容溢出，先不展示了。
                     // <img
-                    //   width={272}
+                    //   width={'100%'}
                     //   alt="cover"
                     //   src={item?.cover}
                     // />
@@ -216,14 +216,27 @@ const ArticleList: React.FC = () => {
                   description={item?.account?.introduction}
                 />
 
-                <div onClick={() => history.push(`/article/${item.id}`)}>
+                <Typography onClick={() => history.push(`/article/${item.id}`)}>
                   <Typography.Title ellipsis={{rows: 1, tooltip: item?.title}} level={1}>
                     <Markdown content={item?.title}/>
                   </Typography.Title>
-                  <Typography.Paragraph ellipsis={{rows: 5}} style={{maxHeight:'200px'}}>
-                    <Markdown content={item?.customContent || ''}/>
-                  </Typography.Paragraph>
-                </div>
+                  <Row>
+                    <Col lg={16} xs={24}>
+                      <Typography.Paragraph ellipsis={{rows: 5}} style={{maxHeight: '200px'}}>
+                        <Markdown content={item?.customContent || ''}/>
+                      </Typography.Paragraph>
+                    </Col>
+                    <Col lg={8} xs={0}>
+                      <img
+                        width={'100%'}
+                        style={{paddingLeft:16}}
+                        alt="cover"
+                        src={item?.cover}
+                      />
+                    </Col>
+                  </Row>
+                </Typography>
+
               </List.Item>
             )
             }
