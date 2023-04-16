@@ -7,12 +7,13 @@ import {
   WarningOutlined
 } from '@ant-design/icons';
 import {PageContainer} from '@ant-design/pro-components';
+import { Comment } from '@ant-design/compatible';
+
 import {
-  BackTop,
   Button,
   Card,
-  Comment,
   Divider,
+  FloatButton,
   Form,
   Input,
   List,
@@ -22,6 +23,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
+
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
 import {history, useAccess, useIntl, useModel, useParams} from "@@/exports";
@@ -126,13 +128,12 @@ const Article: React.FC = () => {
 
 
   return (
-    <PageContainer
+    (<PageContainer
       header={{
         title: '',
       }}
       loading={loading}
     >
-
       <Card
         bordered={false}
         style={{marginBottom: 24}}
@@ -223,8 +224,6 @@ const Article: React.FC = () => {
           </Space>
         </Space>
       </Card>
-
-
       <Card
         title={intl.formatMessage({
           id: "pages.ArticleDetails.comment.title",
@@ -384,9 +383,8 @@ const Article: React.FC = () => {
 
         />
       </Card>
-
-      <BackTop/>
-    </PageContainer>
+      <FloatButton.BackTop/>
+    </PageContainer>)
   );
 };
 

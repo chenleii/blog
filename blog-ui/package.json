@@ -44,11 +44,12 @@
     "not ie <= 10"
   ],
   "dependencies": {
+    "@ant-design/compatible": "^5.1.1",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.9",
     "@emotion/css": "^11.10.0",
     "@umijs/route-utils": "^2.0.0",
-    "antd": "^4.23.1",
+    "antd": "^5.4.2",
     "classnames": "^2.3.0",
     "lodash": "^4.17.0",
     "md-editor-rt": "^2.2.1",

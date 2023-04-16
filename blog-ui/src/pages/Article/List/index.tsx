@@ -1,6 +1,20 @@
 import {LikeFilled, LikeOutlined, MessageOutlined, WarningFilled, WarningOutlined} from '@ant-design/icons';
 import {PageContainer} from '@ant-design/pro-components';
-import {BackTop, Button, Card, Col, Divider, Form, Input, List, Popover, Row, Skeleton, Space, Typography,} from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  FloatButton,
+  Form,
+  Input,
+  List,
+  Popover,
+  Row,
+  Skeleton,
+  Space,
+  Typography,
+} from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
 import {history, useIntl, useLocation, useSearchParams} from "@@/exports";
@@ -85,7 +99,7 @@ const ArticleList: React.FC = () => {
       const tempPage = {
         pageIndex: res.pageIndex,
         pageSize: res.pageSize,
-        list: [...page.list || [], ...res.list || []],
+        list: [...(page.list || []), ...(res.list || [])],
         total: res.total,
         lastValues: res.lastValues,
       };
@@ -121,7 +135,7 @@ const ArticleList: React.FC = () => {
   }, [searchParams]);
 
   return (
-    <PageContainer
+    (<PageContainer
       header={{
         title: '',
       }}
@@ -243,9 +257,8 @@ const ArticleList: React.FC = () => {
           />
         </InfiniteScroll>
       </Card>
-      <BackTop/>
-
-    </PageContainer>
+      <FloatButton.BackTop/>
+    </PageContainer>)
   );
 };
 

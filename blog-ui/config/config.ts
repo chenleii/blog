@@ -3,11 +3,21 @@ import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
+const { theme } = require('antd/lib');
+const { convertLegacyToken } = require('@ant-design/compatible/lib');
+
+const { defaultAlgorithm, defaultSeed } = theme;
+
+const mapToken = defaultAlgorithm(defaultSeed);
+const v4Token = convertLegacyToken(mapToken);
 
 const { REACT_APP_ENV } = process.env;
 
 // https://umijs.org/docs/api/config
 export default defineConfig({
+lessLoader:{
+modifyVars:v4Token
+},
   base: '/blog/',
   // 静态资源使用根目录
   // publicPath: '/',

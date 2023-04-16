@@ -1,5 +1,16 @@
 import {PageContainer} from '@ant-design/pro-components';
-import {BackTop, Button, Card, Col, Divider, Input, List, Row, Space, Typography,} from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  FloatButton,
+  Input,
+  List,
+  Row,
+  Space,
+  Typography,
+} from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
 import {history, useIntl, useModel, useParams} from "@@/exports";
@@ -43,7 +54,7 @@ const AccountCenter: React.FC = () => {
       let tempPage = {
         pageIndex: accountArticlePageRes.pageIndex,
         pageSize: accountArticlePageRes.pageSize,
-        list: [...accountArticlePage.list || [], ...accountArticlePageRes.list || []],
+        list: [...(accountArticlePage.list || []), ...(accountArticlePageRes.list || [])],
         total: accountArticlePageRes.total,
         lastValues: accountArticlePageRes.lastValues,
       };
@@ -82,7 +93,7 @@ const AccountCenter: React.FC = () => {
   }, [params]);
 
   return (
-    <PageContainer
+    (<PageContainer
       header={{
         title: '',
       }}
@@ -99,7 +110,6 @@ const AccountCenter: React.FC = () => {
           </Typography.Paragraph>
         </Space>
       </Card>
-
       <Card
         title={
           intl.formatMessage({
@@ -197,8 +207,8 @@ const AccountCenter: React.FC = () => {
           }
         />
       </Card>
-      <BackTop/>
-    </PageContainer>
+      <FloatButton.BackTop/>
+    </PageContainer>)
   );
 };
 
