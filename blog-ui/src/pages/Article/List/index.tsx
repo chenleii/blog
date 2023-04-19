@@ -235,17 +235,26 @@ const ArticleList: React.FC = () => {
                     <Markdown content={item?.title}/>
                   </Typography.Title>
                   <Row>
-                    <Col lg={16} xs={24}>
+                    <Col lg={item?.cover ? 16 : 24} xs={24}>
                       <Typography.Paragraph ellipsis={{rows: 5}} style={{maxHeight: '200px'}}>
                         <Markdown content={item?.customContent || ''}/>
                       </Typography.Paragraph>
                     </Col>
-                    <Col lg={8} xs={0}>
+                    <Col lg={item?.cover ? 8 : 0} xs={0}>
                       <img
                         width={'100%'}
                         style={{paddingLeft:16}}
                         alt="cover"
                         src={item?.cover}
+                        // 图片加载失败，就把图片设置为null，不展示图片。
+                        onError={()=> setPage({
+                        list: page.list.map(i => {
+                            if(i.id === item.id){
+                                i.cover = null;
+                            }
+                            return i;
+                        }),
+                        ...page})}
                       />
                     </Col>
                   </Row>
