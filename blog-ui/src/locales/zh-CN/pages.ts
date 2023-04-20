@@ -1,7 +1,6 @@
 export default {
 
   'pages.account.center.articleList.title': '文章列表',
-  'pages.account.center.articleList.loadMore': '加载更多',
 
   'pages.account.update.avatar': '头像',
   'pages.account.update.avatar.updateButton': '更换头像',
@@ -22,7 +21,7 @@ export default {
   'pages.ArticleDetails.replyComment.title': '回复',
   'pages.ArticleDetails.replyComment.content': '回复内容',
   'pages.ArticleDetails.replyComment.submitButton': '回复',
-  'pages.ArticleList.endMessage': '没有更多了呢',
+
 
   'pages.ArticleEditor.title': '标题',
   'pages.ArticleEditor.tags': '标签',
