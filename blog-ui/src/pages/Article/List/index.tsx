@@ -226,8 +226,9 @@ const ArticleList: React.FC = () => {
               >
                 <List.Item.Meta
                   avatar={<Avatar src={item?.account?.avatar} size={'large'}/>}
-                  title={<a href={item?.account?.avatar}>{item?.account?.name}</a>}
+                  title={item?.account?.name}
                   description={item?.account?.introduction}
+                  onClick={() => history.push(`/account/${item.account.id}`)}
                 />
 
                 <Typography onClick={() => history.push(`/article/${item.id}`)}>

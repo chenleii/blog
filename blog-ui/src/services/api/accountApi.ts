@@ -72,3 +72,18 @@ export async function update1(body: API.AccountUpdateInputDTO, options?: { [key:
     ...(options || {}),
   });
 }
+
+/** 账户查询 GET /api/blog/account/${accountId} */
+export async function query(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.accountQueryParams,
+  options?: { [key: string]: any },
+) {
+  const { accountId: param0, ...queryParams } = params;
+  return request<API.AccountRepresentation>(`/api/blog/account/${param0}`, {
+    method: 'GET',
+    params: { ...queryParams },
+    ...(options || {}),
+  });
+}
+

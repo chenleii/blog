@@ -150,7 +150,9 @@ const Article: React.FC = () => {
         }
       >
 
-        <Space direction={"vertical"} align={'center'} style={{width: '100%'}}>
+        <Space direction={"vertical"} align={'center'} style={{width: '100%'}}
+         onClick={() => history.push(`/account/${article.account.id}`)}
+         >
           <Avatar src={article?.account?.avatar} alt="" size={128}/>
           <Typography.Title level={3}>
             {article?.account?.name}
@@ -296,8 +298,8 @@ const Article: React.FC = () => {
                     </span>
                   </Popover>
                 ]}
-                author={<a>{comment?.account?.name}</a>}
-                avatar={<Avatar src={comment?.account?.avatar} alt=""/>}
+                author={<a onClick={() => history.push(`/account/${comment?.account?.id}`)}>{comment?.account?.name}</a>}
+                avatar={<Avatar onClick={() => history.push(`/account/${comment?.account?.id}`)} src={comment?.account?.avatar} alt=""/>}
                 datetime={
                   <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
                     <span>{moment(comment?.commentedAt, undefined, intl.locale).fromNow()}</span>
@@ -357,8 +359,8 @@ const Article: React.FC = () => {
                                 </span>
                               </Popover>
                             ]}
-                            author={<a>{subComment?.account?.name}</a>}
-                            avatar={<Avatar src={subComment?.account?.avatar} alt=""/>}
+                            author={<a onClick={() => history.push(`/account/${subComment?.account?.id}`)}>{subComment?.account?.name}</a>}
+                            avatar={<Avatar onClick={() => history.push(`/account/${subComment?.account?.id}`)} src={subComment?.account?.avatar} alt=""/>}
                             datetime={
                               <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
                                 <span>{moment(subComment?.commentedAt, undefined, intl.locale).fromNow()}</span>

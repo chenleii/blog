@@ -277,6 +277,10 @@ declare namespace API {
     notificationId: number;
   };
 
+  type accountQueryParams = {
+    accountId: string;
+  };
+
   type readParams = {
     notificationId: number;
   };
