@@ -9,6 +9,7 @@ declare namespace API {
   type accountPageQueryParams = {
     /** 搜索关键字 */
     searchKeyword?: string;
+    accountId?: string;
     /** 查询的状态 */
     statuses?: ('DRAFT' | 'PUBLICATION' | 'VIEWABLE' | 'INVISIBLE')[];
     /** 是否开启拼音搜索 */
