@@ -201,7 +201,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
           }
           allowClear={true}
           size="middle"
-          suffix={<SearchOutlined/>}
+          suffix={<SearchOutlined onClick={async () => await onSearch(searchValue)}/>}
           ref={inputRef}
           placeholder={
             intl.formatMessage({

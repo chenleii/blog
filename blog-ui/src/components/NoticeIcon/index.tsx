@@ -126,7 +126,7 @@ const NoticeIconView: React.FC = () => {
                 refreshFunction={refresh}
 
                 loader={<Skeleton avatar paragraph={{rows: 1}} active/>}
-                endMessage={<Divider plain>{intl.formatMessage({id: 'pages.ArticleList.endMessage'})}</Divider>}
+                endMessage={<Divider plain>{intl.formatMessage({id: 'component.endMessage'})}</Divider>}
 
                 scrollableTarget="notification-card"
               >
@@ -145,7 +145,7 @@ const NoticeIconView: React.FC = () => {
                         actions={[(<ClearOutlined onClick={() => clear(item)}/>)]}
                       >
                         <Typography onClick={() => onClick(item)}>
-                          <Typography.Title ellipsis={{rows: 1,}} level={5}>
+                          <Typography.Title ellipsis={{rows: 1,}} level={5} style={{margin:0}}>
                             {item?.details?.title}
                           </Typography.Title>
                           <Typography.Paragraph ellipsis={{rows: 2, tooltip: item?.details?.content}}
