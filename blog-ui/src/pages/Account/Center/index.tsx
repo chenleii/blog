@@ -13,7 +13,7 @@ import {
 } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
-import {history, useIntl, useModel, useParams} from "@@/exports";
+import {history, useIntl, useModel, useLocation, useParams} from "@@/exports";
 import api from '@/services/api';
 import Markdown from "@/components/Markdown";
 import {
@@ -30,17 +30,21 @@ import {InitialState} from "@/app";
 const AccountCenter: React.FC = () => {
   const {initialState} = useModel('@@initialState');
   const {loggedInAccount} = initialState as InitialState || {};
-  const [loading, setLoading] = useState<boolean>(false);
+  const [accountLoading, setAccountLoading] = useState<boolean>(false);
   const [articleListLoading, setArticleListLoading] = useState<boolean>(false);
   const [isEnd, setIsEnd] = useState<boolean>(false);
   const params = useParams();
-  const [account, setAccount] = useState<API.LoggedInAccount>({});
+  const [account, setAccount] = useState<API.AccountRepresentation>({});
   const [accountArticlePage, setAccountArticlePage] = useState<API.PaginationArticleRepresentation>({});
-  let [accountArticlePageQueryInputDTO, setAccountArticlePageQueryInputDTO] = useState<API.accountPageQueryParams>({
+  const [accountArticlePageQueryInputDTO, setAccountArticlePageQueryInputDTO] = useState<API.accountPageQueryParams>({
     pageIndex: 1,
     pageSize: 10,
   });
-  let intl = useIntl();
+  const intl = useIntl();
+  const location = useLocation();
+
+  // 区分是不是个人中心页
+  const isAccountCenter = location.pathname.includes("/center");
 
   let loadMoreAccountArticlePage = async () => {
     setArticleListLoading(true);
@@ -64,7 +68,6 @@ const AccountCenter: React.FC = () => {
         setIsEnd(true);
       }
     } finally {
-      setLoading(false);
       setArticleListLoading(false);
     }
   }
@@ -84,11 +87,27 @@ const AccountCenter: React.FC = () => {
   }
 
 
+  let loadAccount = async () => {
+    try {
+      if(isAccountCenter){
+        setAccount({...loggedInAccount});
+        return;
+      }
+
+      let accountId = params.accountId;
+      let account = await api.accountApi.query({accountId: accountId});
+      setAccount(account);
+    } finally {
+      setAccountLoading(false);
+    }
+  }
+
+
   useEffect(() => {
-    setLoading(true);
+    setAccountLoading(true);
     setArticleListLoading(true);
 
-    setAccount(loggedInAccount || {});
+    loadAccount(params.accountId);
     loadMoreAccountArticlePage();
   }, [params]);
 
@@ -97,9 +116,8 @@ const AccountCenter: React.FC = () => {
       header={{
         title: '',
       }}
-      loading={loading}
     >
-      <Card bordered={false} style={{marginBottom: 24}} loading={loading} title={''}>
+      <Card bordered={false} style={{marginBottom: 24}} loading={accountLoading} title={''}>
         <Space direction={"vertical"} align={'center'} style={{width: '100%'}}>
           <Avatar src={account?.avatar} alt="" size={128}/>
           <Typography.Title level={3}>
@@ -131,7 +149,7 @@ const AccountCenter: React.FC = () => {
         <List
           itemLayout="vertical"
           size="default"
-          loading={loading || articleListLoading}
+          loading={articleListLoading}
           dataSource={accountArticlePage?.list}
           loadMore={
             isEnd
