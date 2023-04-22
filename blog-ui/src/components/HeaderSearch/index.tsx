@@ -16,7 +16,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
   const intl = useIntl();
   const [searchValue, setSearchValue] = useState<string>("");
   const [blogArticleSearchHistory, setBlogArticleSearchHistory] = useState<string[]>([]);
-  const [hotArticleList, setHotArticleList] = useState<API.ArticleRepresentation[]>([]);
+  const [hotArticleList, setHotArticleList] = useState<API.ArticleResult[]>([]);
   const [hotSearchList, setHotSearchList] = useState<string[]>([]);
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
 
@@ -108,89 +108,88 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
             await resetDropdown();
           }
         }}
-        dropdownRender={(menus) => {
-            return (<>
-              <Card
-                title={intl.formatMessage({
-                  id: 'component.globalHeader.HeaderSearch.searchHistory.title',
-                  defaultMessage: '搜索历史',
+        overlay={
+          <>
+            <Card
+              title={intl.formatMessage({
+                id: 'component.globalHeader.HeaderSearch.searchHistory.title',
+                defaultMessage: '搜索历史',
+              })}
+              extra={<a onClick={cleanSearchHistory}>
+                {intl.formatMessage({
+                  id: 'component.globalHeader.HeaderSearch.searchHistory.extra',
+                  defaultMessage: '清空',
                 })}
-                extra={<a onClick={cleanSearchHistory}>
-                  {intl.formatMessage({
-                    id: 'component.globalHeader.HeaderSearch.searchHistory.extra',
-                    defaultMessage: '清空',
-                  })}
-                </a>}
-              >
-                <Space wrap={true}>
-                  {
-                    blogArticleSearchHistory.map((item: string) => {
-                      return (
-                        <Badge key={item} count={<CloseCircleFilled style={{color: '#9a9a9a', fontSize: '10px'}}/>}
-                               offset={[-5, 0]}>
-                          <Tag
-                            key={item}
-                            closable
-                            onClose={() => removeSearchHistory(item)}
-                            onClick={() => onSearch(item)}>
-                            {item}
-                          </Tag>
-                        </Badge>
-                      )
-                    })
-                  }
-                </Space>
-              </Card>
-              <Card
-                title={intl.formatMessage({
-                  id: 'component.globalHeader.HeaderSearch.hotSearch.title',
-                  defaultMessage: '热搜',
-                })}
-              >
-                <Space wrap={true}>
-                  {
-                    hotSearchList.map((item: string) => {
-                      return (
+              </a>}
+            >
+              <Space wrap={true}>
+                {
+                  blogArticleSearchHistory.map((item: string) => {
+                    return (
+                      <Badge key={item} count={<CloseCircleFilled style={{color: '#9a9a9a', fontSize: '10px'}}/>}
+                             offset={[-5, 0]}>
                         <Tag
                           key={item}
+                          closable
+                          onClose={() => removeSearchHistory(item)}
                           onClick={() => onSearch(item)}>
                           {item}
                         </Tag>
-                      )
-                    })
-                  }
-                </Space>
-              </Card>
-              <Card
-                title={intl.formatMessage({
-                  id: 'component.globalHeader.HeaderSearch.hotArticle.title',
-                  defaultMessage: '热门文章',
-                })}
-                bodyStyle={{padding: '0', margin: '0'}}
-              >
-                {
-                  hotArticleList.map((item: API.ArticleRepresentation) => {
-                    return (
-                      <Badge.Ribbon key={item?.id} text='Hot' color="red">
-                        <Card.Grid
-                          key={item?.id}
-                          style={{width: '100%',}}
-                          onClick={(value) => toArticlePage(item?.id)}
-                        >
-                          <Typography.Paragraph
-                            ellipsis={{rows: 1}}
-                            style={{width: '100%', margin: '0'}}
-                          >
-                            {item?.title}
-                          </Typography.Paragraph>
-                        </Card.Grid>
-                      </Badge.Ribbon>
+                      </Badge>
                     )
                   })
                 }
-              </Card>
-            </>)
-          }
+              </Space>
+            </Card>
+            <Card
+              title={intl.formatMessage({
+                id: 'component.globalHeader.HeaderSearch.hotSearch.title',
+                defaultMessage: '热搜',
+              })}
+            >
+              <Space wrap={true}>
+                {
+                  hotSearchList.map((item: string) => {
+                    return (
+                      <Tag
+                        key={item}
+                        onClick={() => onSearch(item)}>
+                        {item}
+                      </Tag>
+                    )
+                  })
+                }
+              </Space>
+            </Card>
+            <Card
+              title={intl.formatMessage({
+                id: 'component.globalHeader.HeaderSearch.hotArticle.title',
+                defaultMessage: '热门文章',
+              })}
+              bodyStyle={{padding: '0', margin: '0'}}
+            >
+              {
+                hotArticleList.map((item: API.ArticleResult) => {
+                  return (
+                    <Badge.Ribbon key={item?.id} text='Hot' color="red">
+                      <Card.Grid
+                        key={item?.id}
+                        style={{width: '100%',}}
+                        onClick={(value) => toArticlePage(item?.id)}
+                      >
+                        <Typography.Paragraph
+                          ellipsis={{rows: 1}}
+                          style={{width: '100%', margin: '0'}}
+                        >
+                          {item?.title}
+                        </Typography.Paragraph>
+                      </Card.Grid>
+                    </Badge.Ribbon>
+                  )
+                })
+              }
+            </Card>
+          </>
         }
       >
         <Input
@@ -201,7 +200,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
           }
           allowClear={true}
           size="middle"
-          suffix={<SearchOutlined onClick={async () => await onSearch(searchValue)}/>}
+          suffix={<SearchOutlined/>}
           ref={inputRef}
           placeholder={
             intl.formatMessage({

@@ -4,7 +4,6 @@ package com.chen.blog.core.notification.domain.model;
 import com.chen.blog.core.sharedkernel.ddd.Identifiable;
 import com.chen.blog.core.sharedkernel.ddd.Identifier;
 import com.chen.blog.core.sharedkernel.ddd.annotation.ValueObject;
-import com.chen.blog.core.sharedkernel.idgenerator.IdGenerators;
 import com.google.common.base.Preconditions;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -35,9 +34,6 @@ public class NotificationId implements Identifiable<Long>, Identifier {
         return new NotificationId(id);
     }
 
-    public static NotificationId generateId() {
-        return NotificationId.of(IdGenerators.current().generateId());
-    }
     @Override
     public Long getId() {
         return id;

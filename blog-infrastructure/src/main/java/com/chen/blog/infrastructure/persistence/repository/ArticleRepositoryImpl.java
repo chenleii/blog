@@ -1,6 +1,9 @@
 package com.chen.blog.infrastructure.persistence.repository;
 
 import co.elastic.clients.elasticsearch._types.*;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.chen.blog.core.account.domain.model.cqrs.representation.AccountRepresentation;
 import com.chen.blog.core.article.domain.model.Article;
 import com.chen.blog.core.article.domain.model.ArticleId;
@@ -10,6 +13,7 @@ import com.chen.blog.core.article.domain.model.cqrs.query.ArticleQuery;
 import com.chen.blog.core.article.domain.model.cqrs.representation.ArticleRepresentation;
 import com.chen.blog.core.article.domain.model.repository.ArticleQueryRepository;
 import com.chen.blog.core.article.domain.model.repository.ArticleRepository;
+import com.chen.blog.core.sharedkernel.cqrs.PageQuery;
 import com.chen.blog.core.sharedkernel.cqrs.Pagination;
 import com.chen.blog.infrastructure.persistence.repository.dataobject.AccountDO;
 import com.chen.blog.infrastructure.persistence.repository.dataobject.ArticleDO;
@@ -17,8 +21,8 @@ import com.chen.blog.infrastructure.persistence.repository.domainconverter.Artic
 import com.chen.blog.infrastructure.persistence.repository.elasticsearch.ArticleElasticsearchRepository;
 import com.chen.blog.infrastructure.persistence.repository.mongodb.AccountMongoRepository;
 import com.chen.blog.infrastructure.persistence.repository.mongodb.ArticleMongoRepository;
-import com.chen.blog.infrastructure.persistence.repository.representationconverter.AccountRepresentationConverter;
-import com.chen.blog.infrastructure.persistence.repository.representationconverter.ArticleRepresentationConverter;
+import com.chen.blog.infrastructure.persistence.repository.representationconverter.AccountResultConverter;
+import com.chen.blog.infrastructure.persistence.repository.representationconverter.ArticleResultConverter;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -29,6 +33,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
+import org.springframework.data.elasticsearch.client.elc.QueryBuilders;
+import org.springframework.data.elasticsearch.client.erhlc.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.client.erhlc.HighlightQueryBuilder;
+import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQuery;
+import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.HighlightQuery;
@@ -217,7 +226,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
                 .map(SearchHit::getContent)
                 .collect(Collectors.toList());
 
-        List<ArticleRepresentation> list = ArticleRepresentationConverter.MAPPER.listFromList(articleDOList);
+        List<ArticleRepresentation> list = ArticleResultConverter.MAPPER.listFromList(articleDOList);
         // 补全其他信息信息
         setOther(pageQuery.getCurrentAccountId(), list);
         List<Object> resultLastValues = CollectionUtils.isNotEmpty(searchHitList) ? searchHitList.get(searchHitList.size() - 1).getSortValues() : null;
@@ -237,7 +246,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
 
         Optional<ArticleDO> articleDO = articleMongoRepository.findById(articleId);
         return articleDO
-                .map(ArticleRepresentationConverter.MAPPER::from)
+                .map(ArticleResultConverter.MAPPER::from)
                 .map((articleResult) -> {
                     // 补全其他信息信息
                     setOther(currentAccountId, Collections.singletonList(articleResult));
@@ -252,7 +261,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
             return Collections.emptyList();
         }
         List<ArticleDO> articleDOList = IterableUtils.toList(articleMongoRepository.findAllById(articleIds));
-        List<ArticleRepresentation> list = ArticleRepresentationConverter.MAPPER.listFromList(articleDOList);
+        List<ArticleRepresentation> list = ArticleResultConverter.MAPPER.listFromList(articleDOList);
         // 保证按照批量查询ids的顺序返回
         list = list.stream()
                 .sorted(Comparator.comparingInt(v -> articleIds.indexOf(v.getId())))
@@ -367,7 +376,7 @@ public class ArticleRepositoryImpl implements ArticleRepository, ArticleQueryRep
         }
 
         Map<Long, AccountRepresentation> accountMap = accounts.stream()
-                .map(AccountRepresentationConverter.MAPPER::from)
+                .map(AccountResultConverter.MAPPER::from)
                 .peek((item) -> item.setPassword(null))
                 .collect(Collectors.toMap(AccountRepresentation::getId, (item) -> item));
         // 设置账户

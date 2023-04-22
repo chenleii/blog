@@ -370,7 +370,6 @@ public class Article implements DomainEventPublisher {
 
                         .commentId(commentId.getId())
                         .subCommentId(subCommentId.getId())
-                        .replySubCommentId(Optional.ofNullable(replySubCommentId).map(ArticleSubCommentId::getId).orElse(null))
                         .commentedAccountId(account.getId().getId())
                         .build()
         );

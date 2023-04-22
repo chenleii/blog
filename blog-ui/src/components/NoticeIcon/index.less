@@ -1,33 +1,15 @@
-/* @import (reference) '~antd/es/style/themes/index'; */
-
-.notification-padding{
-  padding-right: 24px;
-  padding-left: 24px;
-
-}
-
-.card {
-  box-shadow:0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
-
-  .list{
-
-    .item{
-
-      &:hover {
-        background: @primary-1;
-      }
-      &.read {
-        opacity: 0.3;
-      }
-    }
-  }
-}
+@import (reference) '~antd/es/style/themes/index';
 
 .popover {
   position: relative;
-  width: 369px;
+  width: 336px;
 }
 
+.noticeButton {
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s;
+}
 .icon {
   padding: 4px;
   vertical-align: middle;
@@ -37,10 +19,17 @@
   font-size: 16px;
 }
 
-.action {
-  display: flex;
-  align-items: center;
-  height: 48px;
-  cursor: pointer;
-  transition: all 0.3s;
+.tabs {
+  :global {
+    .ant-tabs-nav-list {
+      margin: auto;
+    }
+
+    .ant-tabs-nav-scroll {
+      text-align: center;
+    }
+    .ant-tabs-nav {
+      margin-bottom: 0;
+    }
+  }
 }

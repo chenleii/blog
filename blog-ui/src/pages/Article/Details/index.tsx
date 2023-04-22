@@ -7,13 +7,12 @@ import {
   WarningOutlined
 } from '@ant-design/icons';
 import {PageContainer} from '@ant-design/pro-components';
-import { Comment } from '@ant-design/compatible';
-
 import {
+  BackTop,
   Button,
   Card,
+  Comment,
   Divider,
-  FloatButton,
   Form,
   Input,
   List,
@@ -23,7 +22,6 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
 import {history, useAccess, useIntl, useModel, useParams} from "@@/exports";
@@ -114,26 +112,14 @@ const Article: React.FC = () => {
     queryArticle();
   }, [params]);
 
-  useEffect(() => {
-    // 获取当前地址栏中的锚点 eg:#评论ID
-    const hash = window.location.hash;
-    if (hash) {
-      const element = document.getElementById(hash);
-      if (element) {
-        // 滚动到锚点位置
-        element.scrollIntoView();
-      }
-    }
-  }, [loading]);
-
-
   return (
-    (<PageContainer
+    <PageContainer
       header={{
         title: '',
       }}
       loading={loading}
     >
+
       <Card
         bordered={false}
         style={{marginBottom: 24}}
@@ -150,9 +136,7 @@ const Article: React.FC = () => {
         }
       >
 
-        <Space direction={"vertical"} align={'center'} style={{width: '100%'}}
-         onClick={() => history.push(`/account/${article.account.id}`)}
-         >
+        <Space direction={"vertical"} align={'center'} style={{width: '100%'}}>
           <Avatar src={article?.account?.avatar} alt="" size={128}/>
           <Typography.Title level={3}>
             {article?.account?.name}
@@ -217,7 +201,7 @@ const Article: React.FC = () => {
             <MessageOutlined/>
             {article?.comments ? article?.comments.length : 0}
           </Space>
-          <Space onClick={() => shareRun()}>
+          <Space onClick={()=> shareRun()}>
             <ShareAltOutlined/>
             {intl.formatMessage({
               id: "pages.ArticleDetails.share.title",
@@ -226,6 +210,8 @@ const Article: React.FC = () => {
           </Space>
         </Space>
       </Card>
+
+
       <Card
         title={intl.formatMessage({
           id: "pages.ArticleDetails.comment.title",
@@ -258,7 +244,7 @@ const Article: React.FC = () => {
           itemLayout="horizontal"
           dataSource={article?.comments}
           renderItem={comment => (
-            <li id={"#" + comment.id}>
+            <li>
               <Comment
                 actions={[
                   <Popover
@@ -298,11 +284,11 @@ const Article: React.FC = () => {
                     </span>
                   </Popover>
                 ]}
-                author={<a onClick={() => history.push(`/account/${comment?.account?.id}`)}>{comment?.account?.name}</a>}
-                avatar={<Avatar onClick={() => history.push(`/account/${comment?.account?.id}`)} src={comment?.account?.avatar} alt=""/>}
+                author={<a>{comment?.account?.name}</a>}
+                avatar={<Avatar src={comment?.account?.avatar} alt=""/>}
                 datetime={
                   <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                    <span>{moment(comment?.commentedAt, undefined, intl.locale).fromNow()}</span>
+                    <span>{moment(comment?.commentedAt).fromNow()}</span>
                   </Tooltip>
                 }
                 content={
@@ -319,7 +305,7 @@ const Article: React.FC = () => {
                       itemLayout="horizontal"
                       dataSource={comment?.subComments}
                       renderItem={subComment => (
-                        <li id={"#" + subComment.id}>
+                        <li>
                           <Comment
                             actions={[
                               <Popover
@@ -359,11 +345,11 @@ const Article: React.FC = () => {
                                 </span>
                               </Popover>
                             ]}
-                            author={<a onClick={() => history.push(`/account/${subComment?.account?.id}`)}>{subComment?.account?.name}</a>}
-                            avatar={<Avatar onClick={() => history.push(`/account/${subComment?.account?.id}`)} src={subComment?.account?.avatar} alt=""/>}
+                            author={<a>{subComment?.account?.name}</a>}
+                            avatar={<Avatar src={subComment?.account?.avatar} alt=""/>}
                             datetime={
                               <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                <span>{moment(subComment?.commentedAt, undefined, intl.locale).fromNow()}</span>
+                                <span>{moment(subComment?.commentedAt).fromNow()}</span>
                               </Tooltip>
                             }
                             content={
@@ -385,8 +371,9 @@ const Article: React.FC = () => {
 
         />
       </Card>
-      <FloatButton.BackTop/>
-    </PageContainer>)
+
+      <BackTop/>
+    </PageContainer>
   );
 };
 

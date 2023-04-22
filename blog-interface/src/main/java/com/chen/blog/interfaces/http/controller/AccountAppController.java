@@ -7,10 +7,6 @@ import com.chen.blog.core.account.domain.model.cqrs.command.AccountLoginCommand;
 import com.chen.blog.core.account.domain.model.cqrs.command.AccountRefreshLoginCommand;
 import com.chen.blog.core.account.domain.model.cqrs.command.AccountUpdateCommand;
 import com.chen.blog.core.account.domain.model.cqrs.command.SendLoginVerificationCodeCommand;
-import com.chen.blog.core.account.domain.model.cqrs.query.AccountQuery;
-import com.chen.blog.core.account.domain.model.cqrs.representation.AccountRepresentation;
-import com.chen.blog.core.notification.domain.model.cqrs.query.NotificationQuery;
-import com.chen.blog.core.notification.domain.model.cqrs.representation.NotificationRepresentation;
 import com.chen.blog.core.sharedkernel.tracer.OpenTracer;
 import com.chen.blog.core.sharedkernel.tracer.TraceMonitorLog;
 import com.chen.blog.interfaces.http.dto.input.AccountLoginInputDTO;
@@ -121,13 +117,5 @@ public class AccountAppController extends AbstractAppController {
                         .build()
         );
         super.login(loggedInAccount);
-    }
-
-
-
-    @Operation(summary = "账户查询")
-    @GetMapping("/{accountId}")
-    public AccountRepresentation query(@PathVariable(name = "accountId") Long accountId) {
-        return accountQueryService.query(AccountQuery.builder().accountId(accountId).build());
     }
 }

@@ -1,5 +1,5 @@
 import {PageContainer} from '@ant-design/pro-components';
-import { Avatar, Button, Card, FloatButton, Form, Input, Space } from 'antd';
+import {Avatar, BackTop, Button, Card, Form, Input, Space,} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {useIntl, useModel} from "@@/exports";
 import api from '@/services/api';
@@ -44,7 +44,7 @@ const AccountUpdate: React.FC = () => {
   }, []);
 
   return (
-    (<PageContainer
+    <PageContainer
       header={{
         title: '',
       }}
@@ -111,8 +111,9 @@ const AccountUpdate: React.FC = () => {
           </Form.Item>
         </Form>
       </Card>
-      <FloatButton.BackTop/>
-    </PageContainer>)
+
+      <BackTop/>
+    </PageContainer>
   );
 };
 

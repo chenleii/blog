@@ -1,72 +1,94 @@
 import {PageContainer} from '@ant-design/pro-components';
-import {Card, FloatButton, Input, Space, Typography,} from 'antd';
+import {BackTop, Button, Card, Divider, Input, List, Space, Typography,} from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, {useEffect, useState} from 'react';
-import {useIntl, useLocation, useModel, useParams} from "@@/exports";
+import {history, useIntl, useModel, useParams} from "@@/exports";
 import api from '@/services/api';
+import Markdown from "@/components/Markdown";
+import {
+  LikeFilled,
+  LikeOutlined,
+  MessageOutlined,
+  SearchOutlined,
+  WarningFilled,
+  WarningOutlined
+} from '@ant-design/icons';
 import {InitialState} from "@/app";
-import ArticleList from "@/components/ArticleList";
 
 
 const AccountCenter: React.FC = () => {
   const {initialState} = useModel('@@initialState');
   const {loggedInAccount} = initialState as InitialState || {};
-  const [accountLoading, setAccountLoading] = useState<boolean>(false);
-  const [searchValue, setSearchValue] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [articleListLoading, setArticleListLoading] = useState<boolean>(false);
+  const [isEnd, setIsEnd] = useState<boolean>(false);
   const params = useParams();
-  const [account, setAccount] = useState<API.AccountRepresentation>({});
-  const [accountArticlePageQueryInputDTO, setAccountArticlePageQueryInputDTO] = useState<API.accountPageQueryParams>({
+  const [account, setAccount] = useState<API.LoggedInAccount>({});
+  const [accountArticlePage, setAccountArticlePage] = useState<API.PaginationArticleRepresentation>({});
+  let [accountArticlePageQueryInputDTO, setAccountArticlePageQueryInputDTO] = useState<API.accountPageQueryParams>({
     pageIndex: 1,
     pageSize: 10,
-    accountId: params?.accountId as string || loggedInAccount?.id + '',
-    searchKeyword: searchValue,
   });
-  const intl = useIntl();
-  const location = useLocation();
+  let intl = useIntl();
 
-  // 区分是不是个人中心页
-  const isAccountCenter = location.pathname.includes("/center");
-
-  let loadAccount = async () => {
-    setAccountLoading(true);
+  let loadMoreAccountArticlePage = async () => {
+    setArticleListLoading(true);
     try {
-      if (isAccountCenter) {
-        setAccount({...loggedInAccount});
-        return;
-      }
+      let accountArticlePageRes = await api.articleApi.accountPageQuery(accountArticlePageQueryInputDTO);
 
-      let account = await api.accountApi.query({accountId: params.accountId as string});
-      setAccount(account);
+      accountArticlePageQueryInputDTO.pageIndex = (accountArticlePageQueryInputDTO?.pageIndex || 0) + 1;
+      accountArticlePageQueryInputDTO.lastValues = accountArticlePageRes?.lastValues;
+      setAccountArticlePageQueryInputDTO(accountArticlePageQueryInputDTO)
+
+      let tempPage = {
+        pageIndex: accountArticlePageRes.pageIndex,
+        pageSize: accountArticlePageRes.pageSize,
+        list: [...accountArticlePage.list || [], ...accountArticlePageRes.list || []],
+        total: accountArticlePageRes.total,
+        lastValues: accountArticlePageRes.lastValues,
+      };
+      setAccountArticlePage(tempPage);
+
+      if ((accountArticlePageRes?.list?.length || 0) < (accountArticlePageQueryInputDTO.pageSize || 0)) {
+        setIsEnd(true);
+      }
     } finally {
-      setAccountLoading(false);
+      setLoading(false);
+      setArticleListLoading(false);
     }
   }
 
-  const pageQuery = async (pageIndex: number) => {
-
-    let accountArticlePageRes = await api.articleApi.pageQuery({
-      ...accountArticlePageQueryInputDTO,
-      searchKeyword: searchValue,
-      pageIndex: pageIndex,
-    });
-
-    accountArticlePageQueryInputDTO.pageIndex = (accountArticlePageQueryInputDTO?.pageIndex || 0) + 1;
-    accountArticlePageQueryInputDTO.lastValues = accountArticlePageRes?.lastValues;
+  let restLoadMoreAccountArticlePage = async (searchValue: any) => {
+    accountArticlePageQueryInputDTO.pageIndex = 1;
+    accountArticlePageQueryInputDTO.lastValues = [];
+    accountArticlePageQueryInputDTO.searchKeyword = searchValue;
     setAccountArticlePageQueryInputDTO(accountArticlePageQueryInputDTO)
-    return accountArticlePageRes;
-  };
+
+    accountArticlePage.pageIndex = 1;
+    accountArticlePage.list = [];
+    accountArticlePage.lastValues = [];
+    setAccountArticlePage(accountArticlePage);
+
+    await loadMoreAccountArticlePage();
+  }
+
 
   useEffect(() => {
-    loadAccount();
+    setLoading(true);
+    setArticleListLoading(true);
+
+    setAccount(loggedInAccount || {});
+    loadMoreAccountArticlePage();
   }, [params]);
 
   return (
-    (<PageContainer
+    <PageContainer
       header={{
         title: '',
       }}
+      loading={loading}
     >
-      <Card bordered={false} style={{marginBottom: 24}} loading={accountLoading} title={''}>
+      <Card bordered={false} style={{marginBottom: 24}} loading={loading} title={''}>
         <Space direction={"vertical"} align={'center'} style={{width: '100%'}}>
           <Avatar src={account?.avatar} alt="" size={128}/>
           <Typography.Title level={3}>
@@ -77,6 +99,7 @@ const AccountCenter: React.FC = () => {
           </Typography.Paragraph>
         </Space>
       </Card>
+
       <Card
         title={
           intl.formatMessage({
@@ -84,17 +107,84 @@ const AccountCenter: React.FC = () => {
             defaultMessage: '文章列表',
           })}
         extra={
-          <Input.Search
+          <Input
             size="middle"
             allowClear={true}
-            onSearch={async (value, event) => setSearchValue(value)}
-          />
+            suffix={<SearchOutlined/>}
+            onKeyDown={async (e) => {
+              if (e.key === 'Enter') {
+                await restLoadMoreAccountArticlePage(e?.target['value']);
+              }
+            }}/>
         }
       >
-        <ArticleList pageQuery={pageQuery} forceUpdate={searchValue}/>
+        <List
+          itemLayout="vertical"
+          size="default"
+          loading={loading || articleListLoading}
+          dataSource={accountArticlePage?.list}
+          loadMore={
+            isEnd
+              ? <Divider plain>{intl.formatMessage({id: 'pages.ArticleList.endMessage'})}</Divider>
+              : <div style={{textAlign: 'center', marginTop: 12,}}>
+                <Button onClick={loadMoreAccountArticlePage}>
+                  {intl.formatMessage({
+                    id: 'pages.account.center.articleList.loadMore',
+                    defaultMessage: '加载更多',
+                  })}
+                </Button>
+              </div>
+          }
+          renderItem={item => (
+            <List.Item
+              key={item?.id}
+              actions={
+                [
+                  <Space>
+                    {item?.isLiked ? <LikeFilled/> : <LikeOutlined/>}
+                    {item?.likedNumber}
+                  </Space>,
+                  <Space>
+                    {item?.isReported ? <WarningFilled/> : <WarningOutlined/>}
+                    {item?.reportedNumber}
+                  </Space>,
+                  <Space>
+                    <MessageOutlined/>
+                    {item?.comments ? item?.comments.length : 0}
+                  </Space>,
+                ]
+              }
+              extra=
+                {item?.cover
+                  ? <img
+                    width={272}
+                    alt="cover"
+                    src={item?.cover}
+                  />
+                  : null
+                }
+            >
+              <List.Item.Meta
+                avatar={<Avatar src={item?.account?.avatar}/>}
+                title={<a href={item?.account?.avatar}>{item?.account?.name}</a>}
+                description={item?.account?.introduction}
+              />
+
+              <div onClick={() => history.push(`/article/${item.id}`)}>
+                <Typography.Title ellipsis={{rows: 1, tooltip: item?.title}} level={1}>
+                  <Markdown content={item?.title}/>
+                </Typography.Title>
+                <Typography.Paragraph ellipsis={{rows: 5}} style={{maxHeight: '200px'}}>
+                  <Markdown content={item?.customContent || ''}/>
+                </Typography.Paragraph>
+              </div>
+            </List.Item>
+          )
+          }
+        />
       </Card>
-      <FloatButton.BackTop/>
-    </PageContainer>)
+      <BackTop/>
+    </PageContainer>
   );
 };
 

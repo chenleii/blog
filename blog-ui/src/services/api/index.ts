@@ -2,11 +2,11 @@
 /* eslint-disable */
 // API 更新时间：
 // API 唯一标识：
-import * as accountApi from './accountApi';
 import * as articleApi from './articleApi';
-import * as notificationApi from './notificationApi';
+import * as timedtaskApi from './timedtaskApi';
+import * as accountApi from './accountApi';
 export default {
   articleApi,
-  notificationApi,
+  timedtaskApi,
   accountApi,
 };

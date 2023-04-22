@@ -5,7 +5,7 @@
     <groupId>com.chen.blog</groupId>
     <artifactId>blog</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1</version>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.target>17</maven.compiler.target>

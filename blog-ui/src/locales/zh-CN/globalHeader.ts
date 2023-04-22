@@ -15,9 +15,6 @@ export default {
   'component.globalHeader.HeaderSearch.hotSearch.title': '热搜',
   'component.globalHeader.HeaderSearch.hotArticle.title': '热门文章',
 
-  'component.globalHeader.Notification.Dropdown.card.title': '通知',
-  'component.globalHeader.Notification.Dropdown.card.extra': '刷新',
-
 
 
   'app.login.modal.title': '您还未登录哦',

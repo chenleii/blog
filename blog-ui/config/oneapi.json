@@ -1,16 +1,16 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "人人博客接口文档",
-    "description": "人人博客接口文档",
+    "title": "接口文档",
+    "description": "接口文档",
+    "termsOfService": "https://example.com/terms/",
     "contact": {
-      "name": "chenlei",
-      "url": "https://github.com/chenleii/blog",
+      "name": "API Support",
+      "url": "https://www.example.com/support",
       "email": "chenleinxd@gamil.com"
     },
     "license": {
-      "name": "Apache 2.0",
-      "url": "https://github.com/chenleii/blog"
+      "name": "Apache 2.0"
     },
     "version": "1.0.0"
   },
@@ -22,7 +22,7 @@
   ],
   "security": [
     {
-      "bearer-jwt": [ ]
+      "bearer-jwt": []
     }
   ],
   "tags": [
@@ -31,16 +31,12 @@
       "description": "文章接口"
     },
     {
-      "name": "extension-crawler-api",
-      "description": "扩展爬虫接口"
-    },
-    {
       "name": "account-api",
       "description": "账户接口"
     },
     {
-      "name": "notification-api",
-      "description": "通知接口"
+      "name": "timedtask-api",
+      "description": "定时任务接口"
     }
   ],
   "paths": {
@@ -50,7 +46,7 @@
           "article-api"
         ],
         "summary": "分页查询",
-        "operationId": "pageQuery_1",
+        "operationId": "pageQuery",
         "parameters": [
           {
             "name": "searchKeyword",
@@ -156,7 +152,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -166,7 +162,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -176,7 +172,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -186,7 +182,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -226,7 +222,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -236,7 +232,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -246,7 +242,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -256,7 +252,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -296,7 +292,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -306,7 +302,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -316,7 +312,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -326,7 +322,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -334,13 +330,13 @@
         }
       }
     },
-    "/api/extension/crawler/segmentFault": {
+    "/api/timedtask/reptile": {
       "post": {
         "tags": [
-          "extension-crawler-api"
+          "timedtask-api"
         ],
-        "summary": "思否",
-        "operationId": "segmentFault",
+        "summary": "爬虫定时任务",
+        "operationId": "reptile",
         "responses": {
           "200": {
             "description": "OK"
@@ -350,7 +346,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -360,7 +356,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -370,7 +366,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -380,137 +376,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/blog/notification/{notificationId}/read": {
-      "post": {
-        "tags": [
-          "notification-api"
-        ],
-        "summary": "读",
-        "operationId": "read",
-        "parameters": [
-          {
-            "name": "notificationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/blog/notification/{notificationId}/clear": {
-      "post": {
-        "tags": [
-          "notification-api"
-        ],
-        "summary": "清除",
-        "operationId": "clear",
-        "parameters": [
-          {
-            "name": "notificationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -552,7 +418,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -562,7 +428,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -572,7 +438,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -582,7 +448,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -624,7 +490,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -634,7 +500,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -644,7 +510,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -654,7 +520,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -696,7 +562,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -706,7 +572,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -716,7 +582,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -726,7 +592,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -768,7 +634,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -778,7 +644,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -788,7 +654,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -798,7 +664,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -832,7 +698,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -842,7 +708,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -852,7 +718,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -862,7 +728,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -896,7 +762,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -906,7 +772,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -916,7 +782,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -926,7 +792,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -957,7 +823,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -967,7 +833,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -977,7 +843,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -987,7 +853,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1011,7 +877,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1021,7 +887,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1031,7 +897,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1041,7 +907,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1072,7 +938,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1082,7 +948,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1092,7 +958,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1102,7 +968,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1141,7 +1007,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1151,7 +1017,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1161,7 +1027,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1171,269 +1037,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/health": {
-      "get": {
-        "tags": [
-          "main-controller"
-        ],
-        "operationId": "health",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/blog/notification": {
-      "get": {
-        "tags": [
-          "notification-api"
-        ],
-        "summary": "分页查询",
-        "operationId": "pageQuery",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "账户ID",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "账户ID",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "statuses",
-            "in": "query",
-            "description": "状态",
-            "required": false,
-            "schema": {
-              "uniqueItems": true,
-              "type": "array",
-              "description": "状态",
-              "items": {
-                "type": "string",
-                "description": "状态",
-                "enum": [
-                  "UNREAD",
-                  "HAS_READ",
-                  "CLEARED"
-                ]
-              }
-            }
-          },
-          {
-            "name": "pageIndex",
-            "in": "query",
-            "description": "当前页数",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "当前页数",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "每页条数",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "每页条数",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "lastValues",
-            "in": "query",
-            "description": "分页查询的最后一条记录排序字段值",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "description": "分页查询的最后一条记录排序字段值",
-              "items": {
-                "type": "object",
-                "description": "分页查询的最后一条记录排序字段值"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginationNotificationRepresentation"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/blog/notification/{notificationId}": {
-      "get": {
-        "tags": [
-          "notification-api"
-        ],
-        "summary": "查询",
-        "operationId": "query",
-        "parameters": [
-          {
-            "name": "notificationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotificationRepresentation"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1447,7 +1051,7 @@
           "article-api"
         ],
         "summary": "查询",
-        "operationId": "query_1",
+        "operationId": "query",
         "parameters": [
           {
             "name": "articleId",
@@ -1475,7 +1079,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1485,7 +1089,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1495,7 +1099,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1505,7 +1109,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1574,7 +1178,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1584,7 +1188,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1594,7 +1198,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1604,7 +1208,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1673,7 +1277,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1683,7 +1287,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1693,7 +1297,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1703,7 +1307,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1833,7 +1437,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1843,7 +1447,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1853,7 +1457,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1863,68 +1467,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/blog/account/isLoggedIn": {
-      "get": {
-        "tags": [
-          "account-api"
-        ],
-        "summary": "是否已登录",
-        "operationId": "isLoggedIn",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RObject"
+                  "$ref": "#/components/schemas/ErrorResult"
                 }
               }
             }
@@ -1935,32 +1478,22 @@
   },
   "components": {
     "schemas": {
-      "RObject": {
+      "ErrorResult": {
         "type": "object",
         "properties": {
-          "traceId": {
-            "type": "string"
-          },
-          "success": {
-            "type": "boolean"
-          },
           "errorCode": {
             "type": "string"
           },
           "errorMessage": {
             "type": "string"
           },
-          "errorStackTrace": {
-            "type": "string"
-          },
           "error": {
             "type": "object"
           },
-          "data": {
-            "type": "object"
+          "traceId": {
+            "type": "string"
           }
-        },
-        "description": "响应结果"
+        }
       },
       "ArticleUpdateAndPublishInputDTO": {
         "type": "object",
@@ -2176,96 +1709,6 @@
           }
         },
         "description": "账户登录输入数据"
-      },
-      "NotificationDetails": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "ACCOUNT_DISABLED",
-              "ARTICLE_LIKE",
-              "ARTICLE_COMMENT"
-            ]
-          },
-          "title": {
-            "type": "string"
-          },
-          "content": {
-            "type": "string"
-          },
-          "additionalInfo": {
-            "$ref": "#/components/schemas/NotificationDetailsAdditionalInfo"
-          }
-        }
-      },
-      "NotificationDetailsAdditionalInfo": {
-        "type": "object"
-      },
-      "NotificationRepresentation": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "accountId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "details": {
-            "$ref": "#/components/schemas/NotificationDetails"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "UNREAD",
-              "HAS_READ",
-              "CLEARED"
-            ]
-          },
-          "createdAt": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "hasReadAt": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "clearedAt": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "PaginationNotificationRepresentation": {
-        "type": "object",
-        "properties": {
-          "pageIndex": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "total": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "list": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NotificationRepresentation"
-            }
-          },
-          "lastValues": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          }
-        }
       },
       "AccountRepresentation": {
         "type": "object",
@@ -2550,8 +1993,5 @@
         "bearerFormat": "JWT"
       }
     }
-  },
-  "x-openapi": {
-    "x-markdownFiles": [ ]
   }
 }

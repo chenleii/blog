@@ -5,7 +5,7 @@ import { request } from '@umijs/max';
 /** 分页查询 GET /api/blog/article */
 export async function pageQuery(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.pageQuery1Params,
+  params: API.pageQueryParams,
   options?: { [key: string]: any },
 ) {
   return request<API.PaginationArticleRepresentation>('/api/blog/article', {
@@ -50,7 +50,7 @@ export async function save(
 /** 查询 GET /api/blog/article/${param0} */
 export async function query(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.query1Params,
+  params: API.queryParams,
   options?: { [key: string]: any },
 ) {
   const { articleId: param0, ...queryParams } = params;

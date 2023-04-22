@@ -14,9 +14,6 @@ export default {
   'component.globalHeader.HeaderSearch.hotSearch.title': 'Hot search',
   'component.globalHeader.HeaderSearch.hotArticle.title': 'Hot articles',
 
-  'component.globalHeader.Notification.Dropdown.card.title': 'Notification',
-  'component.globalHeader.Notification.Dropdown.card.extra': 'Refresh',
-
 
 
   'app.login.modal.title': 'You\'re not logged in yet',

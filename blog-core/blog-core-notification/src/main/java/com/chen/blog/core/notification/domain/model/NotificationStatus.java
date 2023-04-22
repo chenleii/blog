@@ -12,18 +12,18 @@ import lombok.Getter;
 @Getter
 public enum NotificationStatus {
     /**
-     * 未读的
+     * 未读
      */
     UNREAD,
     /**
-     * 已读的
+     * 已读
      */
-    HAS_READ,
+    HAVE_READ,
 
     /**
      * 清除的
      */
-    CLEARED,
+    cleared,
 
     ;
 

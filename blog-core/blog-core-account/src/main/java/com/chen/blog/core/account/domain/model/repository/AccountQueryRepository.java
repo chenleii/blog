@@ -1,7 +1,5 @@
 package com.chen.blog.core.account.domain.model.repository;
 
-import com.chen.blog.core.account.domain.model.cqrs.query.AccountQuery;
-import com.chen.blog.core.account.domain.model.cqrs.representation.AccountRepresentation;
 import com.chen.blog.core.sharedkernel.cqrs.annotation.QueryRepository;
 
 /**
@@ -11,5 +9,4 @@ import com.chen.blog.core.sharedkernel.cqrs.annotation.QueryRepository;
  */
 @QueryRepository
 public interface AccountQueryRepository {
-    AccountRepresentation queryById(AccountQuery query);
 }
