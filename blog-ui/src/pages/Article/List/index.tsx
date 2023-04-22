@@ -10,7 +10,7 @@ const ArticleListPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [articlePageQueryInputDTO, setArticlePageQueryInputDTO] = useState<API.articlePageQueryParams>({
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 2,
     searchKeyword: searchParams.get("searchKeyword") || '',
   });
 
