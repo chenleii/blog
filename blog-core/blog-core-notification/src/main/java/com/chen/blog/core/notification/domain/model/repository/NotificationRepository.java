@@ -28,4 +28,6 @@ public interface NotificationRepository {
 
     void save(Notification notification);
 
+    void update(Notification notification);
+
 }

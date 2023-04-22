@@ -74,10 +74,10 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
         return defaultDom;
       }
       return (
-        <Space>
+        <>
           <HeaderSearch/>
           {defaultDom}
-        </Space>
+        </>
       )
     },
     disableContentMargin: false,

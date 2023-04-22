@@ -2,6 +2,7 @@ import {SelectLang, useModel} from '@umijs/max';
 import {Button, Space} from 'antd';
 import React from 'react';
 import AvatarDropdown from './AvatarDropdown';
+import NoticeIcon from '../NoticeIcon';
 import styles from './index.less';
 import {history, useIntl} from "@@/exports";
 import {PlusOutlined} from '@ant-design/icons';
@@ -26,14 +27,18 @@ const HeaderRightContent: React.FC<HeaderRightContentProps> = ({smallScreen}) =>
   return (
     <Space className={className}>
       {
-        !smallScreen
-          ? <Button htmlType="submit" type="primary" icon={<PlusOutlined/>}
+        !smallScreen && initialState?.isLoggedIn
+          ?
+          <>
+            <Button htmlType="submit" type="primary" icon={<PlusOutlined/>}
                     onClick={() => history.push("/article/editor")}>
-            {intl.formatMessage({
-              id: 'component.globalHeader.HeaderRightContent.createArticle',
-              defaultMessage: '写文章',
-            })}
-          </Button>
+              {intl.formatMessage({
+                id: 'component.globalHeader.HeaderRightContent.createArticle',
+                defaultMessage: '写文章',
+              })}
+            </Button>
+            <NoticeIcon/>
+          </>
           : undefined
       }
       <AvatarDropdown/>

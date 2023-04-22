@@ -1,5 +1,5 @@
 import {PageContainer} from '@ant-design/pro-components';
-import {BackTop, Button, Card, Checkbox, Form, Input, Select,} from 'antd';
+import { Button, Card, Checkbox, FloatButton, Form, Input, Select } from 'antd';
 import React, {useEffect, useState} from 'react';
 import api from '@/services/api';
 import {history, useIntl, useParams} from "@@/exports";
@@ -53,7 +53,7 @@ const CreateArticle: React.FC = () => {
   }, [params]);
 
   return (
-    <PageContainer
+    (<PageContainer
       header={{
         title: '',
       }}
@@ -133,9 +133,8 @@ const CreateArticle: React.FC = () => {
           </Form.Item>
         </Form>
       </Card>
-
-      <BackTop/>
-    </PageContainer>
+      <FloatButton.BackTop/>
+    </PageContainer>)
   );
 };
 

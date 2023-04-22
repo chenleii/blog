@@ -26,6 +26,12 @@
         component: './Account/Update',
         hideInMenu: true,
       },
+      {
+        name: '',
+        path: '/account/:accountId',
+        component: './Account/Center',
+        hideInMenu: true,
+      },
     ],
   },
   {

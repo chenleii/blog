@@ -5,6 +5,7 @@ import com.chen.blog.core.article.domain.model.ArticleCommentId;
 import com.chen.blog.core.article.domain.model.ArticleId;
 import com.chen.blog.core.article.domain.model.ArticleSubCommentId;
 import com.chen.blog.core.hot.doamin.model.ArticleHotSearchId;
+import com.chen.blog.core.notification.domain.model.NotificationId;
 import com.chen.blog.core.sharedkernel.converter.Converter;
 import com.chen.blog.core.sharedkernel.ddd.Identifiable;
 import org.mapstruct.Mapper;
@@ -59,5 +60,11 @@ public interface IdMapper extends Converter {
             return null;
         }
         return ArticleHotSearchId.of(identifiable);
+    }
+    default NotificationId mapNotificationId(Long identifiable) {
+        if (Objects.isNull(identifiable)) {
+            return null;
+        }
+        return NotificationId.of(identifiable);
     }
 }

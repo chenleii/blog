@@ -2,7 +2,6 @@ export default {
 
 
   'pages.account.center.articleList.title': 'Article lists',
-  'pages.account.center.articleList.loadMore': 'To load more',
 
   'pages.account.update.avatar': 'Avatar',
   'pages.account.update.avatar.updateButton': 'Update avatar',
@@ -23,7 +22,6 @@ export default {
   'pages.ArticleDetails.replyComment.title': 'Reply to comments',
   'pages.ArticleDetails.replyComment.content': 'Reply to comments content',
   'pages.ArticleDetails.replyComment.submitButton': 'Reply',
-  'pages.ArticleList.endMessage': 'There\'s no more',
 
   'pages.ArticleEditor.title': 'Title',
   'pages.ArticleEditor.tags': 'Tags',

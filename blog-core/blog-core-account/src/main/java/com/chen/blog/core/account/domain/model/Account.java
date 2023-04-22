@@ -1,6 +1,7 @@
 package com.chen.blog.core.account.domain.model;
 
 import com.chen.blog.core.account.domain.model.context.LoggedInAccount;
+import com.chen.blog.core.account.domain.model.event.AccountDisabledEvent;
 import com.chen.blog.core.account.domain.model.event.AccountLoggedInEvent;
 import com.chen.blog.core.account.domain.model.exception.AccountNotAvailableException;
 import com.chen.blog.core.sharedkernel.ddd.annotation.AggregateRoot;
@@ -135,6 +136,22 @@ public class Account implements DomainEventPublisher {
 
     public void disable() {
         setStatus(AccountStatus.DISABLED);
+
+        publishEvent(
+                AccountDisabledEvent.builder()
+                        .id(getId().getId())
+                        .avatar(getAvatar())
+                        .name(getName())
+                        .phoneNo(getPhoneNo())
+                        .introduction(getIntroduction())
+                        .influenceValue(getInfluenceValue())
+                        .status(getStatus())
+                        .createdAt(getCreatedAt())
+                        .updatedAt(getUpdatedAt())
+
+                        .disabledAt(Instant.now())
+                        .build()
+        );
     }
 
     public void update(String avatar, String name, String password, String introduction) {

@@ -1,6 +1,6 @@
 import {LoginOutlined, LogoutOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
 import {history, useModel} from '@umijs/max';
-import {Avatar, Dropdown, Menu, Spin} from 'antd';
+import {Avatar, Dropdown, Spin} from 'antd';
 import type {ItemType} from 'antd/lib/menu/hooks/useItems';
 import type {MenuInfo} from 'rc-menu/lib/interface';
 import React, {useCallback} from 'react';
@@ -13,7 +13,7 @@ export type HeaderRightContentProps = {};
 
 const AvatarDropdown: React.FC<HeaderRightContentProps> = ({}) => {
   const {initialState, setInitialState} = useModel('@@initialState');
-  let intl = useIntl();
+  const intl = useIntl();
 
   const onMenuClick = useCallback(
     async (event: MenuInfo) => {
@@ -99,13 +99,16 @@ const AvatarDropdown: React.FC<HeaderRightContentProps> = ({}) => {
     },
   ];
 
-  const menuHeaderDropdown = (
-    <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}
-          items={isLoggedIn ? loggedInMenuItems : notLoggedInMenuItems}/>
-  );
-
   return (
-    <Dropdown overlay={menuHeaderDropdown} trigger={['hover','click']}>
+    <Dropdown
+      menu={{
+        className: styles.menu,
+        selectedKeys: [],
+        onClick: onMenuClick,
+        items: isLoggedIn ? loggedInMenuItems : notLoggedInMenuItems,
+      }}
+      // trigger={['click','hover']}
+    >
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar size="small" className={styles.avatar} src={loggedInAccount?.avatar} alt="avatar"/>
         <span className={`${styles.name} anticon`}>

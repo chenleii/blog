@@ -23,7 +23,7 @@ public class Notification implements DomainEventPublisher {
 
 
     /**
-     * id
+     * ID
      */
     private NotificationId id;
 
@@ -33,25 +33,9 @@ public class Notification implements DomainEventPublisher {
     private AccountId accountId;
 
     /**
-     * 类型
+     * 详情
      */
-    private NotificationType type;
-
-    /**
-     * 标题
-     */
-    private String title;
-    /**
-     * 内容
-     */
-    private String content;
-
-    /**
-     * 额外信息
-     * <p>
-     * 如: 来源ID
-     */
-    private NotificationExtraInfo extraInfo;
+    private NotificationDetails details;
 
     /**
      * 状态
@@ -63,33 +47,40 @@ public class Notification implements DomainEventPublisher {
      */
     private Instant createdAt;
     /**
-     * 查看于
+     * 已读于
      */
-    private Instant viewedAt;
+    private Instant hasReadAt;
+    /**
+     * 清除于
+     */
+    private Instant clearedAt;
 
 
-    public static Notification create(NotificationId id, AccountId accountId, NotificationType type,
-                                      String title, String content, NotificationExtraInfo extraInfo) {
+    public static Notification create(NotificationId id, AccountId accountId, NotificationDetails details) {
         Preconditions.checkNotNull(id);
         Preconditions.checkNotNull(accountId);
-        Preconditions.checkNotNull(type);
-        Preconditions.checkNotNull(title);
-        Preconditions.checkNotNull(content);
-
-        extraInfo = ObjectUtils.defaultIfNull(extraInfo, NotificationExtraInfo.empty());
 
         Instant now = Instant.now();
 
         return Notification.builder()
                 .id(id)
                 .accountId(accountId)
-                .type(type)
-                .title(title)
-                .content(content)
-                .extraInfo(extraInfo)
+                .details(details)
                 .status(NotificationStatus.UNREAD)
                 .createdAt(now)
-                .viewedAt(Instant.EPOCH)
+                .hasReadAt(Instant.EPOCH)
+                .clearedAt(Instant.EPOCH)
                 .build();
+    }
+
+
+    public void read() {
+        setStatus(NotificationStatus.HAS_READ);
+        setHasReadAt(Instant.now());
+    }
+
+    public void clear() {
+        setStatus(NotificationStatus.CLEARED);
+        setClearedAt(Instant.now());
     }
 }

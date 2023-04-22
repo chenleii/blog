@@ -22,6 +22,10 @@ public class ArticleSubCommentedEvent extends AbstractArticleEvent {
      * 子评论ID
      */
     private Long subCommentId;
+    /**
+     * 回复的子评论ID
+     */
+    private Long replySubCommentId;
 
 
     /**
